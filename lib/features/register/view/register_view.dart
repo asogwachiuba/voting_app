@@ -125,6 +125,7 @@ class RegisterView extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           DropdownButtonFormField(
+                            isExpanded: true,
                             decoration: InputDecoration(
                               labelText: 'Select State',
                               border: OutlineInputBorder(
@@ -134,15 +135,19 @@ class RegisterView extends StatelessWidget {
                             value: viewModel.selectedState,
                             onChanged: ((value) =>
                                 viewModel.selectState(state: value)),
-                            items: viewModel.states.map((lga) {
+                            items: viewModel.states.map((state) {
                               return DropdownMenuItem(
-                                value: lga,
-                                child: Text(lga),
+                                value: state,
+                                child: Text(
+                                  state,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               );
                             }).toList(),
                           ),
                           const SizedBox(height: 16),
                           DropdownButtonFormField(
+                            isExpanded: true,
                             decoration: InputDecoration(
                               labelText: 'Select Local Government',
                               border: OutlineInputBorder(
@@ -153,16 +158,21 @@ class RegisterView extends StatelessWidget {
                             onChanged: (value) =>
                                 viewModel.selectLocalGovernment(
                                     selectedLocalGovernment_: value),
-                            items:
-                                viewModel.displayLocalGovernment().map((ward) {
+                            items: viewModel
+                                .displayLocalGovernment()
+                                .map((localGovernment) {
                               return DropdownMenuItem(
-                                value: ward,
-                                child: Text(ward),
+                                value: localGovernment,
+                                child: Text(
+                                  localGovernment,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               );
                             }).toList(),
                           ),
                           const SizedBox(height: 16),
                           DropdownButtonFormField(
+                            isExpanded: true,
                             decoration: InputDecoration(
                               labelText: 'Select Your Voting Ward',
                               border: OutlineInputBorder(
@@ -172,34 +182,92 @@ class RegisterView extends StatelessWidget {
                             value: viewModel.selectedWard,
                             onChanged: (value) =>
                                 viewModel.selectWard(selectedWard_: value),
-                            items: viewModel.displayWard().map((pu) {
+                            items: viewModel.displayWard().map((ward) {
                               return DropdownMenuItem(
-                                value: pu,
-                                child: Text(pu),
+                                value: ward,
+                                child: Text(
+                                  ward,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               );
                             }).toList(),
                           ),
                           const SizedBox(height: 16),
-                          if (viewModel.selectedWard != null)
-                            DropdownButtonFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Select Polling Unit',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
+                          DropdownButtonFormField(
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                              labelText: 'Select Polling Units',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            value: viewModel.selectedPollingUnits,
+                            onChanged: (value) => viewModel.selectPollingUnits(
+                                selectedPollingUnits_: value),
+                            items: viewModel
+                                .displayPollingUnits()
+                                .map((pollingUnit) {
+                              return DropdownMenuItem(
+                                value: pollingUnit,
+                                child: Text(
+                                  pollingUnit,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Fingerprint authentication
+                          Row(
+                            children: [
+                              const Text(
+                                "Register your fingerprint",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
                                 ),
                               ),
-                              value: viewModel.selectedPollingUnits,
-                              onChanged: (value) =>
-                                  viewModel.selectPollingUnits(
-                                      selectedPollingUnits_: value),
-                              items:
-                                  viewModel.displayPollingUnits().map((state) {
-                                return DropdownMenuItem(
-                                  value: state,
-                                  child: Text(state),
-                                );
-                              }).toList(),
-                            ),
+                              const Spacer(),
+                              InkWell(
+                                onTap: () => viewModel.authenticate(),
+                                child: Container(
+                                  padding: const EdgeInsets.all(4.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2.0,
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  child: const Icon(
+                                    Icons.fingerprint,
+                                    size: 34.0,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              if (viewModel.isAuthenticated)
+                                const Text(
+                                  'Successful',
+                                  style:
+                                      TextStyle(color: ColorList.primaryColor),
+                                ),
+                              const Spacer(),
+                              Checkbox(
+                                value: viewModel.isAmputee,
+                                onChanged: (_) => viewModel.toggleAmputee(),
+                              ),
+                              const SizedBox(width: 8.0),
+                              const Text('I am an amputee'),
+                            ],
+                          ),
                         ],
                       ),
                     ),

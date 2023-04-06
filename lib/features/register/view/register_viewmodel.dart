@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:voting_app/constants/election_data.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
@@ -76,20 +78,57 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  final localAuthentication = LocalAuthentication();
+
+  bool _isAuthenticated = false;
+  bool get isAuthenticated => _isAuthenticated;
+  set isAuthenticated(bool newValue) {
+    _isAuthenticated = newValue;
+    notifyListeners();
+  }
+
+  bool _isAmputee = false;
+  bool get isAmputee => _isAmputee;
+  set isAmputee(bool newValue) {
+    _isAmputee = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
+
+  authenticate() async {
+    if (isAuthenticated) return;
+    try {
+      isAuthenticated = await localAuthentication.authenticate(
+        localizedReason: isAmputee
+            ? 'Provide your device password for election validation'
+            : 'Provide your fingerprint for election validation',
+        options: AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: !isAmputee,
+        ),
+      );
+    } on PlatformException catch (e) {
+      logger.d('Error: $e');
+    }
+  }
+
+  toggleAmputee() {
+    isAmputee = !isAmputee;
+  }
 
   selectState({
     required String? state,
   }) {
     if (state == null) return;
     selectedState = state;
-    selectedLocalGovernment = null;
+    selectedPollingUnits = null;
     selectedWard = null;
-    selectedLocalGovernmentData = null;
     selectedWardData = null;
-    // selectedPollingUnits = null;
+    selectedLocalGovernment = null;
+    selectedLocalGovernmentData = null;
     selectedStateIndex = states.indexWhere((element) => state == element);
     updateSelectedStateData();
   }
@@ -107,10 +146,10 @@ class RegisterViwModel extends VotingAppViewmodel {
 
   selectLocalGovernment({required String? selectedLocalGovernment_}) {
     if (selectedLocalGovernment_ == null) return;
+    selectedLocalGovernment = selectedLocalGovernment_;
+    selectedPollingUnits = null;
     selectedWard = null;
     selectedWardData = null;
-    // selectedPollingUnits = null;
-    selectedLocalGovernment = selectedLocalGovernment_;
     updateSelectedLocalGovernmentData();
   }
 
@@ -122,8 +161,8 @@ class RegisterViwModel extends VotingAppViewmodel {
 
   selectWard({required String? selectedWard_}) {
     if (selectedWard_ == null) return;
-    // selectedPollingUnits = null;
     selectedWard = selectedWard_;
+    selectedPollingUnits = null;
     updateSelectedWardData();
   }
 
@@ -155,10 +194,12 @@ class RegisterViwModel extends VotingAppViewmodel {
       return [];
     } else {
       List<String> wards = [];
-      List<Map<String, dynamic>> wardData =
+      List<Map<String, dynamic>>? wardData =
           selectedLocalGovernmentData!['wards'];
-      for (var element in wardData) {
-        wards.add(element["ward_name"]);
+      if (wardData != null || wardData!.isEmpty) {
+        for (var element in wardData) {
+          wards.add(element["ward_name"]);
+        }
       }
       return wards;
     }
@@ -171,6 +212,4 @@ class RegisterViwModel extends VotingAppViewmodel {
       return selectedWardData!["polling_units"];
     }
   }
-
-  ///
 }
