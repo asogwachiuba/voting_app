@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
+import 'package:voting_app/firebase/authentication.dart';
+import 'package:voting_app/util/notification.dart';
 
 class ResetPasswordViewmodel extends VotingAppViewmodel {
+  /// Dependency injection =====================================================
+
+  final authentication = locator<Authentication>();
+
   /// States and variables =====================================================
 
   late TextEditingController createPasswordController;
@@ -25,11 +32,37 @@ class ResetPasswordViewmodel extends VotingAppViewmodel {
 
   /// Methods ==================================================================
 
+  updatePassword() async {
+    if (checkPasswordSimilarity()['color'] != Colors.white) {
+      AppNotification.error(error: checkPasswordSimilarity()['color']);
+      return;
+    }
+    if (validatePassword()['color'] != Colors.white) {
+      AppNotification.error(error: validatePassword()['message']);
+      return;
+    }
+    bool isSuccessful = await authentication.updatePassword(
+        newPassword: createPasswordController.text.trim());
+
+    await db.updateUserProfile(update: {
+      'isFirstTime': false,
+      'isVerified': true,
+    });
+    authentication.changeFirstTimeStatus();
+    authentication.logout();
+    toLogin();
+  }
+
+  toLogin() {
+    navigationService.back();
+  }
+
   onReady() {
     createPasswordController = TextEditingController();
     confirmPasswordController = TextEditingController();
   }
 
+  // Returns a white color if password is valid
   Map<String, dynamic> validatePassword() {
     var result = {
       "message": "",
@@ -77,14 +110,13 @@ class ResetPasswordViewmodel extends VotingAppViewmodel {
     return result;
   }
 
-  Map<String, dynamic> checkPasswordStrength() {
+  Map<String, dynamic> checkPasswordSimilarity() {
     var result = {
       "message": "",
       "color": Colors.red,
     };
 
-    if (createPasswordController.text.isEmpty ||
-        validatePassword()['colors'] != Colors.white) {
+    if (createPasswordController.text.isEmpty) {
       result['message'] = "Create your new password";
       return result;
     }

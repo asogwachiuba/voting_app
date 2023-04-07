@@ -87,9 +87,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   const SizedBox(height: 30),
 
                   Text(
-                    viewModel.checkPasswordStrength()["message"],
+                    viewModel.checkPasswordSimilarity()["message"],
                     style: TextStyle(
-                      color: viewModel.checkPasswordStrength()["color"],
+                      color: viewModel.checkPasswordSimilarity()["color"],
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
@@ -152,7 +152,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                       width: double.infinity,
                       child: MaterialButton(
                         height: 50,
-                        onPressed: () {},
+                        onPressed: () => viewModel.updatePassword(),
                         color: Colors.white,
                         child: Text(
                           'Reset Password',

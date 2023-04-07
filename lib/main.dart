@@ -5,11 +5,13 @@ import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app/app.router.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:voting_app/firebase/database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await setupLocator();
+  await locator<Database>().initializeDb();
   runApp(const MyApp());
 }
 

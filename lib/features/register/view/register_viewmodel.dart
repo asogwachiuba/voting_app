@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:voting_app/constants/election_data.dart';
+import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
+import 'package:voting_app/features/login/view/login_view.dart';
+import 'package:voting_app/firebase/authentication.dart';
+import 'package:voting_app/util/notification.dart';
 
 class RegisterViwModel extends VotingAppViewmodel {
   /// Dependency Injection =====================================================
+  final authentication = locator<Authentication>();
 
   /// ==========================================================================
 
@@ -16,6 +21,8 @@ class RegisterViwModel extends VotingAppViewmodel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
+  final TextEditingController ninController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController();
   bool fingerprintEnabled = false;
 
   int? _selectedStateIndex;
@@ -36,6 +43,13 @@ class RegisterViwModel extends VotingAppViewmodel {
   String? get selectedWard => _selectedWard;
   set selectedWard(String? newValue) {
     _selectedWard = newValue;
+    notifyListeners();
+  }
+
+  String? _gender;
+  String? get gender => _gender;
+  set gender(String? newValue) {
+    _gender = newValue;
     notifyListeners();
   }
 
@@ -98,6 +112,59 @@ class RegisterViwModel extends VotingAppViewmodel {
 
   /// Methods ==================================================================
 
+  register() async {
+    if (fullNameController.text.isEmpty ||
+        ninController.text.isEmpty ||
+        dobController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneController.text.isEmpty) {
+      AppNotification.error(error: "Fill in all the text fields");
+      return;
+    }
+
+    if (gender == null || gender!.isEmpty) {
+      AppNotification.error(error: "Select your gender");
+      return;
+    }
+
+    if (selectedState == null ||
+        selectedLocalGovernment == null ||
+        selectedWard == null ||
+        selectedPollingUnits == null) {
+      AppNotification.error(error: "Provide your election location details");
+      return;
+    }
+
+    if (!isAuthenticated) {
+      AppNotification.error(error: "Provide your fingerprint for registration");
+      return;
+    }
+
+    // Registers user
+    bool isUserRegistered = await authentication.register(
+      email: emailController.text.trim(),
+      phoneNumber: phoneController.text.trim(),
+      fullName: fullNameController.text.trim(),
+      dateOfBirth: dobController.text.trim(),
+      electionState: selectedState!,
+      electionLocalGovernment: selectedLocalGovernment!,
+      electionWard: selectedWard!,
+      electionPollingUnits: selectedPollingUnits!,
+      isAmputee: isAmputee,
+      nin: ninController.text,
+      gender: gender!,
+      profileImageUrl: "",
+    );
+
+    if (isUserRegistered) {
+      toLogin();
+    }
+  }
+
+  toLogin() {
+    navigationService.navigateToView(const LoginView());
+  }
+
   authenticate() async {
     if (isAuthenticated) return;
     try {
@@ -113,6 +180,11 @@ class RegisterViwModel extends VotingAppViewmodel {
     } on PlatformException catch (e) {
       logger.d('Error: $e');
     }
+  }
+
+  selectGender({required String? gender_}) {
+    if (gender_ == null) return;
+    gender = gender_;
   }
 
   toggleAmputee() {

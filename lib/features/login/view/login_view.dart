@@ -3,8 +3,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/features/login/view/login_viewmodel.dart';
-import 'package:voting_app/features/onboarding/view/onboarding_viewmodel.dart';
+import 'package:voting_app/widgets/app_button.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -13,6 +14,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
       viewModelBuilder: (() => LoginViewModel()),
+      onViewModelReady: (viewModel) => viewModel.onReady(),
       builder: (context, viewModel, child) => Scaffold(
         body: Container(
           decoration: const BoxDecoration(
@@ -74,6 +76,9 @@ class LoginView extends StatelessWidget {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
                               }
+                              if (!RegExp(Keys.emailRegEx).hasMatch(value)) {
+                                return 'Please enter a valid email';
+                              }
                               return null;
                             },
                           ),
@@ -95,28 +100,23 @@ class LoginView extends StatelessWidget {
                               return null;
                             },
                           ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          if (viewModel.isNewUser ?? false)
+                            const Text(
+                              "Your password is ${Keys.generalPassword}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           const SizedBox(height: 32),
-                          ElevatedButton(
-                            onPressed: () {
+                          AppButton(
+                            onPressed_: () {
                               if (viewModel.formKey.currentState!.validate()) {
-                                viewModel.toHome();
+                                viewModel.login();
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                              primary: ColorList.darkGreen.withOpacity(0.8),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
                           ),
                           const SizedBox(height: 16),
                           TextButton(
