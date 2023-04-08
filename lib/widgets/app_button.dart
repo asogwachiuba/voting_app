@@ -5,23 +5,27 @@ class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
     required this.onPressed_,
+    required this.buttonName,
+    this.buttonColor,
   });
   final VoidCallback onPressed_;
+  final String buttonName;
+  final Color? buttonColor;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed_,
       style: ElevatedButton.styleFrom(
-        primary: ColorList.darkGreen.withOpacity(0.8),
+        primary: buttonColor ?? ColorList.darkGreen.withOpacity(0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
-      child: const Text(
-        'Login',
-        style: TextStyle(
+      child: Text(
+        buttonName,
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.white,

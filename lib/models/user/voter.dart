@@ -13,6 +13,7 @@ class Voter {
       electionLocalGovernment,
       electionWard,
       gender,
+      dateOfBirth,
       electionPollingUnits;
   bool? isAmputee, isVerified, isFirstTime;
 
@@ -20,6 +21,7 @@ class Voter {
     required this.email,
     required this.fullName,
     required this.nin,
+    required this.dateOfBirth,
     required this.phoneNumber,
     required this.profileImageUrl,
     required this.electionState,

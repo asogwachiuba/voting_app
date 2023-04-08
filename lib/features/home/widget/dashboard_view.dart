@@ -75,12 +75,16 @@ class DashboardView extends StatelessWidget {
                               DashboardButton(
                                 icon: Icons.how_to_vote,
                                 title: 'Vote',
-                                onPressed: () {},
+                                onPressed: () {
+                                  viewModel.toAccreditation();
+                                },
                               ),
                               DashboardButton(
                                 icon: Icons.people,
                                 title: 'Election Candidates',
-                                onPressed: () {},
+                                onPressed: () {
+                                  viewModel.toCandidateOptions();
+                                },
                               ),
                               DashboardButton(
                                 icon: Icons.how_to_vote,

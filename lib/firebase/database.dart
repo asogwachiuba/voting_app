@@ -7,38 +7,44 @@ import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/models/user/voter.dart';
 import 'package:voting_app/models/user/votingapp_user.dart';
+import 'package:voting_app/util/notification.dart';
 
 class Database {
   final db = FirebaseFirestore.instance;
-  VotingappUser? currentUser;
-  Voter? currentUser_;
 
   /// Firestore database =======================================================
 
-  Future<VotingappUser?> getUserProfile({required String email}) async {
+  Future<Voter?> getUserProfile({required String email}) async {
+    Voter? voter;
     final docRef =
         db.collection("Voters").doc(FirebaseAuth.instance.currentUser?.uid);
     docRef.get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
         if (data != null) {
-          currentUser_ = Voter.fromJson(data);
-          currentUser =
-              VotingappUser.fromSigninResponse(user: Voter.fromJson(data));
-          if (currentUser != null) saveCurrentUser(currentUser!);
+          voter = Voter.fromJson(data);
+          saveCurrentUser(
+              VotingappUser.fromSigninResponse(user: Voter.fromJson(data)));
         }
       },
       onError: (e) => logger.d("Error getting document: $e"),
     );
-    return currentUser;
+    return voter;
   }
 
-  updateUserProfile({required Map<String, dynamic> update}) {
+  updateUserProfile({
+    required Map<String, dynamic> update,
+    bool notifyUser = false,
+  }) {
     final washingtonRef =
         db.collection("Voters").doc(FirebaseAuth.instance.currentUser?.uid);
-    washingtonRef.update(update).then(
-        (value) => logger.d("DocumentSnapshot successfully updated!"),
-        onError: (e) => logger.d("Error updating document $e"));
+    washingtonRef.update(update).then((value) {
+      if (notifyUser) {
+        AppNotification.notify(
+            notificationMessage: "Profile updated successful");
+      }
+      logger.d("DocumentSnapshot successfully updated!");
+    }, onError: (e) => logger.d("Error updating document $e"));
   }
 
   Future<bool> createUserDatabase({required Voter voter}) async {
@@ -55,8 +61,7 @@ class Database {
       logger.d("Database error $e");
       isSuccessful = false;
     });
-    currentUser_ = voter;
-    currentUser = VotingappUser.fromSigninResponse(user: voter);
+
     saveCurrentUser(VotingappUser.fromSigninResponse(user: voter));
     return isSuccessful;
   }
@@ -74,8 +79,6 @@ class Database {
   Future nukeDb() async {
     Box<VotingappUser> currentUserBox = Hive.box(Keys.currentUserBoxName);
     await currentUserBox.clear();
-    currentUser = null;
-    currentUser_ = null;
   }
 
   Future saveCurrentUser(VotingappUser votingappUser) async {

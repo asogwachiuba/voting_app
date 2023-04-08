@@ -11,6 +11,7 @@ class SettingsView extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return ViewModelBuilder<SettingsViewModel>.reactive(
       viewModelBuilder: (() => SettingsViewModel()),
+      onViewModelReady: (viewModel) => viewModel.onReady(),
       builder: ((context, viewModel, child) => Expanded(
               child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -90,7 +91,7 @@ class SettingsView extends StatelessWidget {
                             child: TextFormField(
                               textCapitalization: TextCapitalization.words,
                               keyboardType: TextInputType.name,
-                              // controller: viewModel.nameController,
+                              controller: viewModel.fullNameController,
                               textInputAction: TextInputAction.done,
                               cursorColor: ColorList.lightGreen,
                               maxLines: 1,
@@ -99,7 +100,7 @@ class SettingsView extends StatelessWidget {
                                 decoration: TextDecoration.none,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -117,72 +118,6 @@ class SettingsView extends StatelessWidget {
                         ],
                       ),
                       //SizedBox(height: 10),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0xFFE2E5FF),
-                      )
-                    ],
-                  ),
-                ),
-
-                // Username Widget
-                SizedBox(
-                  //margin: EdgeInsets.only(top: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SizedBox(
-                            child: Text(
-                              'Username',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          SizedBox(
-                            width: screenSize.width * 0.6,
-                            //color: Colors.black,
-                            child: TextFormField(
-                              // enabled: viewModel.editUserName,
-                              textCapitalization: TextCapitalization.words,
-                              keyboardType: TextInputType.name,
-                              // controller: viewModel.usernameController,
-                              textInputAction: TextInputAction.done,
-                              cursorColor: ColorList.lightGreen,
-                              maxLines: 1,
-                              onTap: () {},
-                              onEditingComplete: () {},
-                              textAlign: TextAlign.right,
-                              style: const TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Not set yet!',
-                                hintStyle: TextStyle(
-                                  decoration: TextDecoration.none,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                ),
-                                alignLabelWithHint: true,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      //SizedBox(height: 15),
                       const Divider(
                         thickness: 1,
                         color: Color(0xFFE2E5FF),
@@ -213,11 +148,11 @@ class SettingsView extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          const SizedBox(
+                          SizedBox(
                             child: Text(
-                              "chiuba@hismail.com",
+                              viewModel.email,
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
@@ -237,156 +172,180 @@ class SettingsView extends StatelessWidget {
                 ),
 
                 // Phone number Widget
-                Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SizedBox(
-                            child: Text(
-                              'Phone Number',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(
+                          child: Text(
+                            'Phone Number',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: screenSize.width * 0.6,
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.name,
+                            controller: viewModel.phoneController,
+                            textInputAction: TextInputAction.done,
+                            cursorColor: ColorList.lightGreen,
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Edit your phone number',
+                              hintStyle: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black.withOpacity(0.5),
                               ),
+                              alignLabelWithHint: true,
                             ),
                           ),
-                          const Spacer(),
-                          SizedBox(
-                              width: screenSize.width * 0.6,
-                              child: GestureDetector(
-                                onTap: () {
-                                  // if(editPhone)
-                                  // showPhoneDialog(context);
-                                },
-                                child: const Text(
-                                  "09166198977",
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold,
-                                    /* color: viewModel.editPhone
-                                        ? ColorList.colorGray
-                                        : ColorList.colorPrimary, */
-                                  ),
-                                ),
-                              )),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0xFFE2E5FF),
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    //SizedBox(height: 10),
+                    const Divider(
+                      thickness: 1,
+                      color: Color(0xFFE2E5FF),
+                    )
+                  ],
                 ),
 
                 // Date of birth Widget
-                Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SizedBox(
-                            child: Text(
-                              'Date of Birth',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(
+                          child: Text(
+                            'Date of Birth',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: screenSize.width * 0.6,
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.name,
+                            controller: viewModel.dobController,
+                            textInputAction: TextInputAction.done,
+                            cursorColor: ColorList.lightGreen,
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Edit your date of birth',
+                              hintStyle: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black.withOpacity(0.5),
                               ),
+                              alignLabelWithHint: true,
                             ),
                           ),
-                          const Spacer(),
-                          SizedBox(
-                              //color: Colors.black,
-                              child: InkWell(
-                            child: Text(
-                              "Feb 4, 2023",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold,
-                                /* color: (viewModel.stringDOB != null)
-                                    ? ColorList.colorPrimary
-                                    : ColorList.colorGray, */
-                              ),
-                            ),
-                            onTap: () {
-                              // openDOBSelector(context);
-                            },
-                          )),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0xFFE2E5FF),
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    //SizedBox(height: 10),
+                    const Divider(
+                      thickness: 1,
+                      color: Color(0xFFE2E5FF),
+                    )
+                  ],
                 ),
 
                 // Gender Widget
-                Container(
-                  margin: EdgeInsets.only(top: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SizedBox(
-                            child: Text(
-                              'Gender',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(
+                          child: Text(
+                            'Gender',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: screenSize.width * 0.6,
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.name,
+                            controller: viewModel.genderController,
+                            textInputAction: TextInputAction.done,
+                            cursorColor: ColorList.lightGreen,
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Edit your gender',
+                              hintStyle: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black.withOpacity(0.5),
                               ),
+                              alignLabelWithHint: true,
                             ),
                           ),
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              // showGenderModal(context);
-                            },
-                            child: Text(
-                              "Male",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      const Divider(
-                        thickness: 1,
-                        color: Color(0xFFE2E5FF),
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    //SizedBox(height: 10),
+                    const Divider(
+                      thickness: 1,
+                      color: Color(0xFFE2E5FF),
+                    )
+                  ],
                 ),
 
                 const SizedBox(height: 15),
@@ -416,8 +375,7 @@ class SettingsView extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      // onTap: () => Navigator.pop(context, viewModel.status),
+                      onTap: () => viewModel.discard(),
                     ),
                     const SizedBox(width: 20),
                     InkWell(
@@ -442,8 +400,7 @@ class SettingsView extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      // onTap: () => Navigator.pop(context, viewModel.status),
+                      onTap: () => viewModel.saveProfile(),
                     ),
                   ],
                 ),

@@ -337,7 +337,10 @@ class RegisterView extends StatelessWidget {
                               height: 40,
                             ),
 
-                            AppButton(onPressed_: viewModel.register),
+                            AppButton(
+                              onPressed_: viewModel.register,
+                              buttonName: "Register",
+                            ),
                           ],
                         ),
                       ),

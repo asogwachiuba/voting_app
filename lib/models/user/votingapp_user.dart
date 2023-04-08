@@ -31,21 +31,24 @@ class VotingappUser extends HiveObject {
   bool? isFirstTime;
   @HiveField(12)
   bool? isVerified;
+  @HiveField(13)
+  String? dateOfBirth;
 
   VotingappUser({
     required this.fullName,
     required this.email,
-    this.electionLocalGovernment,
-    this.electionPollingUnits,
-    this.electionState,
-    this.electionWard,
-    this.isAmputee,
-    this.gender,
-    this.isFirstTime,
-    this.isVerified,
-    this.phoneNumber,
-    this.nin,
-    this.profileImageUrl,
+    required this.electionLocalGovernment,
+    required this.electionPollingUnits,
+    required this.electionState,
+    required this.electionWard,
+    required this.isAmputee,
+    required this.gender,
+    required this.isFirstTime,
+    required this.isVerified,
+    required this.phoneNumber,
+    required this.nin,
+    required this.profileImageUrl,
+    required this.dateOfBirth,
   });
 
   factory VotingappUser.fromSigninResponse({required Voter user}) {
@@ -63,6 +66,7 @@ class VotingappUser extends HiveObject {
       phoneNumber: user.phoneNumber,
       nin: user.nin,
       profileImageUrl: user.profileImageUrl,
+      dateOfBirth: user.dateOfBirth,
     );
   }
 }

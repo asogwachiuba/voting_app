@@ -155,20 +155,20 @@ class Authentication {
     required String profileImageUrl,
   }) async {
     final voter = Voter(
-      email: email,
-      fullName: fullName,
-      nin: nin,
-      phoneNumber: phoneNumber,
-      profileImageUrl: profileImageUrl,
-      electionState: electionState,
-      electionLocalGovernment: electionLocalGovernment,
-      electionWard: electionWard,
-      electionPollingUnits: electionPollingUnits,
-      gender: gender,
-      isAmputee: isAmputee,
-      isFirstTime: true,
-      isVerified: false,
-    );
+        email: email,
+        fullName: fullName,
+        nin: nin,
+        phoneNumber: phoneNumber,
+        profileImageUrl: profileImageUrl,
+        electionState: electionState,
+        electionLocalGovernment: electionLocalGovernment,
+        electionWard: electionWard,
+        electionPollingUnits: electionPollingUnits,
+        gender: gender,
+        isAmputee: isAmputee,
+        isFirstTime: true,
+        isVerified: false,
+        dateOfBirth: dateOfBirth);
 
     bool isSuccessful = await db.createUserDatabase(voter: voter);
     return isSuccessful;

@@ -60,7 +60,7 @@ class LoginViewModel extends VotingAppViewmodel {
                 "Email is not verified!\nCheck your email inbox for your verification message");
         return;
       }
-      bool? isFirstTimeUser = isNewUser ?? db.currentUser?.isFirstTime;
+      bool? isFirstTimeUser = isNewUser ?? db.getCurrentUser()?.isFirstTime;
       // Checks if user is a regular user
       if (isFirstTimeUser == null || isFirstTimeUser == false) {
         logger.d("This is a regular user");

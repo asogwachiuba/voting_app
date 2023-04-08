@@ -117,6 +117,7 @@ class LoginView extends StatelessWidget {
                                 viewModel.login();
                               }
                             },
+                            buttonName: "Login",
                           ),
                           const SizedBox(height: 16),
                           TextButton(
