@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/models/user/votingapp_user.dart';
 import 'package:voting_app/widgets/app_button.dart';
 
 class VotingSuccessView extends StatefulWidget {
@@ -10,11 +11,13 @@ class VotingSuccessView extends StatefulWidget {
     required this.selectedCandidateImgUrl,
     required this.selectedCandidateName,
     required this.selectedCandidateParty,
+    required this.user,
   });
 
   final String selectedCandidateImgUrl;
   final String selectedCandidateName;
   final String selectedCandidateParty;
+  final VotingappUser user;
 
   @override
   _VotingSuccessViewState createState() => _VotingSuccessViewState();
@@ -82,11 +85,11 @@ class _VotingSuccessViewState extends State<VotingSuccessView>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Congratulations \n          Chi-uba Asogwa",
-                      style: TextStyle(
+                      "Congratulations \n          ${widget.user.fullName}",
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 25,
                         fontWeight: FontWeight.w600,

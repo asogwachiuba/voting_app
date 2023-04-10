@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
-import 'package:voting_app/features/election_options/view/election_options_viewmodel.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
 import 'package:voting_app/features/home/widget/dashboard_button.dart';
+import 'package:voting_app/features/result_options/view/result_options_viewmodel.dart';
 import 'package:voting_app/models/enums/election_category.dart';
 
-class ElectionOptionsView extends StatelessWidget {
-  const ElectionOptionsView({super.key});
+class ResultOptionsView extends StatelessWidget {
+  const ResultOptionsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ElectionOptionsViewModel>.reactive(
-      viewModelBuilder: (() => ElectionOptionsViewModel()),
+    return ViewModelBuilder<ResultOptionsViewModel>.reactive(
+      viewModelBuilder: (() => ResultOptionsViewModel()),
       builder: (context, viewModel, child) => Scaffold(
         body: SizedBox.expand(
           child: Stack(
@@ -43,7 +43,7 @@ class ElectionOptionsView extends StatelessWidget {
                         ),
                         const Spacer(),
                         const Text(
-                          "Election Accreditation",
+                          "Result Category",
                           style: TextStyle(
                             color: ColorList.lightGreen,
                             fontSize: 25,
@@ -60,7 +60,7 @@ class ElectionOptionsView extends StatelessWidget {
                       icon: Icons.how_to_vote,
                       title: 'PRESIDENTIAL',
                       onPressed: () {
-                        viewModel.toCastVote(
+                        viewModel.toViewResult(
                             electionCategory: ELECTIONCATEGORY.presidential);
                       },
                     ),
@@ -71,8 +71,8 @@ class ElectionOptionsView extends StatelessWidget {
                       icon: Icons.how_to_vote,
                       title: 'GUBERNATORIAL',
                       onPressed: () {
-                        viewModel.toCastVote(
-                            electionCategory: ELECTIONCATEGORY.gubernatorial);
+                        viewModel.toSelectState(
+                            electioncategory: ELECTIONCATEGORY.gubernatorial);
                       },
                     ),
                     const SizedBox(
@@ -82,8 +82,8 @@ class ElectionOptionsView extends StatelessWidget {
                       icon: Icons.how_to_vote,
                       title: 'LOCAL GOVERNMENT CHAIRMAN',
                       onPressed: () {
-                        viewModel.toCastVote(
-                            electionCategory: ELECTIONCATEGORY.localGovernment);
+                        viewModel.toSelectState(
+                            electioncategory: ELECTIONCATEGORY.localGovernment);
                       },
                     ),
                   ],

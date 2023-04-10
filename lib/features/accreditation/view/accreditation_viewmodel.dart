@@ -1,8 +1,10 @@
 import 'package:flutter/services.dart';
+import 'package:image_compare/image_compare.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/election_options/view/election_options_view.dart';
+import 'package:voting_app/gen/assets.gen.dart';
 
 class AccreditationViewModel extends VotingAppViewmodel {
   /// States and variables =====================================================
@@ -16,6 +18,12 @@ class AccreditationViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  //  Both images differs
+  // var a = Uri.parse(
+  //     'https://fujifilm-x.com/wp-content/uploads/2019/08/x-t30_sample-images03.jpg');
+  // var b = Uri.parse(
+  //     'https://hs.sbcounty.gov/cn/Photo%20Gallery/Sample%20Picture%20-%20Koala.jpg');
+
   // TODO: should be gotten from user info
   bool _isAmputee = false;
   bool get isAmputee => _isAmputee;
@@ -25,6 +33,15 @@ class AccreditationViewModel extends VotingAppViewmodel {
   }
 
   /// Methods ==================================================================
+  // compare() async {
+  //   var result = await compareImages(
+  //     src1: a,
+  //     src2: b,
+  //     // algorithm: IMED(blurRatio: 0.001),
+  //   );
+  //   logger.d("The result is $result");
+  // }
+
   authenticate() async {
     if (isAuthenticated) return;
     try {

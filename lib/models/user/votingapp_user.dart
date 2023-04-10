@@ -33,6 +33,12 @@ class VotingappUser extends HiveObject {
   bool? isVerified;
   @HiveField(13)
   String? dateOfBirth;
+  @HiveField(14)
+  bool? hasVotedPresidential;
+  @HiveField(15)
+  bool? hasVotedGubernatorial;
+  @HiveField(16)
+  bool? hasVotedLocalGovernment;
 
   VotingappUser({
     required this.fullName,
@@ -49,24 +55,29 @@ class VotingappUser extends HiveObject {
     required this.nin,
     required this.profileImageUrl,
     required this.dateOfBirth,
+    required this.hasVotedGubernatorial,
+    required this.hasVotedLocalGovernment,
+    required this.hasVotedPresidential,
   });
 
   factory VotingappUser.fromSigninResponse({required Voter user}) {
     return VotingappUser(
-      fullName: user.fullName,
-      email: user.email,
-      isAmputee: user.isAmputee,
-      electionLocalGovernment: user.electionLocalGovernment,
-      electionPollingUnits: user.electionPollingUnits,
-      electionState: user.electionState,
-      electionWard: user.electionWard,
-      gender: user.gender,
-      isFirstTime: user.isFirstTime,
-      isVerified: user.isVerified,
-      phoneNumber: user.phoneNumber,
-      nin: user.nin,
-      profileImageUrl: user.profileImageUrl,
-      dateOfBirth: user.dateOfBirth,
-    );
+        fullName: user.fullName,
+        email: user.email,
+        isAmputee: user.isAmputee,
+        electionLocalGovernment: user.electionLocalGovernment,
+        electionPollingUnits: user.electionPollingUnits,
+        electionState: user.electionState,
+        electionWard: user.electionWard,
+        gender: user.gender,
+        isFirstTime: user.isFirstTime,
+        isVerified: user.isVerified,
+        phoneNumber: user.phoneNumber,
+        nin: user.nin,
+        profileImageUrl: user.profileImageUrl,
+        dateOfBirth: user.dateOfBirth,
+        hasVotedGubernatorial: user.hasVotedGubernatorial,
+        hasVotedLocalGovernment: user.hasVotedLocalGovernment,
+        hasVotedPresidential: user.hasVotedPresidential);
   }
 }

@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
             )
           ],
         ), */
-        body: Center(
+        body: SizedBox.expand(
           child: homeScreens.elementAt(viewModel.selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(

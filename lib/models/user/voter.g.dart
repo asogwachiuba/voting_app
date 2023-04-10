@@ -21,6 +21,10 @@ Voter _$VoterFromJson(Map<String, dynamic> json) => Voter(
       isAmputee: json['isAmputee'] as bool?,
       isFirstTime: json['isFirstTime'] as bool?,
       isVerified: json['isVerified'] as bool?,
+      hasVotedGubernatorial: json['hasVotedGubernatorial'] as bool? ?? false,
+      hasVotedLocalGovernment:
+          json['hasVotedLocalGovernment'] as bool? ?? false,
+      hasVotedPresidential: json['hasVotedPresidential'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$VoterToJson(Voter instance) => <String, dynamic>{
@@ -38,4 +42,7 @@ Map<String, dynamic> _$VoterToJson(Voter instance) => <String, dynamic>{
       'isAmputee': instance.isAmputee,
       'isVerified': instance.isVerified,
       'isFirstTime': instance.isFirstTime,
+      'hasVotedPresidential': instance.hasVotedPresidential,
+      'hasVotedGubernatorial': instance.hasVotedGubernatorial,
+      'hasVotedLocalGovernment': instance.hasVotedLocalGovernment,
     };

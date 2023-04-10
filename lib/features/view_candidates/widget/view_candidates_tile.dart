@@ -28,9 +28,34 @@ class ViewCandidateTile extends StatelessWidget {
           color: Colors.black,
         ),
       ),
-      title: Text(candidateName),
-      subtitle: Text(candidateDescription),
-      trailing: Text(candidateParty),
+      title: Text(
+        candidateName,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            candidateParty,
+            style: const TextStyle(
+              color: ColorList.primaryColor,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            candidateDescription,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

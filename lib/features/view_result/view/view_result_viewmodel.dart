@@ -1,12 +1,9 @@
-import 'package:voting_app/constants/election_data.dart';
-import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
-import 'package:voting_app/features/voting/view/cast_vote_view.dart';
 import 'package:voting_app/models/enums/election_category.dart';
 import 'package:voting_app/util/notification.dart';
 
-class ViewCandidatesViewModel extends VotingAppViewmodel {
+class ViewResultViewmodel extends VotingAppViewmodel {
   /// States and variables =====================================================
   late ELECTIONCATEGORY _electioncategory;
   ELECTIONCATEGORY get electioncategory => _electioncategory;
@@ -29,9 +26,9 @@ class ViewCandidatesViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
-  List _candidates = [];
-  List get candidates => _candidates;
-  set candidates(List newValue) {
+  List<Map<String, dynamic>> _candidates = [];
+  List<Map<String, dynamic>> get candidates => _candidates;
+  set candidates(List<Map<String, dynamic>> newValue) {
     _candidates = newValue;
     notifyListeners();
   }
@@ -42,11 +39,11 @@ class ViewCandidatesViewModel extends VotingAppViewmodel {
     required ELECTIONCATEGORY electioncategory_,
     String? selectedState_,
     String? selectedLocalGovernment_,
-  }) {
+  }) async {
     electioncategory = electioncategory_;
     selectdLocalGovernment = selectedLocalGovernment_;
     selectdState = selectedState_;
-    getCandidates();
+    await getCandidates();
   }
 
   back() {
@@ -60,34 +57,18 @@ class ViewCandidatesViewModel extends VotingAppViewmodel {
 
   getCandidates() async {
     logger.d(" The election type is ${electioncategory.name}");
-    switch (electioncategory) {
-      case ELECTIONCATEGORY.presidential:
-        final result = await db.getPresidentialCandidates();
-        logger.d("The first party is ${result.values.toList()[0]}");
-        candidates = result.values.toList();
-        break;
-      case ELECTIONCATEGORY.gubernatorial:
-        if (selectdState == null) {
-          AppNotification.notify(
-              notificationMessage:
-                  "A state is needed to get gubernatorial candidates");
-        }
-        final result =
-            await db.getGubernatorialCandidates(state: selectdState!);
-        candidates = result.values.toList();
-        break;
-      case ELECTIONCATEGORY.localGovernment:
-        if (selectdState == null || selectdLocalGovernment == null) {
-          AppNotification.notify(
-              notificationMessage:
-                  "A state and local government is needed to get gubernatorial candidates");
-        }
-        final result = await db.getLocalGovernmentCandidates(
-          state: selectdState!,
-          localGovernment: selectdLocalGovernment!,
-        );
-        candidates = result.values.toList();
-        break;
-    }
+    final result = await db.getElectionResult(
+      electioncategory: electioncategory,
+      state: selectdState,
+      localGovernment: selectdLocalGovernment,
+    );
+
+    result?.forEach((key, value) {
+      candidates.add({
+        "party": key,
+        "votes": value,
+      });
+    });
+    notifyListeners();
   }
 }

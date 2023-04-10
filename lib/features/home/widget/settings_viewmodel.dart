@@ -12,6 +12,7 @@ class SettingsViewModel extends VotingAppViewmodel {
   final phoneController = TextEditingController();
   final dobController = TextEditingController();
   final genderController = TextEditingController();
+  final ninController = TextEditingController();
 
   VotingappUser? user;
 
@@ -32,6 +33,7 @@ class SettingsViewModel extends VotingAppViewmodel {
     dobController.text = user?.dateOfBirth ?? "";
     genderController.text = user?.gender ?? "";
     phoneController.text = user?.phoneNumber ?? "";
+    ninController.text = user?.nin ?? "";
   }
 
   saveProfile() {
@@ -44,6 +46,12 @@ class SettingsViewModel extends VotingAppViewmodel {
       isUpdated = true;
     }
 
+    if (ninController.text.trim() != user?.nin) {
+      final nin = <String, String>{'nin': ninController.text.trim()};
+      update.addEntries(nin.entries);
+      isUpdated = true;
+    }
+
     if (phoneController.text.trim() != user?.phoneNumber) {
       final phone = <String, String>{
         'phoneNumber': fullNameController.text.trim()
@@ -52,14 +60,12 @@ class SettingsViewModel extends VotingAppViewmodel {
       isUpdated = true;
     }
     if (dobController.text.trim() != user?.dateOfBirth) {
-      final dob = <String, String>{
-        'dateOfBirth': fullNameController.text.trim()
-      };
+      final dob = <String, String>{'dateOfBirth': dobController.text.trim()};
       update.addEntries(dob.entries);
       isUpdated = true;
     }
     if (genderController.text.trim() != user?.gender) {
-      final gender = <String, String>{'gender': fullNameController.text.trim()};
+      final gender = <String, String>{'gender': genderController.text.trim()};
       update.addEntries(gender.entries);
       isUpdated = true;
     }
@@ -91,6 +97,9 @@ class SettingsViewModel extends VotingAppViewmodel {
       isUpdated = true;
     }
     if (genderController.text.trim() != user?.gender) {
+      isUpdated = true;
+    }
+    if (ninController.text.trim() != user?.nin) {
       isUpdated = true;
     }
 

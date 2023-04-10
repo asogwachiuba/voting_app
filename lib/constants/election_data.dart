@@ -1,6 +1,313 @@
+import 'package:voting_app/constants/keys.dart';
+
 class ElectionData {
   /// Take note the order of the lists of states in [states] should be the
   /// same order as the list of states in [pollingUnits]
+
+  // Presidential results
+  static const Map<String, int> result = {
+    Keys.pdp: 0,
+    Keys.apc: 0,
+    Keys.lp: 0,
+    Keys.apga: 0,
+    Keys.a: 0,
+    Keys.aa: 0,
+    Keys.adp: 0,
+    Keys.app: 0,
+    Keys.aac: 0,
+    Keys.adc: 0,
+    Keys.apm: 0,
+    Keys.bp: 0,
+    Keys.nrm: 0,
+    Keys.nnpp: 0,
+    Keys.prp: 0,
+    Keys.sdp: 0,
+    Keys.ypp: 0,
+    Keys.zlp: 0,
+  };
+
+  // OR - users profile should contain bool param to signify if they have voted for each of the election category
+  //local government
+  static const Map<String, dynamic> localGovernmentCandidates = {
+    Keys.pdp: {
+      Keys.party: "Peoples Democratic Party",
+      Keys.candidate: "Alhaji Atiku Abubakar",
+      "acronym": Keys.pdp
+    },
+    Keys.apc: {
+      Keys.party: "All Progressives Congress",
+      Keys.candidate: "Asiwaju Bola Tinubu",
+      "acronym": Keys.apc,
+    },
+    Keys.lp: {
+      Keys.party: "Labour Party",
+      Keys.candidate: "Mr Peter Obi",
+      "acronym": Keys.lp,
+    },
+    Keys.apga: {
+      Keys.party: "All Progressives Grand Alliance",
+      Keys.candidate: "Professor Peter Umeadi",
+      "acronym": Keys.apga,
+    },
+    Keys.a: {
+      Keys.party: "Accord",
+      Keys.candidate: "Professor Christopher Imumulen",
+      "acronym": Keys.a,
+    },
+    Keys.aa: {
+      Keys.party: "Action Alliance",
+      Keys.candidate: "ALMUSTAPHA HAMZA",
+      "acronym": Keys.aa,
+    },
+    Keys.adp: {
+      Keys.party: "Action Democratic Party",
+      Keys.candidate: "SANI YABAGI YUSUF",
+      "acronym": Keys.adp,
+    },
+    Keys.app: {
+      Keys.party: "Action Peoples Party",
+      Keys.candidate: "NNADI CHARLES OSITA",
+      "acronym": Keys.app,
+    },
+    Keys.aac: {
+      Keys.party: "African Action Congress",
+      Keys.candidate: "Omoyele Sowore",
+      "acronym": Keys.aac,
+    },
+    Keys.adc: {
+      Keys.party: "African Democratic Congress",
+      Keys.candidate: "Dumebi Kachikwu",
+      "acronym": Keys.adc,
+    },
+    Keys.apm: {
+      Keys.party: "Allied Peoples Movement",
+      Keys.candidate: "Yusuf Mamman Dan Talle",
+      "acronym": Keys.apm,
+    },
+    Keys.bp: {
+      Keys.party: "Boot Party",
+      Keys.candidate: "Adenuga Sunday Oluwafemi",
+      "acronym": Keys.bp,
+    },
+    Keys.nrm: {
+      Keys.party: "National Rescue Movement",
+      Keys.candidate: "Osakwe Felix Johnson",
+      "acronym": Keys.nrm,
+    },
+    Keys.nnpp: {
+      Keys.party: "New Nigeria Peoples Party",
+      Keys.candidate: "Mr Rabiu Musa Kwankwaso",
+      "acronym": Keys.nnpp,
+    },
+    Keys.prp: {
+      Keys.party: "Peoples Redemption Party",
+      Keys.candidate: "Mr Kola Abiola",
+      "acronym": Keys.prp,
+    },
+    Keys.sdp: {
+      Keys.party: "Social Democratic Party",
+      Keys.candidate: "Prince Adewole Adebayo",
+      "acronym": Keys.sdp,
+    },
+    Keys.ypp: {
+      Keys.party: "Young Progressive Party",
+      Keys.candidate: "Prince Malik Ado-Ibrahim",
+      "acronym": Keys.ypp,
+    },
+    Keys.zlp: {
+      Keys.party: "Zenith Labour Party",
+      Keys.candidate: "Nwanyanwu Daniel Daberechukwu",
+      "acronym": Keys.zlp,
+    }
+  };
+
+  // state
+  static const Map<String, dynamic> stateCandidates = {
+    Keys.pdp: {
+      Keys.party: "Peoples Democratic Party",
+      Keys.candidate: "Abdul-Azeez Olajide Adediran",
+      "acronym": Keys.pdp
+    },
+    Keys.apc: {
+      Keys.party: "All Progressives Congress",
+      Keys.candidate: "Babajide Sanwo-Olu",
+      "acronym": Keys.apc,
+    },
+    Keys.lp: {
+      Keys.party: "Labour Party",
+      Keys.candidate: "Gbadebo Rhodes-Vivour",
+      "acronym": Keys.lp,
+    },
+    Keys.apga: {
+      Keys.party: "All Progressives Grand Alliance",
+      Keys.candidate: "Gregory Ibe",
+      "acronym": Keys.apga,
+    },
+    Keys.a: {
+      Keys.party: "Accord",
+      Keys.candidate: "Professor Christopher Imumulen",
+      "acronym": Keys.a,
+    },
+    Keys.aa: {
+      Keys.party: "Action Alliance",
+      Keys.candidate: "ALMUSTAPHA HAMZA",
+      "acronym": Keys.aa,
+    },
+    Keys.adp: {
+      Keys.party: "Action Democratic Party",
+      Keys.candidate: "SANI YABAGI YUSUF",
+      "acronym": Keys.adp,
+    },
+    Keys.app: {
+      Keys.party: "Action Peoples Party",
+      Keys.candidate: "NNADI CHARLES OSITA",
+      "acronym": Keys.app,
+    },
+    Keys.aac: {
+      Keys.party: "African Action Congress",
+      Keys.candidate: "Omoyele Sowore",
+      "acronym": Keys.aac,
+    },
+    Keys.adc: {
+      Keys.party: "African Democratic Congress",
+      Keys.candidate: "Olubiyi Otegbeye",
+      "acronym": Keys.adc,
+    },
+    Keys.apm: {
+      Keys.party: "Allied Peoples Movement",
+      Keys.candidate: "Yusuf Mamman Dan Talle",
+      "acronym": Keys.apm,
+    },
+    Keys.bp: {
+      Keys.party: "Boot Party",
+      Keys.candidate: "Adenuga Sunday Oluwafemi",
+      "acronym": Keys.bp,
+    },
+    Keys.nrm: {
+      Keys.party: "National Rescue Movement",
+      Keys.candidate: "Osakwe Felix Johnson",
+      "acronym": Keys.nrm,
+    },
+    Keys.nnpp: {
+      Keys.party: "New Nigeria Peoples Party",
+      Keys.candidate: "Abba Kabir Yusuf",
+      "acronym": Keys.nnpp,
+    },
+    Keys.prp: {
+      Keys.party: "Peoples Redemption Party",
+      Keys.candidate: "Mr Kola Abiola",
+      "acronym": Keys.prp,
+    },
+    Keys.sdp: {
+      Keys.party: "Social Democratic Party",
+      Keys.candidate: "Prince Adewole Adebayo",
+      "acronym": Keys.sdp,
+    },
+    Keys.ypp: {
+      Keys.party: "Young Progressive Party",
+      Keys.candidate: "Prince Malik Ado-Ibrahim",
+      "acronym": Keys.ypp,
+    },
+    Keys.zlp: {
+      Keys.party: "Zenith Labour Party",
+      Keys.candidate: "Nwanyanwu Daniel Daberechukwu",
+      "acronym": Keys.zlp,
+    }
+  };
+
+  // presidential candidates
+  static const Map<String, dynamic> presidentialCandidates = {
+    Keys.pdp: {
+      Keys.party: "Peoples Democratic Party",
+      Keys.candidate: "Peter Mbah",
+      "acronym": Keys.pdp
+    },
+    Keys.apc: {
+      Keys.party: "All Progressives Congress",
+      Keys.candidate: "Uche Nnaji",
+      "acronym": Keys.apc,
+    },
+    Keys.lp: {
+      Keys.party: "Labour Party",
+      Keys.candidate: "Chijioke Edeoga",
+      "acronym": Keys.lp,
+    },
+    Keys.apga: {
+      Keys.party: "All Progressives Grand Alliance",
+      Keys.candidate: "Frank Nweke",
+      "acronym": Keys.apga,
+    },
+    Keys.a: {
+      Keys.party: "Accord",
+      Keys.candidate: "Professor Christopher Imumulen",
+      "acronym": Keys.a,
+    },
+    Keys.aa: {
+      Keys.party: "Action Alliance",
+      Keys.candidate: "ALMUSTAPHA HAMZA",
+      "acronym": Keys.aa,
+    },
+    Keys.adp: {
+      Keys.party: "Action Democratic Party",
+      Keys.candidate: "SANI YABAGI YUSUF",
+      "acronym": Keys.adp,
+    },
+    Keys.app: {
+      Keys.party: "Action Peoples Party",
+      Keys.candidate: "NNADI CHARLES OSITA",
+      "acronym": Keys.app,
+    },
+    Keys.aac: {
+      Keys.party: "African Action Congress",
+      Keys.candidate: "Omoyele Sowore",
+      "acronym": Keys.aac,
+    },
+    Keys.adc: {
+      Keys.party: "African Democratic Congress",
+      Keys.candidate: "Dumebi Kachikwu",
+      "acronym": Keys.adc,
+    },
+    Keys.apm: {
+      Keys.party: "Allied Peoples Movement",
+      Keys.candidate: "Yusuf Mamman Dan Talle",
+      "acronym": Keys.apm,
+    },
+    Keys.bp: {
+      Keys.party: "Boot Party",
+      Keys.candidate: "Adenuga Sunday Oluwafemi",
+      "acronym": Keys.bp,
+    },
+    Keys.nrm: {
+      Keys.party: "National Rescue Movement",
+      Keys.candidate: "Osakwe Felix Johnson",
+      "acronym": Keys.nrm,
+    },
+    Keys.nnpp: {
+      Keys.party: "New Nigeria Peoples Party",
+      Keys.candidate: "Mr Rabiu Musa Kwankwaso",
+      "acronym": Keys.nnpp,
+    },
+    Keys.prp: {
+      Keys.party: "Peoples Redemption Party",
+      Keys.candidate: "Mr Kola Abiola",
+      "acronym": Keys.prp,
+    },
+    Keys.sdp: {
+      Keys.party: "Social Democratic Party",
+      Keys.candidate: "Prince Adewole Adebayo",
+      "acronym": Keys.sdp,
+    },
+    Keys.ypp: {
+      Keys.party: "Young Progressive Party",
+      Keys.candidate: "Prince Malik Ado-Ibrahim",
+      "acronym": Keys.ypp,
+    },
+    Keys.zlp: {
+      Keys.party: "Zenith Labour Party",
+      Keys.candidate: "Nwanyanwu Daniel Daberechukwu",
+      "acronym": Keys.zlp,
+    }
+  };
 
   // States
   static const List<String> states = [
@@ -13,7 +320,7 @@ class ElectionData {
     "Ogun",
     "Delta",
     "Jos",
-    "Abia"
+    "Abia",
   ];
 
   // Polling Units
@@ -735,97 +1042,97 @@ class ElectionData {
     },
 
     // Osun
-    {
-      "Osun": [
-        {
-          "local_government": "Atakumosa West",
-          "wards": [
-            {
-              "ward_name": "Iperindo I",
-              "polling_units": [
-                "St. Peters Pry. School, Iperindo",
-                "Baptist Pry. School, Iperindo",
-                "Methodist Pry. School, Iperindo"
-              ]
-            },
-            {
-              "ward_name": "Ijebu-Jesa III",
-              "polling_units": [
-                "Baptist Pry. School, Ijebu-Jesa",
-                "Methodist Pry. School, Ijebu-Jesa",
-                "Ansar-Ud-Deen Pry. School, Ijebu-Jesa"
-              ]
-            },
-            {
-              "ward_name": "Idominasi",
-              "polling_units": [
-                "St. John's Pry. School, Idominasi",
-                "Ansar-Ud-Deen Pry. School, Idominasi",
-                "C&S Pry. School, Idominasi"
-              ]
-            }
-          ]
-        },
-        {
-          "local_government": "Ede South",
-          "wards": [
-            {
-              "ward_name": "Oke-Gada III",
-              "polling_units": [
-                "St. Paul's Pry. School, Oke-Gada",
-                "Baptist Pry. School, Oke-Gada",
-                "Methodist Pry. School, Oke-Gada"
-              ]
-            },
-            {
-              "ward_name": "Oluwole III",
-              "polling_units": [
-                "Ansar-Ud-Deen Pry. School, Oluwole",
-                "Baptist Pry. School, Oluwole",
-                "Methodist Pry. School, Oluwole"
-              ]
-            },
-            {
-              "ward_name": "Akoda I",
-              "polling_units": [
-                "St. Peters Pry. School, Akoda",
-                "Ansar-Ud-Deen Pry. School, Akoda",
-                "C&S Pry. School, Akoda"
-              ]
-            }
-          ],
-        },
-        {
-          "local_government": "Boluwaduro",
-          "wards": [
-            {
-              "ward_name": "Boluwaduro II",
-              "polling_units": [
-                "St. Peters Pry. School, Boluwaduro",
-                "Methodist Pry. School, Boluwaduro",
-                "Baptist Pry. School, Boluwaduro"
-              ]
-            },
-            {
-              "ward_name": "Otun",
-              "polling_units": [
-                "St. Peters Pry. School, Otun",
-                "C&S Pry. School, Otun",
-                "St. John's Pry. School, Otun"
-              ]
-            },
-            {
-              "ward_name": "Otudan",
-              "polling_units": [
-                "Ansar-Ud-Deen Pry. School, Otudan",
-                "Baptist Pry. School, Otudan",
-                "Methodist Pry. School, Otudan"
-              ]
-            }
-          ],
-        },
-      ]
-    },
+    // {
+    //   "Osun": [
+    //     {
+    //       "local_government": "Atakumosa West",
+    //       "wards": [
+    //         {
+    //           "ward_name": "Iperindo I",
+    //           "polling_units": [
+    //             "St. Peters Pry. School, Iperindo",
+    //             "Baptist Pry. School, Iperindo",
+    //             "Methodist Pry. School, Iperindo"
+    //           ]
+    //         },
+    //         {
+    //           "ward_name": "Ijebu-Jesa III",
+    //           "polling_units": [
+    //             "Baptist Pry. School, Ijebu-Jesa",
+    //             "Methodist Pry. School, Ijebu-Jesa",
+    //             "Ansar-Ud-Deen Pry. School, Ijebu-Jesa"
+    //           ]
+    //         },
+    //         {
+    //           "ward_name": "Idominasi",
+    //           "polling_units": [
+    //             "St. John's Pry. School, Idominasi",
+    //             "Ansar-Ud-Deen Pry. School, Idominasi",
+    //             "C&S Pry. School, Idominasi"
+    //           ]
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       "local_government": "Ede South",
+    //       "wards": [
+    //         {
+    //           "ward_name": "Oke-Gada III",
+    //           "polling_units": [
+    //             "St. Paul's Pry. School, Oke-Gada",
+    //             "Baptist Pry. School, Oke-Gada",
+    //             "Methodist Pry. School, Oke-Gada"
+    //           ]
+    //         },
+    //         {
+    //           "ward_name": "Oluwole III",
+    //           "polling_units": [
+    //             "Ansar-Ud-Deen Pry. School, Oluwole",
+    //             "Baptist Pry. School, Oluwole",
+    //             "Methodist Pry. School, Oluwole"
+    //           ]
+    //         },
+    //         {
+    //           "ward_name": "Akoda I",
+    //           "polling_units": [
+    //             "St. Peters Pry. School, Akoda",
+    //             "Ansar-Ud-Deen Pry. School, Akoda",
+    //             "C&S Pry. School, Akoda"
+    //           ]
+    //         }
+    //       ],
+    //     },
+    //     {
+    //       "local_government": "Boluwaduro",
+    //       "wards": [
+    //         {
+    //           "ward_name": "Boluwaduro II",
+    //           "polling_units": [
+    //             "St. Peters Pry. School, Boluwaduro",
+    //             "Methodist Pry. School, Boluwaduro",
+    //             "Baptist Pry. School, Boluwaduro"
+    //           ]
+    //         },
+    //         {
+    //           "ward_name": "Otun",
+    //           "polling_units": [
+    //             "St. Peters Pry. School, Otun",
+    //             "C&S Pry. School, Otun",
+    //             "St. John's Pry. School, Otun"
+    //           ]
+    //         },
+    //         {
+    //           "ward_name": "Otudan",
+    //           "polling_units": [
+    //             "Ansar-Ud-Deen Pry. School, Otudan",
+    //             "Baptist Pry. School, Otudan",
+    //             "Methodist Pry. School, Otudan"
+    //           ]
+    //         }
+    //       ],
+    //     },
+    //   ]
+    // },
 
     // Delta
     {

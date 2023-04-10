@@ -15,7 +15,12 @@ class Voter {
       gender,
       dateOfBirth,
       electionPollingUnits;
-  bool? isAmputee, isVerified, isFirstTime;
+  bool? isAmputee,
+      isVerified,
+      isFirstTime,
+      hasVotedPresidential,
+      hasVotedGubernatorial,
+      hasVotedLocalGovernment;
 
   Voter({
     required this.email,
@@ -32,6 +37,9 @@ class Voter {
     required this.isAmputee,
     required this.isFirstTime,
     required this.isVerified,
+    this.hasVotedGubernatorial = false,
+    this.hasVotedLocalGovernment = false,
+    this.hasVotedPresidential = false,
   });
 
   factory Voter.fromJson(Map<String, dynamic> json) => _$VoterFromJson(json);

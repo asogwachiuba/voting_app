@@ -26,6 +26,13 @@ class LoginViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  bool _passwordResetOngoing = false;
+  bool get passwordResetOngoing => _passwordResetOngoing;
+  set passwordResetOngoing(bool newValue) {
+    _passwordResetOngoing = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
@@ -33,6 +40,7 @@ class LoginViewModel extends VotingAppViewmodel {
   onReady() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     isNewUser = prefs.getBool(Keys.isFirstTime);
+    logger.d("Login was refreshed");
   }
 
   toForgotPassword() {
@@ -40,6 +48,7 @@ class LoginViewModel extends VotingAppViewmodel {
   }
 
   toResetPassword() {
+    passwordResetOngoing = true;
     navigationService.navigateToView(const ResetPasswordView());
   }
 
@@ -48,6 +57,7 @@ class LoginViewModel extends VotingAppViewmodel {
   }
 
   login() async {
+    if (passwordResetOngoing) onReady();
     bool isLoggedIn = await authentication.login(
       email: emailController.text,
       password: passwordController.text,

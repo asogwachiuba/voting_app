@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:voting_app/features/candidate_options/view/candidate_options_view.dart';
@@ -8,7 +9,13 @@ import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/features/onboarding/view/onboarding_view.dart';
 import 'package:voting_app/features/register/view/register_view.dart';
 import 'package:voting_app/features/reset_password/view/reset_password_view.dart';
+import 'package:voting_app/features/result_options/view/result_options_view.dart';
+import 'package:voting_app/features/result_select_local_government/view/result_select_local_government_view.dart';
+import 'package:voting_app/features/result_select_state/view/result_select_state_view.dart';
+import 'package:voting_app/features/select_local_government/view/select_local_government_view.dart';
+import 'package:voting_app/features/select_state/view/select_state_view.dart';
 import 'package:voting_app/features/view_candidates/view/view_candidates_view.dart';
+import 'package:voting_app/features/view_result/view/view_result_view.dart';
 import 'package:voting_app/features/voting/view/cast_vote_view.dart';
 import 'package:voting_app/features/voting_success/view/voting_success_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
@@ -26,6 +33,12 @@ import 'package:voting_app/firebase/database.dart';
   MaterialRoute(page: CandidateOptionsView),
   MaterialRoute(page: ViewCandidatesView),
   MaterialRoute(page: VotingSuccessView),
+  MaterialRoute(page: SelectStateView),
+  MaterialRoute(page: SelectLocalGovernmentView),
+  MaterialRoute(page: ResultOptionsView),
+  MaterialRoute(page: ResultSelectStateView),
+  MaterialRoute(page: ResultSelectLocalGovernmentView),
+  MaterialRoute(page: ViewResultView),
 ], dependencies: [
   LazySingleton(classType: Authentication),
   LazySingleton(classType: NavigationService),

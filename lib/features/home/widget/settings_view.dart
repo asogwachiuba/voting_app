@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/home/widget/settings_viewmodel.dart';
+import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/util/notification.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -12,8 +14,7 @@ class SettingsView extends StatelessWidget {
     return ViewModelBuilder<SettingsViewModel>.reactive(
       viewModelBuilder: (() => SettingsViewModel()),
       onViewModelReady: (viewModel) => viewModel.onReady(),
-      builder: ((context, viewModel, child) => Expanded(
-              child: Padding(
+      builder: ((context, viewModel, child) => Padding(
             padding: const EdgeInsets.all(20.0),
             child: ListView(
               children: [
@@ -63,13 +64,12 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
 
-                // Personal Information widget
+                // Full name widget
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Full name widget
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -171,6 +171,65 @@ class SettingsView extends StatelessWidget {
                   ),
                 ),
 
+                // NIN widget
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        SizedBox(
+                          child: Text(
+                            'NIN',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: screenSize.width * 0.6,
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.number,
+                            controller: viewModel.ninController,
+                            textInputAction: TextInputAction.done,
+                            cursorColor: ColorList.lightGreen,
+                            maxLines: 1,
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'NIN',
+                              hintStyle: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                              alignLabelWithHint: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    //SizedBox(height: 10),
+                    const Divider(
+                      thickness: 1,
+                      color: Color(0xFFE2E5FF),
+                    )
+                  ],
+                ),
+
                 // Phone number Widget
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,32 +310,42 @@ class SettingsView extends StatelessWidget {
                         ),
                         const Spacer(),
                         SizedBox(
-                          width: screenSize.width * 0.6,
+                          width: 70,
                           child: TextFormField(
-                            textCapitalization: TextCapitalization.words,
-                            keyboardType: TextInputType.name,
                             controller: viewModel.dobController,
-                            textInputAction: TextInputAction.done,
-                            cursorColor: ColorList.lightGreen,
-                            maxLines: 1,
-                            textAlign: TextAlign.right,
+                            onTap: () async {
+                              DateTime? date = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (date != null) {
+                                if (date.isUnderage()) {
+                                  AppNotification.notify(
+                                      notificationMessage:
+                                          "You need to be up to 18 years to vote");
+                                  return;
+                                }
+                                viewModel.dobController.text =
+                                    '${date.month}/${date.day}/${date.year}';
+                              }
+                            },
+                            keyboardType: TextInputType.datetime,
                             style: const TextStyle(
                               decoration: TextDecoration.none,
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Edit your date of birth',
-                              hintStyle: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-                              alignLabelWithHint: true,
-                            ),
+                            decoration:
+                                const InputDecoration(border: InputBorder.none),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your date of birth';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -310,32 +379,32 @@ class SettingsView extends StatelessWidget {
                         ),
                         const Spacer(),
                         SizedBox(
-                          width: screenSize.width * 0.6,
-                          child: TextFormField(
-                            textCapitalization: TextCapitalization.words,
-                            keyboardType: TextInputType.name,
-                            controller: viewModel.genderController,
-                            textInputAction: TextInputAction.done,
-                            cursorColor: ColorList.lightGreen,
-                            maxLines: 1,
-                            textAlign: TextAlign.right,
+                          width: 70,
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
                             style: const TextStyle(
                               decoration: TextDecoration.none,
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Edit your gender',
-                              hintStyle: TextStyle(
-                                decoration: TextDecoration.none,
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-                              alignLabelWithHint: true,
-                            ),
+                            decoration:
+                                const InputDecoration(border: InputBorder.none),
+                            value: viewModel.genderController.text,
+                            onChanged: ((value) {
+                              if (value != null) {
+                                viewModel.genderController.text = value;
+                              }
+                            }),
+                            items: ["Male", "Female"].map((state) {
+                              return DropdownMenuItem(
+                                value: state,
+                                child: Text(
+                                  state,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ],
@@ -407,7 +476,7 @@ class SettingsView extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
             ),
-          ))),
+          )),
     );
   }
 }

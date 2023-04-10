@@ -43,13 +43,16 @@ class ResetPasswordViewmodel extends VotingAppViewmodel {
     }
     bool isSuccessful = await authentication.updatePassword(
         newPassword: createPasswordController.text.trim());
-
+    if (!isSuccessful) {
+      AppNotification.error(error: "Password update was not successful.");
+      return;
+    }
     await db.updateUserProfile(update: {
       'isFirstTime': false,
       'isVerified': true,
     });
-    authentication.changeFirstTimeStatus();
-    authentication.logout();
+    await authentication.changeFirstTimeStatus();
+    await authentication.logout();
     toLogin();
   }
 

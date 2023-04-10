@@ -9,10 +9,12 @@ class CastVoteCandidateTile extends StatelessWidget {
     required this.candidateParty,
     required this.candidateImgUrl,
     required this.onVote,
+    required this.partyAcronym,
   });
   final String candidateName;
   final String candidateParty;
   final String candidateImgUrl;
+  final String partyAcronym;
   final Function(
     String,
     String,
@@ -47,7 +49,7 @@ class CastVoteCandidateTile extends StatelessWidget {
               onVote(
                 candidateName,
                 candidateImgUrl,
-                candidateParty,
+                partyAcronym,
               );
             },
           ),

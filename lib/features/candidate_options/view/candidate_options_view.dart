@@ -5,6 +5,7 @@ import 'package:voting_app/features/candidate_options/view/candidate_options_vie
 import 'package:voting_app/features/election_options/view/election_options_viewmodel.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
 import 'package:voting_app/features/home/widget/dashboard_button.dart';
+import 'package:voting_app/models/enums/election_category.dart';
 
 class CandidateOptionsView extends StatelessWidget {
   const CandidateOptionsView({super.key});
@@ -61,7 +62,7 @@ class CandidateOptionsView extends StatelessWidget {
                       title: 'PRESIDENTIAL',
                       onPressed: () {
                         viewModel.toViewCandidates(
-                            electionCategory: "PRESIDENTIAL ELECTION");
+                            electionCategory: ELECTIONCATEGORY.presidential);
                       },
                     ),
                     const SizedBox(
@@ -71,8 +72,8 @@ class CandidateOptionsView extends StatelessWidget {
                       icon: Icons.how_to_vote,
                       title: 'GUBERNATORIAL',
                       onPressed: () {
-                        viewModel.toViewCandidates(
-                            electionCategory: "GUBERNATORIAL ELECTION");
+                        viewModel.toSelectState(
+                            electioncategory: ELECTIONCATEGORY.gubernatorial);
                       },
                     ),
                     const SizedBox(
@@ -82,8 +83,8 @@ class CandidateOptionsView extends StatelessWidget {
                       icon: Icons.how_to_vote,
                       title: 'LOCAL GOVERNMENT CHAIRMAN',
                       onPressed: () {
-                        viewModel.toViewCandidates(
-                            electionCategory: "LOCAL GOVERNMENT CHAIRMAN");
+                        viewModel.toSelectState(
+                            electioncategory: ELECTIONCATEGORY.localGovernment);
                       },
                     ),
                   ],

@@ -1,5 +1,7 @@
 import 'package:voting_app/core/voting_app_viewmodel.dart';
+import 'package:voting_app/features/select_state/view/select_state_view.dart';
 import 'package:voting_app/features/view_candidates/view/view_candidates_view.dart';
+import 'package:voting_app/models/enums/election_category.dart';
 
 class CandidateOptionsViewModel extends VotingAppViewmodel {
   /// Methods ==================================================================
@@ -7,8 +9,13 @@ class CandidateOptionsViewModel extends VotingAppViewmodel {
     navigationService.back();
   }
 
-  toViewCandidates({required String electionCategory}) {
+  toViewCandidates({required ELECTIONCATEGORY electionCategory}) {
     navigationService
         .navigateToView(ViewCandidatesView(electionCategory: electionCategory));
+  }
+
+  toSelectState({required ELECTIONCATEGORY electioncategory}) {
+    navigationService
+        .navigateToView(SelectStateView(electioncategory: electioncategory));
   }
 }

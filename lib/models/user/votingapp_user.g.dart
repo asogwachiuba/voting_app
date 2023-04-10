@@ -31,13 +31,16 @@ class VotingappUserAdapter extends TypeAdapter<VotingappUser> {
       nin: fields[2] as String?,
       profileImageUrl: fields[4] as String?,
       dateOfBirth: fields[13] as String?,
+      hasVotedGubernatorial: fields[15] as bool?,
+      hasVotedLocalGovernment: fields[16] as bool?,
+      hasVotedPresidential: fields[14] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, VotingappUser obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.fullName)
       ..writeByte(1)
@@ -65,7 +68,13 @@ class VotingappUserAdapter extends TypeAdapter<VotingappUser> {
       ..writeByte(12)
       ..write(obj.isVerified)
       ..writeByte(13)
-      ..write(obj.dateOfBirth);
+      ..write(obj.dateOfBirth)
+      ..writeByte(14)
+      ..write(obj.hasVotedPresidential)
+      ..writeByte(15)
+      ..write(obj.hasVotedGubernatorial)
+      ..writeByte(16)
+      ..write(obj.hasVotedLocalGovernment);
   }
 
   @override

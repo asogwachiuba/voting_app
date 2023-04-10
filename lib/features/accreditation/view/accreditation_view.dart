@@ -3,7 +3,9 @@ import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/accreditation/view/accreditation_viewmodel.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
+import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 //TODO: A typing text saying "A free and fair is what we all deserve and yearn for. Lets work together to achieve it"
 class AccreditationView extends StatelessWidget {

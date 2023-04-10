@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
-import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
-import 'package:voting_app/features/view_candidates/view/view_candidates_viewmodel.dart';
-import 'package:voting_app/features/view_candidates/widget/view_candidates_tile.dart';
+import 'package:voting_app/features/view_result/widget/view_result_tile.dart';
 import 'package:voting_app/models/enums/election_category.dart';
 
-class ViewCandidatesView extends StatelessWidget {
-  const ViewCandidatesView({
+import 'view_result_viewmodel.dart';
+
+class ViewResultView extends StatelessWidget {
+  const ViewResultView({
     super.key,
     required this.electionCategory,
     this.selectedLocalGovernment,
@@ -20,8 +20,8 @@ class ViewCandidatesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ViewCandidatesViewModel>.reactive(
-      viewModelBuilder: (() => ViewCandidatesViewModel()),
+    return ViewModelBuilder<ViewResultViewmodel>.reactive(
+      viewModelBuilder: (() => ViewResultViewmodel()),
       onViewModelReady: (viewModel) => viewModel.onReady(
         electioncategory_: electionCategory,
         selectedLocalGovernment_: selectedLocalGovernment,
@@ -78,16 +78,10 @@ class ViewCandidatesView extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: viewModel.candidates.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return ViewCandidateTile(
-                            candidateName: viewModel.candidates[index]
-                                [Keys.candidate],
-                            candidateParty: viewModel.candidates[index]
-                                [Keys.party],
-                            candidateImgUrl:
-                                "https://source.unsplash.com/200x200/?portrait,John Doe",
-                            candidateDescription:
-                                "This guy is a cool guy. He knows His way aroung and believes in people. He fights for what he wants and values family and friendships. Kisses, better dodge it.",
-                          );
+                          return ViewResultTile(
+                              party: viewModel.candidates[index]['party'],
+                              votes: viewModel.candidates[index]['votes']
+                                  .toString());
                         },
                       ),
                     )

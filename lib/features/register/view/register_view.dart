@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/register/view/register_viewmodel.dart';
+import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/util/notification.dart';
 import 'package:voting_app/widgets/app_button.dart';
 
 class RegisterView extends StatelessWidget {
@@ -101,7 +103,7 @@ class RegisterView extends StatelessWidget {
                             const SizedBox(height: 16),
                             TextFormField(
                               controller: viewModel.ninController,
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 labelText: 'NIN',
                                 prefixIcon: const Icon(Icons.pin),
@@ -145,6 +147,12 @@ class RegisterView extends StatelessWidget {
                                   lastDate: DateTime.now(),
                                 );
                                 if (date != null) {
+                                  if (date.isUnderage()) {
+                                    AppNotification.notify(
+                                        notificationMessage:
+                                            "You need to be up to 18 years to vote");
+                                    return;
+                                  }
                                   viewModel.dobController.text =
                                       '${date.month}/${date.day}/${date.year}';
                                 }
