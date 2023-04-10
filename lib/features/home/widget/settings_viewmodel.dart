@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
+import 'package:voting_app/firebase/authentication.dart';
 import 'package:voting_app/models/user/votingapp_user.dart';
 import 'package:voting_app/util/notification.dart';
 
 class SettingsViewModel extends VotingAppViewmodel {
   /// Dependency injection =====================================================
+  final authentication = locator<Authentication>();
 
   /// States and variables =====================================================
   final fullNameController = TextEditingController();
@@ -13,6 +19,13 @@ class SettingsViewModel extends VotingAppViewmodel {
   final dobController = TextEditingController();
   final genderController = TextEditingController();
   final ninController = TextEditingController();
+
+  File? _imageFile;
+  File? get imageFile => _imageFile;
+  set imageFile(File? newValue) {
+    _imageFile = newValue;
+    notifyListeners();
+  }
 
   VotingappUser? user;
 
@@ -36,7 +49,16 @@ class SettingsViewModel extends VotingAppViewmodel {
     ninController.text = user?.nin ?? "";
   }
 
-  saveProfile() {
+  takePicture() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      _imageFile = File(pickedFile.path);
+      notifyListeners();
+    }
+  }
+
+  saveProfile() async {
     logger.d("Profile is saving");
     bool isUpdated = false;
     Map<String, dynamic> update = {};
@@ -70,6 +92,14 @@ class SettingsViewModel extends VotingAppViewmodel {
       isUpdated = true;
     }
 
+    if (imageFile != null) {
+      String newProfileUrl =
+          await authentication.changeProfilePicture(newProfilImage: imageFile!);
+      final url = <String, String>{"profileImageUrl": newProfileUrl};
+      update.addEntries(url.entries);
+      isUpdated = true;
+    }
+
     if (!isUpdated) {
       AppNotification.notify(
           notificationMessage: "Your profile is already up to date");
@@ -81,6 +111,8 @@ class SettingsViewModel extends VotingAppViewmodel {
       update: update,
       notifyUser: true,
     );
+    imageFile = null;
+    onReady();
     logger.d("Profile updated");
   }
 
@@ -103,11 +135,16 @@ class SettingsViewModel extends VotingAppViewmodel {
       isUpdated = true;
     }
 
+    if (imageFile != null) {
+      isUpdated = true;
+    }
+
     if (!isUpdated) {
       AppNotification.notify(
           notificationMessage: "No changes were made to your profile");
     } else {
       onReady();
+      imageFile = null;
       AppNotification.notify(
           notificationMessage: "Changes to your profile has been discarded");
     }

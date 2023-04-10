@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
@@ -36,18 +37,43 @@ class SettingsView extends StatelessWidget {
                 ),
 
                 // Profile Image and update image widgets
-                InkWell(
-                  onTap: () {
-                    // showPicker(context, true);
-                  },
-                  child: const Center(
-                    child: CircleAvatar(
-                      radius: 55.0,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 56.0,
-                        child: Align(
+                Center(
+                  child: Stack(clipBehavior: Clip.antiAlias, children: [
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: ColorList.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: (viewModel.imageFile != null)
+                              ? Image.file(
+                                  viewModel.imageFile!,
+                                  height: 115,
+                                  width: 115,
+                                  fit: BoxFit.fill,
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl:
+                                      viewModel.user?.profileImageUrl ?? "",
+                                  height: 115,
+                                  width: 115,
+                                  fit: BoxFit.fill,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(
+                                    Icons.person,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: InkWell(
+                        onTap: () => viewModel.takePicture(),
+                        child: const Align(
                           alignment: Alignment.bottomRight,
                           child: CircleAvatar(
                             backgroundColor: ColorList.lightGreen,
@@ -60,8 +86,8 @@ class SettingsView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    )
+                  ]),
                 ),
 
                 // Full name widget

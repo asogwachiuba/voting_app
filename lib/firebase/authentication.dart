@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/firebase/database.dart';
@@ -57,6 +60,37 @@ class Authentication {
     return isSuccessful;
   }
 
+  Future<String> changeProfilePicture({required File newProfilImage}) async {
+    // deletes the current profile image
+    final user = db.getCurrentUser();
+    final fileName = user?.email;
+    // For already exisiting users without profile picture, this avoids error
+    // as there is no profile picture to delete.
+    if (user?.profileImageUrl != null) {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child("Voters Profile Image/$fileName");
+      await storageRef.delete();
+    }
+
+    // Uploads the new profile image
+    final String newImageUrl = await uploadProfilePicture(
+      profileImage: newProfilImage,
+      email: fileName ?? "",
+    );
+    return newImageUrl;
+  }
+
+  Future<String> uploadProfilePicture(
+      {required File profileImage, required String email}) async {
+    final fileName = email;
+    final storageRef =
+        FirebaseStorage.instance.ref().child("Voters Profile Image/$fileName");
+    final storageTaskSnapshot = await storageRef.putFile(profileImage);
+    final downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
   Future<bool> register({
     required String email,
     required String phoneNumber,
@@ -69,7 +103,7 @@ class Authentication {
     required bool isAmputee,
     required String nin,
     required String gender,
-    required String profileImageUrl,
+    required File profileImage,
   }) async {
     // create user with email and password
     bool createAccountSuccessful = await _createUserAccount(
@@ -83,6 +117,10 @@ class Authentication {
     } else {
       return false;
     }
+
+    // Get user profile image url after uploading to firebase storage
+    String profileImageUrl =
+        await uploadProfilePicture(profileImage: profileImage, email: email);
 
     // create user database
     bool userDatabaseCreated = await _createUserDatabase(

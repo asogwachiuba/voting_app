@@ -264,8 +264,8 @@ class Database {
   }) {
     final washingtonRef =
         db.collection("Voters").doc(FirebaseAuth.instance.currentUser?.uid);
-    washingtonRef.update(update).then((value) {
-      getUserProfile(email: getCurrentUser()?.email ?? "");
+    washingtonRef.update(update).then((value) async {
+      await getUserProfile(email: getCurrentUser()?.email ?? "");
       if (notifyUser) {
         AppNotification.notify(
             notificationMessage: "Profile updated successful");

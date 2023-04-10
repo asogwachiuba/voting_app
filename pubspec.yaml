@@ -50,10 +50,12 @@ dependencies:
   shared_preferences: ^2.1.0
   cached_network_image: ^3.2.3
   image_compare: ^1.1.2
+  image_picker: ^0.8.7+1
+  firebase_storage: ^11.1.0
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
+    sdk: flutter  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

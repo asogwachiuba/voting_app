@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:voting_app/constants/election_data.dart';
 import 'package:voting_app/core/app/app.locator.dart';
@@ -24,6 +27,13 @@ class RegisterViwModel extends VotingAppViewmodel {
   final TextEditingController ninController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   bool fingerprintEnabled = false;
+
+  bool _isRegistering = false;
+  bool get isRegistering => _isRegistering;
+  set isRegistering(bool newValue) {
+    _isRegistering = newValue;
+    notifyListeners();
+  }
 
   int? _selectedStateIndex;
   int? get selectedStateIndex => _selectedStateIndex;
@@ -108,11 +118,29 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  File? _imageFile;
+  File? get imageFile => _imageFile;
+  set imageFile(File? newValue) {
+    _imageFile = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
 
+  takePicture() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      _imageFile = File(pickedFile.path);
+      notifyListeners();
+    }
+  }
+
   register() async {
+    if (isRegistering) return;
+    isRegistering = true;
     if (fullNameController.text.isEmpty ||
         ninController.text.isEmpty ||
         dobController.text.isEmpty ||
@@ -135,6 +163,13 @@ class RegisterViwModel extends VotingAppViewmodel {
       return;
     }
 
+    if (imageFile == null) {
+      AppNotification.notify(
+          notificationMessage:
+              "Provide your profile picture for identification");
+      return;
+    }
+
     if (!isAuthenticated) {
       AppNotification.error(error: "Provide your fingerprint for registration");
       return;
@@ -153,9 +188,9 @@ class RegisterViwModel extends VotingAppViewmodel {
       isAmputee: isAmputee,
       nin: ninController.text,
       gender: gender!,
-      profileImageUrl: "",
+      profileImage: imageFile!,
     );
-
+    isRegistering = false;
     if (isUserRegistered) {
       toLogin();
     }

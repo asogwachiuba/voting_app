@@ -119,6 +119,44 @@ class RegisterView extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Select profile picture button
+                                InkWell(
+                                  onTap: () => viewModel.takePicture(),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: ColorList.primaryColor),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Select profile image",
+                                        style: TextStyle(
+                                          color: ColorList.primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                // Display image selected
+                                if (viewModel.imageFile != null)
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      viewModel.imageFile!,
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                              ],
+                            ),
+                            const SizedBox(height: 16),
                             TextFormField(
                               controller: viewModel.phoneController,
                               keyboardType: TextInputType.phone,
