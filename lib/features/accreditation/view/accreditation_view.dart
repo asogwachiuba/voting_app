@@ -92,16 +92,17 @@ class AccreditationView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Text(
-                    'Confirmed',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  if (viewModel.isAuthenticated)
+                    const Text(
+                      'Confirmed',
+                      style: TextStyle(color: Colors.white),
+                    ),
 
                   const SizedBox(
                     height: 24,
                   ),
                   TextFormField(
-                    // controller: viewModel.emailController,
+                    onChanged: (value) => viewModel.validateNIN(nin: value),
                     keyboardType: TextInputType.emailAddress,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
@@ -123,38 +124,36 @@ class AccreditationView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please confirm your NIN';
-                      }
-                      return null;
-                    },
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text(
-                    'Confirmed',
-                    style: TextStyle(color: Colors.white),
+                  Text(
+                    viewModel.ninIsVerified ? 'Confirmed' : 'Verify your NIN',
+                    style: TextStyle(
+                        color: viewModel.ninIsVerified
+                            ? Colors.white
+                            : Colors.red),
                   ),
 
                   const SizedBox(
                     height: 40,
                   ),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppButton(
-                          onPressed_: () {
-                            viewModel.toElectionOptions();
-                          },
-                          buttonName: "Done",
-                          buttonColor: ColorList.primaryColor,
+                  if (viewModel.isAuthenticated && viewModel.ninIsVerified)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            onPressed_: () {
+                              viewModel.toElectionOptions();
+                            },
+                            buttonName: "Validation Complete",
+                            buttonColor: ColorList.primaryColor,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
 
                   const Spacer(),
                 ],

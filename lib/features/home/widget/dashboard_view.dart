@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
-import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
 import 'package:voting_app/features/home/widget/dashboard_button.dart';
 import 'package:voting_app/features/home/widget/dashboard_viewmodel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -15,10 +15,10 @@ class DashboardView extends StatelessWidget {
       onViewModelReady: (viewModel) => viewModel.onReady(),
       builder: ((context, viewModel, child) => Stack(
             children: [
-              CustomPaint(
-                size: const Size(double.infinity, double.infinity),
-                painter: DashboardBackgroundPainter(),
-              ),
+              // CustomPaint(
+              //   size: const Size(double.infinity, double.infinity),
+              //   painter: DashboardBackgroundPainter(),
+              // ),
               SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -28,25 +28,45 @@ class DashboardView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl: viewModel.user?.profileImageUrl ?? "",
+                              height: 40,
+                              width: 40,
+                              fit: BoxFit.fill,
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.person,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
                           Expanded(
                             child: Text(
-                              "Hello ${viewModel.user?.fullName ?? ""}",
+                              "Hi ${viewModel.user?.fullName ?? ""}",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                color: ColorList.lightGreen,
+                                color: Colors.black,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          Card(
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(
-                                Icons.power_settings_new,
-                                color: ColorList.darkGreen,
+                          InkWell(
+                            onTap: () => viewModel.logOut(),
+                            child: const Card(
+                              color: Color.fromARGB(255, 212, 238, 221),
+                              child: Padding(
+                                padding: EdgeInsets.all(6.0),
+                                child: Icon(
+                                  Icons.power_settings_new,
+                                  color: ColorList.darkGreen,
+                                  size: 22,
+                                ),
                               ),
-                              onPressed: () => viewModel.logOut(),
                             ),
                           ),
                         ],
@@ -56,16 +76,16 @@ class DashboardView extends StatelessWidget {
                         'Welcome to',
                         style: TextStyle(
                           fontSize: 20.0,
-                          color: Colors.white,
+                          color: ColorList.primaryColor,
                         ),
                       ),
                       const SizedBox(height: 8.0),
                       const Text(
-                        'Voting App',
+                        '     Voting App',
                         style: TextStyle(
                           fontSize: 32.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: ColorList.primaryColor,
                         ),
                       ),
                       const SizedBox(height: 50.0),

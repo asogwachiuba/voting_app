@@ -15,10 +15,10 @@ class DashboardButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      elevation: 10,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          side: BorderSide(color: ColorList.lightGreen)),
+          borderRadius: BorderRadius.circular(16.0), side: BorderSide.none),
       child: InkWell(
         onTap: onPressed,
         child: Column(

@@ -11,6 +11,7 @@ import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
 import 'package:voting_app/util/notification.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 
 class RegisterViwModel extends VotingAppViewmodel {
   /// Dependency Injection =====================================================
@@ -111,6 +112,13 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  bool _isFaceAuthenticated = false;
+  bool get isFaceAuthenticated => _isFaceAuthenticated;
+  set isFaceAuthenticated(bool newValue) {
+    _isFaceAuthenticated = newValue;
+    notifyListeners();
+  }
+
   bool _isAmputee = false;
   bool get isAmputee => _isAmputee;
   set isAmputee(bool newValue) {
@@ -125,9 +133,20 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  bool _hasFaceId = false;
+  bool get hasFaceId => _hasFaceId;
+  set hasFaceId(bool newValue) {
+    _hasFaceId = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
+
+  onReady() {
+    isFaceIdAvaiable();
+  }
 
   takePicture() async {
     final picker = ImagePicker();
@@ -138,9 +157,42 @@ class RegisterViwModel extends VotingAppViewmodel {
     }
   }
 
+  isFaceIdAvaiable() async {
+    final List<BiometricType> availableBiometrics =
+        await localAuthentication.getAvailableBiometrics();
+
+    logger.d(availableBiometrics.toString());
+
+    if (availableBiometrics.contains(BiometricType.face)) {
+      hasFaceId = true;
+      logger.d(availableBiometrics.toString());
+      return;
+    }
+
+    AppNotification.error(error: 'No Face ID setup');
+  }
+
+  faceAuthentication() async {
+    try {
+      isFaceAuthenticated = await localAuthentication.authenticate(
+          localizedReason: 'Please validate with your face',
+          options: const AuthenticationOptions(useErrorDialogs: false));
+    } on PlatformException catch (e) {
+      if (e.code == auth_error.notAvailable) {
+        AppNotification.error(
+            error:
+                "Your device does not support face verification. Please use another device");
+      } else if (e.code == auth_error.notEnrolled) {
+        AppNotification.error(
+            error:
+                "Setup your face verification in your device to enable you register.");
+      } else {
+        AppNotification.error(error: "Authentication failed, try again.");
+      }
+    }
+  }
+
   register() async {
-    if (isRegistering) return;
-    isRegistering = true;
     if (fullNameController.text.isEmpty ||
         ninController.text.isEmpty ||
         dobController.text.isEmpty ||
@@ -174,6 +226,7 @@ class RegisterViwModel extends VotingAppViewmodel {
       AppNotification.error(error: "Provide your fingerprint for registration");
       return;
     }
+    isRegistering = true;
 
     // Registers user
     bool isUserRegistered = await authentication.register(

@@ -57,7 +57,7 @@ class ResultOptionsView extends StatelessWidget {
                       height: 100,
                     ),
                     DashboardButton(
-                      icon: Icons.how_to_vote,
+                      icon: Icons.assignment_turned_in,
                       title: 'PRESIDENTIAL',
                       onPressed: () {
                         viewModel.toViewResult(
@@ -68,7 +68,7 @@ class ResultOptionsView extends StatelessWidget {
                       height: 24,
                     ),
                     DashboardButton(
-                      icon: Icons.how_to_vote,
+                      icon: Icons.assignment_turned_in,
                       title: 'GUBERNATORIAL',
                       onPressed: () {
                         viewModel.toSelectState(
@@ -79,8 +79,8 @@ class ResultOptionsView extends StatelessWidget {
                       height: 24,
                     ),
                     DashboardButton(
-                      icon: Icons.how_to_vote,
-                      title: 'LOCAL GOVERNMENT CHAIRMAN',
+                      icon: Icons.assignment_turned_in,
+                      title: 'LOCAL GOVERNMENT',
                       onPressed: () {
                         viewModel.toSelectState(
                             electioncategory: ELECTIONCATEGORY.localGovernment);

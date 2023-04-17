@@ -15,11 +15,10 @@ class Assets {
   Assets._();
 
   static const SvgGenImage check = SvgGenImage('assets/check.svg');
-  static const AssetGenImage img1 = AssetGenImage('assets/img1.jpg');
-  static const AssetGenImage img2 = AssetGenImage('assets/img2.jpg');
+  static const AssetGenImage goldBadge = AssetGenImage('assets/gold_badge.png');
 
   /// List of all assets
-  List<dynamic> get values => [check, img1, img2];
+  List<dynamic> get values => [check, goldBadge];
 }
 
 class AssetGenImage {

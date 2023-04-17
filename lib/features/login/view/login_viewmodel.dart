@@ -33,6 +33,13 @@ class LoginViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  bool _isLoggingIn = false;
+  bool get isLoggingIn => _isLoggingIn;
+  set isLoggingIn(bool newValue) {
+    _isLoggingIn = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
@@ -57,11 +64,14 @@ class LoginViewModel extends VotingAppViewmodel {
   }
 
   login() async {
+    isLoggingIn = true;
     if (passwordResetOngoing) onReady();
     bool isLoggedIn = await authentication.login(
       email: emailController.text,
       password: passwordController.text,
     );
+
+    isLoggingIn = false;
 
     if (isLoggedIn) {
       if (!authentication.checkUserVerificationStatus()) {

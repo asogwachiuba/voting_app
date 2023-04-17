@@ -18,6 +18,13 @@ class AccreditationViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  bool _ninIsVerified = false;
+  bool get ninIsVerified => _ninIsVerified;
+  set ninIsVerified(bool newValue) {
+    _ninIsVerified = newValue;
+    notifyListeners();
+  }
+
   //  Both images differs
   // var a = Uri.parse(
   //     'https://fujifilm-x.com/wp-content/uploads/2019/08/x-t30_sample-images03.jpg');
@@ -56,6 +63,12 @@ class AccreditationViewModel extends VotingAppViewmodel {
       );
     } on PlatformException catch (e) {
       logger.d('Error: $e');
+    }
+  }
+
+  validateNIN({required String nin}) async {
+    if (nin.length == 11 && !ninIsVerified) {
+      ninIsVerified = await db.ninVerification(nin: nin);
     }
   }
 

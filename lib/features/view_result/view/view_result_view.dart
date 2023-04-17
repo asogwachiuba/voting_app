@@ -31,10 +31,10 @@ class ViewResultView extends StatelessWidget {
         body: SizedBox.expand(
           child: Stack(
             children: [
-              CustomPaint(
-                size: const Size(double.infinity, double.infinity),
-                painter: DashboardBackgroundPainter(),
-              ),
+              // CustomPaint(
+              //   size: const Size(double.infinity, double.infinity),
+              //   painter: DashboardBackgroundPainter(),
+              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
@@ -56,17 +56,16 @@ class ViewResultView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(
-                          width: 30,
+                          width: 50,
                         ),
-                        Expanded(
-                          child: Text(
-                            "${electionCategory.name.toString().toUpperCase()} CANDIDATES",
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: ColorList.lightGreen,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        Text(
+                          "${electionCategory.name.toString().toUpperCase()}\n Result",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: ColorList.primaryColor,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -79,9 +78,14 @@ class ViewResultView extends StatelessWidget {
                         itemCount: viewModel.candidates.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ViewResultTile(
-                              party: viewModel.candidates[index]['party'],
-                              votes: viewModel.candidates[index]['votes']
-                                  .toString());
+                            party: viewModel.candidates[index]['party'],
+                            hasHighestVote: viewModel.highestVote ==
+                                int.parse(viewModel.candidates[index]['votes']),
+                            votes:
+                                viewModel.candidates[index]['votes'].toString(),
+                            totalElectionVote: viewModel.totalElectionVote,
+                            electioncategory: viewModel.electioncategory,
+                          );
                         },
                       ),
                     )

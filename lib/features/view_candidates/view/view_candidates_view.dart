@@ -31,10 +31,10 @@ class ViewCandidatesView extends StatelessWidget {
         body: SizedBox.expand(
           child: Stack(
             children: [
-              CustomPaint(
-                size: const Size(double.infinity, double.infinity),
-                painter: DashboardBackgroundPainter(),
-              ),
+              // CustomPaint(
+              //   size: const Size(double.infinity, double.infinity),
+              //   painter: DashboardBackgroundPainter(),
+              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
@@ -58,15 +58,14 @@ class ViewCandidatesView extends StatelessWidget {
                         const SizedBox(
                           width: 30,
                         ),
-                        Expanded(
-                          child: Text(
-                            "${electionCategory.name.toString().toUpperCase()} CANDIDATES",
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: ColorList.lightGreen,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        Text(
+                          "${electionCategory.name.toString().toUpperCase()} \nCANDIDATES",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -83,6 +82,9 @@ class ViewCandidatesView extends StatelessWidget {
                                 [Keys.candidate],
                             candidateParty: viewModel.candidates[index]
                                 [Keys.party],
+                            partyAcronym: viewModel.candidates[index]
+                                ["acronym"],
+                            electioncategory: viewModel.electioncategory,
                             candidateImgUrl:
                                 "https://source.unsplash.com/200x200/?portrait,John Doe",
                             candidateDescription:

@@ -348,6 +348,20 @@ class Database {
     return isSuccessful;
   }
 
+  Future<bool> ninVerification({required String nin}) async {
+    List ninRef = [];
+    await db
+        .collection("Election Data")
+        .doc("NIN")
+        .get()
+        .then((value) => ninRef = value.data()?['nin']);
+    if (ninRef.contains(nin)) {
+      return true;
+    }
+    AppNotification.error(error: "Invalid Nin");
+    return false;
+  }
+
   Future<bool> vote({
     required ELECTIONCATEGORY electioncategory,
     required String partyAcronym,

@@ -29,6 +29,13 @@ class CastVoteViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  bool _isVoting = false;
+  bool get isVoting => _isVoting;
+  set isVoting(bool newValue) {
+    _isVoting = newValue;
+    notifyListeners();
+  }
+
   /// Methods ==================================================================
   back() {
     navigationService.back();
@@ -84,12 +91,14 @@ class CastVoteViewModel extends VotingAppViewmodel {
     String cadidateImgUrl,
     String selectedPartyAcronym,
   ) async {
+    isVoting = true;
     bool isSuccessful = await db.vote(
       electioncategory: electioncategory!,
       partyAcronym: selectedPartyAcronym,
       state: user?.electionState,
       localGovernment: user?.electionLocalGovernment,
     );
+    isVoting = false;
 
     if (!isSuccessful) {
       AppNotification.error(error: "Vote unsuccessfyl. Try again");

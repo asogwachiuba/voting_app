@@ -33,6 +33,20 @@ class ViewResultViewmodel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  int _totalElectionVote = 0;
+  int get totalElectionVote => _totalElectionVote;
+  set totalElectionVote(int newValue) {
+    _totalElectionVote = newValue;
+    notifyListeners();
+  }
+
+  int _highestVote = 0;
+  int get highestVote => _highestVote;
+  set highestVote(int newValue) {
+    _highestVote = newValue;
+    notifyListeners();
+  }
+
   /// Methods ==================================================================
 
   onReady({
@@ -50,6 +64,17 @@ class ViewResultViewmodel extends VotingAppViewmodel {
     navigationService.back();
   }
 
+  getHighestNumberOfVote({required List<int> data}) {
+    for (var element in data) {
+      // calculates the total election votes
+      totalElectionVote += element;
+      if (element > highestVote) {
+        highestVote = element;
+      }
+    }
+    logger.d("The totla vote is $totalElectionVote");
+  }
+
   // toViewCandidates({required ELECTIONCATEGORY electionCategory}) {
   //   navigationService
   //       .navigateToView(CastVoteView(electionCategory: electionCategory));
@@ -62,13 +87,15 @@ class ViewResultViewmodel extends VotingAppViewmodel {
       state: selectdState,
       localGovernment: selectdLocalGovernment,
     );
-
+    final List<int> votes = [];
     result?.forEach((key, value) {
       candidates.add({
         "party": key,
-        "votes": value,
+        "votes": value.toString(),
       });
+      votes.add(int.parse(value.toString()));
     });
+    getHighestNumberOfVote(data: votes);
     notifyListeners();
   }
 }

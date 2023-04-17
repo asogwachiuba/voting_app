@@ -58,7 +58,7 @@ class CandidateOptionsView extends StatelessWidget {
                       height: 100,
                     ),
                     DashboardButton(
-                      icon: Icons.how_to_vote,
+                      icon: Icons.people,
                       title: 'PRESIDENTIAL',
                       onPressed: () {
                         viewModel.toViewCandidates(
@@ -69,7 +69,7 @@ class CandidateOptionsView extends StatelessWidget {
                       height: 24,
                     ),
                     DashboardButton(
-                      icon: Icons.how_to_vote,
+                      icon: Icons.people,
                       title: 'GUBERNATORIAL',
                       onPressed: () {
                         viewModel.toSelectState(
@@ -80,7 +80,7 @@ class CandidateOptionsView extends StatelessWidget {
                       height: 24,
                     ),
                     DashboardButton(
-                      icon: Icons.how_to_vote,
+                      icon: Icons.people,
                       title: 'LOCAL GOVERNMENT CHAIRMAN',
                       onPressed: () {
                         viewModel.toSelectState(
