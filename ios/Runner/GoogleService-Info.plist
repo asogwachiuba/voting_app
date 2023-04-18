@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>743024951589-5dfvpkqkpatepdb6rplmv9gfm0u9ch1d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.743024951589-5dfvpkqkpatepdb6rplmv9gfm0u9ch1d</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>743024951589-5kepcjbkm0g1nl5154mh53vrk6u7q4ut.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBN334r1RJ7wuFa2GkWSqvU8e0iMv17GF8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>743024951589</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.voting.mobile</string>
+	<key>PROJECT_ID</key>
+	<string>votingapp-47997</string>
+	<key>STORAGE_BUCKET</key>
+	<string>votingapp-47997.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:743024951589:ios:6783b72f5286cf831d9acc</string>
+</dict>
+</plist>
