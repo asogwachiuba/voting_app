@@ -116,12 +116,16 @@ class AccreditationView extends StatelessWidget {
                       prefixIcon: const Icon(Icons.pin),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
-                            color: ColorList.primaryColor, width: 2),
+                          color: ColorList.primaryColor,
+                          width: 2,
+                        ),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
-                            color: ColorList.primaryColor, width: 2),
+                          color: ColorList.primaryColor,
+                          width: 2,
+                        ),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       enabledBorder: OutlineInputBorder(
