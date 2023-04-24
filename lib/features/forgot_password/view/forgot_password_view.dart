@@ -37,6 +37,7 @@ class ForgotPasswordView extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
+                          controller: viewModel.emailController,
                           decoration: const InputDecoration(
                             hintText: 'Enter your email',
                             hintStyle: TextStyle(color: Colors.white70),
@@ -55,7 +56,7 @@ class ForgotPasswordView extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: MaterialButton(
-                            onPressed: viewModel.toLogin,
+                            onPressed: viewModel.forgotPassowrd,
                             color: Colors.white,
                             child: const Text(
                               'Reset Password',

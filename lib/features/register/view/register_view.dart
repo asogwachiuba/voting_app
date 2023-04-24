@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/features/register/view/register_viewmodel.dart';
 import 'package:voting_app/models/enums/election_category.dart';
 import 'package:voting_app/util/notification.dart';
@@ -164,6 +165,13 @@ class RegisterView extends StatelessWidget {
                                 TextFormField(
                                   controller: viewModel.ninController,
                                   keyboardType: TextInputType.number,
+                                  maxLength: 11,
+                                  onChanged: (value) {
+                                    if (value.length == 11) {
+                                      logger.d('Someone changed me');
+                                      viewModel.validateNIN();
+                                    }
+                                  },
                                   decoration: InputDecoration(
                                     labelText: 'NIN',
                                     prefixIcon: const Icon(Icons.pin),
@@ -221,8 +229,10 @@ class RegisterView extends StatelessWidget {
                                 ), */
                                 const SizedBox(height: 16),
                                 TextFormField(
+                                  readOnly: viewModel.isNinVerified,
                                   controller: viewModel.phoneController,
                                   keyboardType: TextInputType.phone,
+                                  maxLength: 11,
                                   decoration: InputDecoration(
                                     labelText: 'Phone Number',
                                     prefixIcon: const Icon(Icons.phone),

@@ -119,7 +119,9 @@ class DashboardView extends StatelessWidget {
                             DashboardButton(
                               icon: Icons.info,
                               title: 'Election Info',
-                              onPressed: () {},
+                              onPressed: () {
+                                viewModel.toElectionInfo();
+                              },
                             ),
                           ],
                         ),

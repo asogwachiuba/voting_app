@@ -28,6 +28,7 @@ class RegisterViwModel extends VotingAppViewmodel {
   final TextEditingController ninController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   bool fingerprintEnabled = false;
+  bool isNinVerified = false;
 
   bool _isRegistering = false;
   bool get isRegistering => _isRegistering;
@@ -148,6 +149,20 @@ class RegisterViwModel extends VotingAppViewmodel {
     isFaceIdAvaiable();
   }
 
+  validateNIN() async {
+    if (ninController.text.length < 11) {
+      AppNotification.error(error: "NIN should have 11 digits");
+      return;
+    }
+
+    if (isNinVerified) {
+      AppNotification.notify(notificationMessage: "NIN is already verified");
+      return;
+    }
+    isNinVerified = await db.ninVerification(nin: ninController.text);
+    return;
+  }
+
   takePicture() async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -199,6 +214,11 @@ class RegisterViwModel extends VotingAppViewmodel {
         emailController.text.isEmpty ||
         phoneController.text.isEmpty) {
       AppNotification.error(error: "Fill in all the text fields");
+      return;
+    }
+
+    if (!isNinVerified) {
+      AppNotification.error(error: "Verify your NIN");
       return;
     }
 

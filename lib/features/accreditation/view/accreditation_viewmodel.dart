@@ -5,6 +5,7 @@ import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/election_options/view/election_options_view.dart';
 import 'package:voting_app/gen/assets.gen.dart';
+import 'package:voting_app/util/notification.dart';
 
 class AccreditationViewModel extends VotingAppViewmodel {
   /// States and variables =====================================================
@@ -68,7 +69,10 @@ class AccreditationViewModel extends VotingAppViewmodel {
 
   validateNIN({required String nin}) async {
     if (nin.length == 11 && !ninIsVerified) {
-      ninIsVerified = await db.ninVerification(nin: nin);
+      ninIsVerified = (nin == db.getCurrentUser()?.nin);
+      if (!ninIsVerified) {
+        AppNotification.error(error: "Incorrect NIN, try again");
+      }
     }
   }
 

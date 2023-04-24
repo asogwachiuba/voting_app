@@ -14,11 +14,13 @@ import 'package:flutter/services.dart';
 class Assets {
   Assets._();
 
+  static const AssetGenImage appIcon = AssetGenImage('assets/appIcon.jpeg');
+  static const AssetGenImage backArrow = AssetGenImage('assets/back_arrow.png');
   static const SvgGenImage check = SvgGenImage('assets/check.svg');
   static const AssetGenImage goldBadge = AssetGenImage('assets/gold_badge.png');
 
   /// List of all assets
-  List<dynamic> get values => [check, goldBadge];
+  List<dynamic> get values => [appIcon, backArrow, check, goldBadge];
 }
 
 class AssetGenImage {
@@ -79,7 +81,16 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider() => AssetImage(_assetName);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
+  }
 
   String get path => _assetName;
 
@@ -106,9 +117,9 @@ class SvgGenImage {
     bool excludeFromSemantics = false,
     SvgTheme theme = const SvgTheme(),
     ColorFilter? colorFilter,
+    Clip clipBehavior = Clip.hardEdge,
     @deprecated Color? color,
     @deprecated BlendMode colorBlendMode = BlendMode.srcIn,
-    @deprecated Clip? clipBehavior,
     @deprecated bool cacheColorFilter = false,
   }) {
     return SvgPicture.asset(
@@ -128,6 +139,7 @@ class SvgGenImage {
       theme: theme,
       color: color,
       colorBlendMode: colorBlendMode,
+      clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,
     );
   }

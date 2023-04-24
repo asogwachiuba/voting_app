@@ -88,7 +88,8 @@ class ViewCandidatesView extends StatelessWidget {
                             candidateImgUrl:
                                 "https://source.unsplash.com/200x200/?portrait,John Doe",
                             candidateDescription:
-                                "This guy is a cool guy. He knows His way aroung and believes in people. He fights for what he wants and values family and friendships. Kisses, better dodge it.",
+                                "${viewModel.candidates[index][Keys.candidate]} is a ${viewModel.candidates[index][Keys.party]} member who is running for ${viewModel.electioncategory.name} election in Nigeria. They grew up in Nigeria and attended high school and prestigous university. After graduation, he engaged himself in political activities in which he executed well for his party and for the greater good of Nigeria."
+                                "\n  ${viewModel.candidates[index][Keys.candidate]} has always been passionate about political issue or community service, and has volunteered with several organizations focused on growth of Nigeria Economy and Nigerian citizens.",
                           );
                         },
                       ),

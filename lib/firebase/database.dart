@@ -356,8 +356,10 @@ class Database {
         .get()
         .then((value) => ninRef = value.data()?['nin']);
     if (ninRef.contains(nin)) {
+      AppNotification.notify(notificationMessage: "Nin verified");
       return true;
     }
+    logger.d("Am called");
     AppNotification.error(error: "Invalid Nin");
     return false;
   }

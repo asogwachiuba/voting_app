@@ -102,7 +102,13 @@ class AccreditationView extends StatelessWidget {
                     height: 24,
                   ),
                   TextFormField(
-                    onChanged: (value) => viewModel.validateNIN(nin: value),
+                    onChanged: (value) {
+                      if (value.length != 11) {
+                        return;
+                      }
+                      viewModel.validateNIN(nin: value);
+                    },
+                    maxLength: 11,
                     keyboardType: TextInputType.emailAddress,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(

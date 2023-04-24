@@ -18,6 +18,13 @@ class Authentication {
     db.nukeDb();
   }
 
+  forgotPassword({required String email}) async {
+    await firebaseAuth.sendPasswordResetEmail(email: email);
+    AppNotification.notify(
+        notificationMessage:
+            "Check your mail inbox [$email] to reset your password");
+  }
+
   Future<bool> updatePassword({required String newPassword}) async {
     final user = firebaseAuth.currentUser;
     if (user == null) {

@@ -2,6 +2,7 @@ import 'package:flutter/rendering.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:voting_app/features/candidate_options/view/candidate_options_view.dart';
+import 'package:voting_app/features/election_info/view/election_info_view.dart';
 import 'package:voting_app/features/election_options/view/election_options_view.dart';
 import 'package:voting_app/features/forgot_password/view/forgot_password_view.dart';
 import 'package:voting_app/features/home/view/home_view.dart';
@@ -39,6 +40,7 @@ import 'package:voting_app/firebase/database.dart';
   MaterialRoute(page: ResultSelectStateView),
   MaterialRoute(page: ResultSelectLocalGovernmentView),
   MaterialRoute(page: ViewResultView),
+  MaterialRoute(page: ElectionInfoView),
 ], dependencies: [
   LazySingleton(classType: Authentication),
   LazySingleton(classType: NavigationService),

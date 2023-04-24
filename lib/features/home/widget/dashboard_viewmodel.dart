@@ -2,6 +2,7 @@ import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/accreditation/view/accreditation_view.dart';
 import 'package:voting_app/features/candidate_options/view/candidate_options_view.dart';
+import 'package:voting_app/features/election_info/view/election_info_view.dart';
 import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/features/result_options/view/result_options_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
@@ -34,5 +35,9 @@ class DashboardViewModel extends VotingAppViewmodel {
 
   toResultOption() {
     navigationService.navigateToView(const ResultOptionsView());
+  }
+
+  toElectionInfo() {
+    navigationService.navigateToView(const ElectionInfoView());
   }
 }
