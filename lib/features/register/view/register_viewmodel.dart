@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -188,6 +189,7 @@ class RegisterViwModel extends VotingAppViewmodel {
   }
 
   faceAuthentication() async {
+    if (isFaceAuthenticated) return;
     try {
       isFaceAuthenticated = await localAuthentication.authenticate(
           localizedReason: 'Please validate with your face',
@@ -242,8 +244,13 @@ class RegisterViwModel extends VotingAppViewmodel {
       return;
     }
 
-    if (!isAuthenticated) {
+    if (defaultTargetPlatform != TargetPlatform.iOS && !isAuthenticated) {
       AppNotification.error(error: "Provide your fingerprint for registration");
+      return;
+    }
+
+    if (defaultTargetPlatform == TargetPlatform.iOS && !isFaceAuthenticated) {
+      AppNotification.error(error: "Face ID registration required");
       return;
     }
     isRegistering = true;

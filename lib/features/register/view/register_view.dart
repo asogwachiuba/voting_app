@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:stacked/stacked.dart';
@@ -431,46 +432,49 @@ class RegisterView extends StatelessWidget {
                                 const SizedBox(height: 16),
 
                                 // Fingerprint authentication
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Register your fingerprint",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18,
+                                if (defaultTargetPlatform != TargetPlatform.iOS)
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Register your fingerprint",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18,
+                                        ),
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    InkWell(
-                                      onTap: () => viewModel.authenticate(),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(4.0),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: 2.0,
+                                      const Spacer(),
+                                      InkWell(
+                                        onTap: () => viewModel.authenticate(),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 2.0,
+                                              color: viewModel.isAuthenticated
+                                                  ? ColorList.primaryColor
+                                                  : Colors.grey,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                          ),
+                                          child: Icon(
+                                            Icons.fingerprint,
+                                            size: 34.0,
                                             color: viewModel.isAuthenticated
                                                 ? ColorList.primaryColor
                                                 : Colors.grey,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
-                                        ),
-                                        child: Icon(
-                                          Icons.fingerprint,
-                                          size: 34.0,
-                                          color: viewModel.isAuthenticated
-                                              ? ColorList.primaryColor
-                                              : Colors.grey,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    if (viewModel.isAuthenticated)
+                                    if (defaultTargetPlatform !=
+                                            TargetPlatform.iOS &&
+                                        viewModel.isAuthenticated)
                                       const Text(
                                         'Successful',
                                         style: TextStyle(
