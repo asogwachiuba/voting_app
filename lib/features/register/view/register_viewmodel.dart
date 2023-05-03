@@ -13,6 +13,7 @@ import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
 import 'package:voting_app/util/notification.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
+import 'package:intl/intl.dart';
 
 class RegisterViwModel extends VotingAppViewmodel {
   /// Dependency Injection =====================================================
@@ -142,6 +143,13 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  Map<String, dynamic> _userNINDatabaseInfo = {};
+  Map<String, dynamic> get userNINDatabaseInfo => _userNINDatabaseInfo;
+  set userNINDatabaseInfo(Map<String, dynamic> newValue) {
+    _userNINDatabaseInfo = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
@@ -160,8 +168,33 @@ class RegisterViwModel extends VotingAppViewmodel {
       AppNotification.notify(notificationMessage: "NIN is already verified");
       return;
     }
-    isNinVerified = await db.ninVerification(nin: ninController.text);
-    return;
+    userNINDatabaseInfo =
+        await db.getUserNinDatabaseProfile(nin: ninController.text);
+    if (userNINDatabaseInfo.isEmpty) {
+      isNinVerified = false;
+      logger.d({
+        "The nin is: ${ninController.text} and the response is $userNINDatabaseInfo"
+      });
+      AppNotification.error(error: "NIN not valid. Enter your NIN correctly");
+    } else {
+      isNinVerified = true;
+      logger.d({
+        "The nin is: ${ninController.text} and the response is $userNINDatabaseInfo"
+      });
+      AppNotification.notify(notificationMessage: "NIN validation successful.");
+      updateUserInfoWithNIN();
+    }
+  }
+
+  updateUserInfoWithNIN() {
+    fullNameController.text =
+        "${userNINDatabaseInfo['lastName']} ${userNINDatabaseInfo['firstName']}";
+    phoneController.text = "${userNINDatabaseInfo['phoneNumber']}";
+    final f = DateFormat('yyyy-MM-dd');
+
+    dobController.text =
+        f.format(DateTime.parse(userNINDatabaseInfo['dateOfBirth']));
+    gender = userNINDatabaseInfo['gender'];
   }
 
   takePicture() async {
