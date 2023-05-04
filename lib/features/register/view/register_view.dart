@@ -140,27 +140,31 @@ class RegisterView extends StatelessWidget {
                                   },
                                 ),
                                 const SizedBox(height: 16),
-                                TextFormField(
-                                  controller: viewModel.fullNameController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                    labelText: 'Full Name',
-                                    prefixIcon: const Icon(
-                                        Icons.person_outline_outlined),
-                                    filled: true,
-                                    fillColor: Colors.grey.withOpacity(0.2),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                      borderSide:
-                                          const BorderSide(color: Colors.grey),
+                                Visibility(
+                                  visible: viewModel.isNinVerified,
+                                  child: TextFormField(
+                                    controller: viewModel.fullNameController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: InputDecoration(
+                                      enabled: false,
+                                      labelText: 'Full Name',
+                                      prefixIcon: const Icon(
+                                          Icons.person_outline_outlined),
+                                      filled: true,
+                                      fillColor: Colors.grey.withOpacity(0.2),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                      ),
                                     ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your full name';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your full name';
-                                    }
-                                    return null;
-                                  },
                                 ),
                                 const SizedBox(height: 16),
                                 TextFormField(
@@ -169,7 +173,6 @@ class RegisterView extends StatelessWidget {
                                   maxLength: 11,
                                   onChanged: (value) {
                                     if (value.length == 11) {
-                                      logger.d('Someone changed me');
                                       viewModel.validateNIN();
                                     }
                                   },
@@ -228,96 +231,117 @@ class RegisterView extends StatelessWidget {
                                       )
                                   ],
                                 ), */
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  readOnly: viewModel.isNinVerified,
-                                  controller: viewModel.phoneController,
-                                  keyboardType: TextInputType.phone,
-                                  maxLength: 11,
-                                  decoration: InputDecoration(
-                                    labelText: 'Phone Number',
-                                    prefixIcon: const Icon(Icons.phone),
-                                    filled: true,
-                                    fillColor: Colors.grey.withOpacity(0.2),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                      borderSide:
-                                          const BorderSide(color: Colors.grey),
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your phone number';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                TextFormField(
-                                  controller: viewModel.dobController,
-                                  onTap: () async {
-                                    DateTime? date = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime.now(),
-                                    );
-                                    if (date != null) {
-                                      if (date.isUnderage()) {
-                                        AppNotification.notify(
-                                            notificationMessage:
-                                                "You need to be up to 18 years to vote");
-                                        return;
-                                      }
-                                      viewModel.dobController.text =
-                                          '${date.month}/${date.day}/${date.year}';
-                                    }
-                                  },
-                                  keyboardType: TextInputType.datetime,
-                                  decoration: InputDecoration(
-                                    labelText: 'Date of Birth',
-                                    prefixIcon:
-                                        const Icon(Icons.calendar_today),
-                                    filled: true,
-                                    fillColor: Colors.grey.withOpacity(0.2),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                      borderSide:
-                                          const BorderSide(color: Colors.grey),
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your date of birth';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                DropdownButtonFormField(
-                                  isExpanded: true,
-                                  decoration: InputDecoration(
-                                    labelText: 'Select your gender',
-                                    filled: true,
-                                    fillColor: Colors.grey.withOpacity(0.2),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                      borderSide:
-                                          const BorderSide(color: Colors.grey),
-                                    ),
-                                  ),
-                                  value: viewModel.gender,
-                                  onChanged: ((value) =>
-                                      viewModel.selectGender(gender_: value)),
-                                  items: ["Male", "Female"].map((state) {
-                                    return DropdownMenuItem(
-                                      value: state,
-                                      child: Text(
-                                        state,
-                                        overflow: TextOverflow.ellipsis,
+                                Visibility(
+                                    visible: viewModel.isNinVerified,
+                                    child: const SizedBox(height: 16)),
+                                Visibility(
+                                  visible: viewModel.isNinVerified,
+                                  child: TextFormField(
+                                    readOnly: viewModel.isNinVerified,
+                                    controller: viewModel.phoneController,
+                                    keyboardType: TextInputType.phone,
+                                    maxLength: 11,
+                                    decoration: InputDecoration(
+                                      labelText: 'Phone Number',
+                                      enabled: false,
+                                      prefixIcon: const Icon(Icons.phone),
+                                      filled: true,
+                                      fillColor: Colors.grey.withOpacity(0.2),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
                                       ),
-                                    );
-                                  }).toList(),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your phone number';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                Visibility(
+                                    visible: viewModel.isNinVerified,
+                                    child: const SizedBox(height: 16)),
+                                Visibility(
+                                  visible: viewModel.isNinVerified,
+                                  child: TextFormField(
+                                    controller: viewModel.dobController,
+                                    onTap: () async {
+                                      /* DateTime? date = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime.now(),
+                                      );
+                                      if (date != null) {
+                                        if (date.isUnderage()) {
+                                          AppNotification.notify(
+                                              notificationMessage:
+                                                  "You need to be up to 18 years to vote");
+                                          return;
+                                        }
+                                        viewModel.dobController.text =
+                                            '${date.month}/${date.day}/${date.year}';
+                                      } */
+                                    },
+                                    keyboardType: TextInputType.datetime,
+                                    decoration: InputDecoration(
+                                      enabled: false,
+                                      labelText: 'Date of Birth',
+                                      prefixIcon:
+                                          const Icon(Icons.calendar_today),
+                                      filled: true,
+                                      fillColor: Colors.grey.withOpacity(0.2),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your date of birth';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: viewModel.isNinVerified,
+                                  child: const SizedBox(
+                                    height: 16,
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: viewModel.isNinVerified,
+                                  child: DropdownButtonFormField(
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      labelText: 'Select your gender',
+                                      enabled: false,
+                                      filled: true,
+                                      fillColor: Colors.grey.withOpacity(0.2),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                      ),
+                                    ),
+                                    value: viewModel.gender,
+                                    onChanged: ((value) =>
+                                        viewModel.selectGender(gender_: value)),
+                                    items: ["Male", "Female"].map((state) {
+                                      return DropdownMenuItem(
+                                        value: state,
+                                        child: Text(
+                                          state,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ),
                                 const SizedBox(height: 16),
                                 DropdownButtonFormField(
