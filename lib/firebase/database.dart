@@ -121,7 +121,7 @@ class Database {
     );
     return localGovernmentCandidates;
   }
-
+/*
   /// For sending data required to the database. Developer use only
   _sendLocalData({required Map<String, dynamic> data}) async {
     bool isSuccessful = false;
@@ -163,6 +163,7 @@ class Database {
 
     return isSuccessful;
   }
+  */
 
   Future<Map<String, dynamic>> getPresidentialResult(
       {required ELECTIONCATEGORY electioncategory}) async {
@@ -455,7 +456,7 @@ class Database {
     Hive.registerAdapter<VotingappUser>(VotingappUserAdapter());
 
     await Hive.openBox<VotingappUser>(Keys.currentUserBoxName);
-    await _sendLocalData(data: ElectionData.stateCandidates);
+    // await _sendLocalData(data: ElectionData.stateCandidates);
     // await vote(
     //     electioncategory: ELECTIONCATEGORY.presidential, partyAcronym: Keys.lp);
     // await vote(
