@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/features/register/view/register_view.dart';
+import 'package:voting_app/gen/assets.gen.dart';
 
 class OnboardingViewmodel extends VotingAppViewmodel {
   /// States and variables =====================================================
@@ -17,11 +17,6 @@ class OnboardingViewmodel extends VotingAppViewmodel {
     'Cast your vote and make your voice heard.'
   ];
 
-  final List<IconData> icons = [
-    Icons.check_circle_outline,
-    Icons.account_circle_outlined,
-    Icons.how_to_vote_outlined
-  ];
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
   set currentIndex(int newValue) {

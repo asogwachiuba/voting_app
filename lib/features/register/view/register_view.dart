@@ -326,7 +326,8 @@ class RegisterView extends StatelessWidget {
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(16),
                                         borderSide: const BorderSide(
-                                            color: Colors.grey),
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
                                     value: viewModel.gender,

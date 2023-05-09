@@ -18,9 +18,23 @@ class Assets {
   static const AssetGenImage backArrow = AssetGenImage('assets/back_arrow.png');
   static const SvgGenImage check = SvgGenImage('assets/check.svg');
   static const AssetGenImage goldBadge = AssetGenImage('assets/gold_badge.png');
+  static const AssetGenImage onboarding1 =
+      AssetGenImage('assets/onboarding1.png');
+  static const AssetGenImage onboarding2 =
+      AssetGenImage('assets/onboarding2.png');
+  static const AssetGenImage onboarding3 =
+      AssetGenImage('assets/onboarding3.png');
 
   /// List of all assets
-  List<dynamic> get values => [appIcon, backArrow, check, goldBadge];
+  List<dynamic> get values => [
+        appIcon,
+        backArrow,
+        check,
+        goldBadge,
+        onboarding1,
+        onboarding2,
+        onboarding3
+      ];
 }
 
 class AssetGenImage {

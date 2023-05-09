@@ -192,8 +192,15 @@ class RegisterViwModel extends VotingAppViewmodel {
     phoneController.text = "${userNINDatabaseInfo['phoneNumber']}";
     final f = DateFormat('yyyy-MM-dd');
 
-    dobController.text =
-        f.format(DateTime.parse(userNINDatabaseInfo['dateOfBirth']));
+    // Date of birth validation
+    final dob = DateTime.parse(userNINDatabaseInfo['dateOfBirth']);
+    if (DateTime.now().year - dob.year < 18) {
+      isNinVerified = false;
+      AppNotification.error(
+          error: "Your not up to 18 years. You are not qualified to vote");
+      return;
+    }
+    dobController.text = f.format(dob);
     gender = userNINDatabaseInfo['gender'];
   }
 
