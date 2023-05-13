@@ -20,6 +20,7 @@ class Assets {
   static const AssetGenImage goldBadge = AssetGenImage('assets/gold_badge.png');
   static const SvgGenImage icAccountVerification =
       SvgGenImage('assets/ic_account_verification.svg');
+  static const SvgGenImage icBack = SvgGenImage('assets/ic_back.svg');
   static const SvgGenImage icCamera = SvgGenImage('assets/ic_camera.svg');
   static const SvgGenImage icCandidates =
       SvgGenImage('assets/ic_candidates.svg');
@@ -53,6 +54,7 @@ class Assets {
         check,
         goldBadge,
         icAccountVerification,
+        icBack,
         icCamera,
         icCandidates,
         icCorrect,

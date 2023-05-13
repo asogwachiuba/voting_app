@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/election_options/view/election_options_viewmodel.dart';
-import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
-import 'package:voting_app/features/home/widget/dashboard_button.dart';
 import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/widgets/option_tile.dart';
+import 'package:voting_app/widgets/options_app_bar.dart';
 
 class ElectionOptionsView extends StatelessWidget {
   const ElectionOptionsView({super.key});
@@ -15,7 +14,45 @@ class ElectionOptionsView extends StatelessWidget {
       viewModelBuilder: (() => ElectionOptionsViewModel()),
       builder: (context, viewModel, child) => Scaffold(
         body: SizedBox.expand(
-          child: Stack(
+          child: Column(
+            children: [
+              const OptionsAppBar(
+                title: 'Election Accreditation',
+                subtitle: "Select your election category you want to vote for",
+              ),
+              OptionTile(
+                title: 'PRESIDENTIAL',
+                onPressed: () {
+                  viewModel.toCastVote(
+                      electionCategory: ELECTIONCATEGORY.presidential);
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              OptionTile(
+                title: 'GUBERNATORIAL',
+                onPressed: () {
+                  viewModel.toCastVote(
+                      electionCategory: ELECTIONCATEGORY.gubernatorial);
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              OptionTile(
+                title: 'LOCAL GOVERNMENT CHAIRMAN',
+                onPressed: () {
+                  viewModel.toCastVote(
+                      electionCategory: ELECTIONCATEGORY.localGovernment);
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+            ],
+          ),
+          /*Stack(
             children: [
               CustomPaint(
                 size: const Size(double.infinity, double.infinity),
@@ -90,7 +127,7 @@ class ElectionOptionsView extends StatelessWidget {
                 ),
               )
             ],
-          ),
+          ),*/
         ),
       ),
     );
