@@ -18,6 +18,19 @@ class Assets {
   static const AssetGenImage backArrow = AssetGenImage('assets/back_arrow.png');
   static const SvgGenImage check = SvgGenImage('assets/check.svg');
   static const AssetGenImage goldBadge = AssetGenImage('assets/gold_badge.png');
+  static const SvgGenImage icAccountVerification =
+      SvgGenImage('assets/ic_account_verification.svg');
+  static const SvgGenImage icCamera = SvgGenImage('assets/ic_camera.svg');
+  static const SvgGenImage icCorrect = SvgGenImage('assets/ic_correct.svg');
+  static const AssetGenImage icFaceJpeg = AssetGenImage('assets/ic_face.jpeg');
+  static const SvgGenImage icFaceSvg = SvgGenImage('assets/ic_face.svg');
+  static const SvgGenImage icFingerprint =
+      SvgGenImage('assets/ic_fingerprint.svg');
+  static const SvgGenImage icGood = SvgGenImage('assets/ic_good.svg');
+  static const SvgGenImage icLock = SvgGenImage('assets/ic_lock.svg');
+  static const AssetGenImage icSecutiry =
+      AssetGenImage('assets/ic_secutiry.png');
+  static const SvgGenImage icSteps = SvgGenImage('assets/ic_steps.svg');
   static const AssetGenImage onboarding1 =
       AssetGenImage('assets/onboarding1.png');
   static const AssetGenImage onboarding2 =
@@ -31,6 +44,16 @@ class Assets {
         backArrow,
         check,
         goldBadge,
+        icAccountVerification,
+        icCamera,
+        icCorrect,
+        icFaceJpeg,
+        icFaceSvg,
+        icFingerprint,
+        icGood,
+        icLock,
+        icSecutiry,
+        icSteps,
         onboarding1,
         onboarding2,
         onboarding3

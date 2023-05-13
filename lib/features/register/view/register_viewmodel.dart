@@ -10,6 +10,7 @@ import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/login/view/login_view.dart';
+import 'package:voting_app/features/registration_successful/view/registration_successful_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
 import 'package:voting_app/util/notification.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
@@ -57,6 +58,13 @@ class RegisterViwModel extends VotingAppViewmodel {
   String? get selectedWard => _selectedWard;
   set selectedWard(String? newValue) {
     _selectedWard = newValue;
+    notifyListeners();
+  }
+
+  int _currentStep = 0;
+  int get currentStep => _currentStep;
+  set currentStep(int newValue) {
+    _currentStep = newValue;
     notifyListeners();
   }
 
@@ -158,6 +166,47 @@ class RegisterViwModel extends VotingAppViewmodel {
     isFaceIdAvaiable();
   }
 
+  nextStep() {
+    if (fullNameController.text.isEmpty ||
+        ninController.text.isEmpty ||
+        dobController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneController.text.isEmpty) {
+      AppNotification.error(error: "Fill in all the text fields");
+      return;
+    }
+
+    if (!isNinVerified) {
+      AppNotification.error(error: "Verify your NIN");
+      return;
+    }
+
+    if (ninController.text != userNINDatabaseInfo['nin']) {
+      AppNotification.error(
+          error: "NIN has been updated after validation. Re-validate your NIN");
+      // Enables user to re-validate NIN
+      isNinVerified = false;
+
+      return;
+    }
+
+    if (gender == null || gender!.isEmpty) {
+      AppNotification.error(error: "Select your gender");
+      return;
+    }
+
+    if (selectedState == null ||
+        selectedLocalGovernment == null ||
+        selectedWard == null ||
+        selectedPollingUnits == null) {
+      AppNotification.error(error: "Provide your election location details");
+      return;
+    }
+
+    // Goes to next step
+    currentStep = 1;
+  }
+
   validateNIN() async {
     if (ninController.text.length < 11) {
       AppNotification.error(error: "NIN should have 11 digits");
@@ -170,6 +219,12 @@ class RegisterViwModel extends VotingAppViewmodel {
     }
     userNINDatabaseInfo =
         await db.getUserNinDatabaseProfile(nin: ninController.text);
+    // Checks if NIN is already registered
+    if (userNINDatabaseInfo['isRegisteredVoter'] == true) {
+      AppNotification.error(error: "NIN profile is already a registered voter");
+      userNINDatabaseInfo.clear();
+      return;
+    }
     if (userNINDatabaseInfo.isEmpty) {
       isNinVerified = false;
       logger.d({
@@ -178,6 +233,8 @@ class RegisterViwModel extends VotingAppViewmodel {
       AppNotification.error(error: "NIN not valid. Enter your NIN correctly");
     } else {
       isNinVerified = true;
+      final nin = <String, String>{'nin': ninController.text};
+      userNINDatabaseInfo.addEntries(nin.entries);
       logger.d({
         "The nin is: ${ninController.text} and the response is $userNINDatabaseInfo"
       });
@@ -250,33 +307,6 @@ class RegisterViwModel extends VotingAppViewmodel {
   }
 
   register() async {
-    if (fullNameController.text.isEmpty ||
-        ninController.text.isEmpty ||
-        dobController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        phoneController.text.isEmpty) {
-      AppNotification.error(error: "Fill in all the text fields");
-      return;
-    }
-
-    if (!isNinVerified) {
-      AppNotification.error(error: "Verify your NIN");
-      return;
-    }
-
-    if (gender == null || gender!.isEmpty) {
-      AppNotification.error(error: "Select your gender");
-      return;
-    }
-
-    if (selectedState == null ||
-        selectedLocalGovernment == null ||
-        selectedWard == null ||
-        selectedPollingUnits == null) {
-      AppNotification.error(error: "Provide your election location details");
-      return;
-    }
-
     if (imageFile == null) {
       AppNotification.notify(
           notificationMessage:
@@ -312,12 +342,12 @@ class RegisterViwModel extends VotingAppViewmodel {
     );
     isRegistering = false;
     if (isUserRegistered) {
-      toLogin();
+      toRegistrationSuccessful();
     }
   }
 
-  toLogin() {
-    navigationService.navigateToView(const LoginView());
+  toRegistrationSuccessful() {
+    navigationService.navigateToView(const RegistrationSuccessfulView());
   }
 
   authenticate() async {
