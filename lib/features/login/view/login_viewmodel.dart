@@ -60,7 +60,7 @@ class LoginViewModel extends VotingAppViewmodel {
   }
 
   toHome() {
-    navigationService.navigateToView(const HomeView());
+    navigationService.navigateToView(HomeView());
   }
 
   login() async {

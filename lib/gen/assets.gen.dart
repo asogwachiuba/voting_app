@@ -21,16 +21,24 @@ class Assets {
   static const SvgGenImage icAccountVerification =
       SvgGenImage('assets/ic_account_verification.svg');
   static const SvgGenImage icCamera = SvgGenImage('assets/ic_camera.svg');
+  static const SvgGenImage icCandidates =
+      SvgGenImage('assets/ic_candidates.svg');
   static const SvgGenImage icCorrect = SvgGenImage('assets/ic_correct.svg');
+  static const AssetGenImage icEmail = AssetGenImage('assets/ic_email.png');
   static const AssetGenImage icFaceJpeg = AssetGenImage('assets/ic_face.jpeg');
   static const SvgGenImage icFaceSvg = SvgGenImage('assets/ic_face.svg');
   static const SvgGenImage icFingerprint =
       SvgGenImage('assets/ic_fingerprint.svg');
   static const SvgGenImage icGood = SvgGenImage('assets/ic_good.svg');
+  static const SvgGenImage icInfo = SvgGenImage('assets/ic_info.svg');
   static const SvgGenImage icLock = SvgGenImage('assets/ic_lock.svg');
+  static const SvgGenImage icProfile = SvgGenImage('assets/ic_profile.svg');
+  static const SvgGenImage icResults = SvgGenImage('assets/ic_results.svg');
   static const AssetGenImage icSecutiry =
       AssetGenImage('assets/ic_secutiry.png');
   static const SvgGenImage icSteps = SvgGenImage('assets/ic_steps.svg');
+  static const SvgGenImage icVotingPoll =
+      SvgGenImage('assets/ic_voting_poll.svg');
   static const AssetGenImage onboarding1 =
       AssetGenImage('assets/onboarding1.png');
   static const AssetGenImage onboarding2 =
@@ -46,14 +54,20 @@ class Assets {
         goldBadge,
         icAccountVerification,
         icCamera,
+        icCandidates,
         icCorrect,
+        icEmail,
         icFaceJpeg,
         icFaceSvg,
         icFingerprint,
         icGood,
+        icInfo,
         icLock,
+        icProfile,
+        icResults,
         icSecutiry,
         icSteps,
+        icVotingPoll,
         onboarding1,
         onboarding2,
         onboarding3

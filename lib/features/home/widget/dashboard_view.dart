@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/features/home/widget/dashbboard_tabs.dart';
 import 'package:voting_app/features/home/widget/dashboard_button.dart';
 import 'package:voting_app/features/home/widget/dashboard_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:voting_app/gen/assets.gen.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -15,17 +17,130 @@ class DashboardView extends StatelessWidget {
       onViewModelReady: (viewModel) => viewModel.onReady(),
       builder: ((context, viewModel, child) => Stack(
             children: [
-              // CustomPaint(
-              //   size: const Size(double.infinity, double.infinity),
-              //   painter: DashboardBackgroundPainter(),
-              // ),
               SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      // Persnal Info
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 25,
+                          horizontal: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          viewModel.user?.profileImageUrl ?? "",
+                                      height: 40,
+                                      width: 40,
+                                      fit: BoxFit.fill,
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                        Icons.person,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Hello ${viewModel.user?.fullName ?? ""}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      const Text(
+                                        'Welcome to the Voting App',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () => viewModel.logOut(),
+                                    child: const Card(
+                                      color: Color.fromARGB(255, 212, 238, 221),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(6.0),
+                                        child: Icon(
+                                          Icons.power_settings_new,
+                                          color: ColorList.darkGreen,
+                                          size: 22,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Tabs
+                      DashboardTabs(
+                        icons: Assets.icVotingPoll.svg(),
+                        title: "Voting Poll",
+                        subtitle:
+                            "Find and vote your preferred candidates by just selecting the type of election and casting your votes.",
+                        onPresed: viewModel.toAccreditation,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      DashboardTabs(
+                        icons: Assets.icCandidates.svg(),
+                        title: "Election Candidates",
+                        subtitle:
+                            "Find your preferred candidates and other candidates by selecting the type of election category and states, local government where applicable.",
+                        onPresed: viewModel.toCandidateOptions,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      DashboardTabs(
+                        icons: Assets.icResults.svg(),
+                        title: "Election Results",
+                        subtitle:
+                            "Check live updates of election votes count for various categories, states and local government.",
+                        onPresed: viewModel.toResultOption,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      DashboardTabs(
+                        icons: Assets.icInfo.svg(),
+                        title: "Election Info",
+                        subtitle:
+                            "For more information on the election process and FAQ.",
+                        onPresed: viewModel.toElectionInfo,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+
+                      /* Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ClipRRect(
@@ -125,7 +240,7 @@ class DashboardView extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ),

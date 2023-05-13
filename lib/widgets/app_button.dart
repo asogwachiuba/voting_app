@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
     this.borderRadius = 16,
     this.height,
     this.width,
+    this.textStyle,
   });
   final VoidCallback onPressed_;
   final String buttonName;
@@ -17,6 +18,7 @@ class AppButton extends StatelessWidget {
   final double borderRadius;
   final double? width;
   final double? height;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +34,12 @@ class AppButton extends StatelessWidget {
       ),
       child: Text(
         buttonName,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
+        style: textStyle ??
+            const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
       ),
     );
   }

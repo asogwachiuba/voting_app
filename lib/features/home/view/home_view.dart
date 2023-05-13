@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/home/view/home_viewmodel.dart';
 import 'package:voting_app/features/home/widget/dashboard_view.dart';
 import 'package:voting_app/features/home/widget/settings_view.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
-
+  HomeView({super.key});
+  final List<Widget> homeScreens = <Widget>[
+    const DashboardView(),
+    const SettingsView(),
+  ];
   @override
   Widget build(BuildContext context) {
-    const List<Widget> homeScreens = <Widget>[
-      DashboardView(),
-      SettingsView(),
-    ];
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: (() => HomeViewModel()),
       builder: (context, viewModel, child) => Scaffold(
