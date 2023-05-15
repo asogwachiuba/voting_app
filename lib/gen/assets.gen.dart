@@ -25,6 +25,8 @@ class Assets {
   static const SvgGenImage icCandidates =
       SvgGenImage('assets/ic_candidates.svg');
   static const SvgGenImage icCorrect = SvgGenImage('assets/ic_correct.svg');
+  static const SvgGenImage icElectionType =
+      SvgGenImage('assets/ic_election_type.svg');
   static const AssetGenImage icEmail = AssetGenImage('assets/ic_email.png');
   static const AssetGenImage icFaceJpeg = AssetGenImage('assets/ic_face.jpeg');
   static const SvgGenImage icFaceSvg = SvgGenImage('assets/ic_face.svg');
@@ -46,6 +48,10 @@ class Assets {
       AssetGenImage('assets/onboarding2.png');
   static const AssetGenImage onboarding3 =
       AssetGenImage('assets/onboarding3.png');
+  static const SvgGenImage stepFour = SvgGenImage('assets/step_four.svg');
+  static const SvgGenImage stepOne = SvgGenImage('assets/step_one.svg');
+  static const SvgGenImage stepThree = SvgGenImage('assets/step_three.svg');
+  static const SvgGenImage stepTwo = SvgGenImage('assets/step_two.svg');
 
   /// List of all assets
   List<dynamic> get values => [
@@ -58,6 +64,7 @@ class Assets {
         icCamera,
         icCandidates,
         icCorrect,
+        icElectionType,
         icEmail,
         icFaceJpeg,
         icFaceSvg,
@@ -72,7 +79,11 @@ class Assets {
         icVotingPoll,
         onboarding1,
         onboarding2,
-        onboarding3
+        onboarding3,
+        stepFour,
+        stepOne,
+        stepThree,
+        stepTwo
       ];
 }
 

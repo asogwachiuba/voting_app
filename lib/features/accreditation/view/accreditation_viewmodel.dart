@@ -19,18 +19,19 @@ class AccreditationViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  int _currentStep = 0;
+  int get currentStep => _currentStep;
+  set currentStep(int newValue) {
+    _currentStep = newValue;
+    notifyListeners();
+  }
+
   bool _ninIsVerified = false;
   bool get ninIsVerified => _ninIsVerified;
   set ninIsVerified(bool newValue) {
     _ninIsVerified = newValue;
     notifyListeners();
   }
-
-  //  Both images differs
-  // var a = Uri.parse(
-  //     'https://fujifilm-x.com/wp-content/uploads/2019/08/x-t30_sample-images03.jpg');
-  // var b = Uri.parse(
-  //     'https://hs.sbcounty.gov/cn/Photo%20Gallery/Sample%20Picture%20-%20Koala.jpg');
 
   // TODO: should be gotten from user info
   bool _isAmputee = false;
@@ -41,14 +42,6 @@ class AccreditationViewModel extends VotingAppViewmodel {
   }
 
   /// Methods ==================================================================
-  // compare() async {
-  //   var result = await compareImages(
-  //     src1: a,
-  //     src2: b,
-  //     // algorithm: IMED(blurRatio: 0.001),
-  //   );
-  //   logger.d("The result is $result");
-  // }
 
   authenticate() async {
     if (isAuthenticated) return;
@@ -82,5 +75,9 @@ class AccreditationViewModel extends VotingAppViewmodel {
 
   back() {
     navigationService.back();
+  }
+
+  toNextStep() {
+    currentStep++;
   }
 }

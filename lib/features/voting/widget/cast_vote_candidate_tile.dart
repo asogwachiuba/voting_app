@@ -25,86 +25,68 @@ class CastVoteCandidateTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.grey,
-              )),
-          child: Row(
-            children: [
-              CachedNetworkImage(
-                height: 100,
-                width: 80,
-                imageUrl:
-                    PartyImageLogo.getPartyImageUrl(partyAcronym: partyAcronym),
-                fit: BoxFit.fill,
-                errorWidget: (context, url, error) => const Icon(
-                  Icons.person,
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.only(
+          left: 15,
+          right: 30,
+          top: 8,
+          bottom: 8,
+        ),
+        decoration: const BoxDecoration(
+          color: Color(0XFFF5F5F5),
+          border: Border.symmetric(
+            horizontal: BorderSide(
+              color: Color.fromRGBO(0, 0, 0, 0.1),
+              width: 1,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            CachedNetworkImage(
+              height: 50,
+              width: 50,
+              imageUrl:
+                  PartyImageLogo.getPartyImageUrl(partyAcronym: partyAcronym),
+              fit: BoxFit.fill,
+              errorWidget: (context, url, error) => const Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Text(
+                candidateName,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(
-                width: 10,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            InkWell(
+              onTap: () {
+                onVote(
+                  candidateName,
+                  candidateImgUrl,
+                  partyAcronym,
+                );
+              },
+              child: const Icon(
+                Icons.keyboard_arrow_right,
+                size: 20,
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 5.0,
-                    top: 15.0,
-                    bottom: 15.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        candidateName,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black.withOpacity(0.5)),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        candidateParty,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: ColorList.primaryColor),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                color: ColorList.primaryColor,
-                elevation: 15,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.how_to_vote,
-                    color: Colors.white,
-                    size: 35,
-                  ),
-                  onPressed: () {
-                    onVote(
-                      candidateName,
-                      candidateImgUrl,
-                      partyAcronym,
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

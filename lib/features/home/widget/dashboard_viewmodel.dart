@@ -26,7 +26,7 @@ class DashboardViewModel extends VotingAppViewmodel {
   }
 
   toAccreditation() {
-    navigationService.navigateToView(const AccreditationView());
+    navigationService.navigateToView(AccreditationView());
   }
 
   toCandidateOptions() {

@@ -66,6 +66,11 @@ class LoginView extends StatelessWidget {
                         TextFormField(
                           controller: viewModel.emailController,
                           keyboardType: TextInputType.emailAddress,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          cursorHeight: 10,
                           decoration: InputDecoration(
                             labelText: 'Email',
                             labelStyle: const TextStyle(
@@ -102,6 +107,11 @@ class LoginView extends StatelessWidget {
                         TextFormField(
                           controller: viewModel.passwordController,
                           obscureText: true,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          cursorHeight: 10,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             labelStyle: const TextStyle(
