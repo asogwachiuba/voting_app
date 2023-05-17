@@ -9,7 +9,6 @@ import 'package:voting_app/constants/election_data.dart';
 import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
-import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/features/registration_successful/view/registration_successful_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
 import 'package:voting_app/util/notification.dart';
@@ -61,7 +60,7 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
-  int _currentStep = 0;
+  int _currentStep = 1;
   int get currentStep => _currentStep;
   set currentStep(int newValue) {
     _currentStep = newValue;

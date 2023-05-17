@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:stacked/stacked.dart';
+import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/register/view/register_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
@@ -136,6 +137,22 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
                             ? Colors.black
                             : Colors.black.withOpacity(0.4),
                       ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (viewModel.isAuthenticated)
+                    const Text(
+                      'Successful',
+                      style: TextStyle(color: ColorList.primaryColor),
+                    ),
+                  Checkbox(
+                    value: viewModel.isAmputee,
+                    onChanged: (_) => viewModel.toggleAmputee(),
+                  ),
+                  const SizedBox(width: 8.0),
+                  const Text('I am an amputee'),
+                ],
               ),
               const SizedBox(
                 height: 30,

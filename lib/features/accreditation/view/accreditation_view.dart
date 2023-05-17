@@ -16,6 +16,7 @@ class AccreditationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<AccreditationViewModel>.reactive(
       viewModelBuilder: (() => AccreditationViewModel()),
+      onViewModelReady: (viewModel) => viewModel.onReady(),
       builder: (context, viewModel, child) => Scaffold(
         body: SafeArea(
           child: SizedBox.expand(

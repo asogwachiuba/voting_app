@@ -32,7 +32,6 @@ class AccreditationViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
-  // TODO: should be gotten from user info
   bool _isAmputee = false;
   bool get isAmputee => _isAmputee;
   set isAmputee(bool newValue) {
@@ -48,6 +47,11 @@ class AccreditationViewModel extends VotingAppViewmodel {
   }
 
   /// Methods ==================================================================
+
+  onReady() {
+    final user = db.getCurrentUser();
+    isAmputee = user?.isAmputee ?? false;
+  }
 
   authenticate() async {
     if (isAuthenticated) {
