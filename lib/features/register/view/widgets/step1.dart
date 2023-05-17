@@ -127,6 +127,46 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
             visible: viewModel.isNinVerified,
             child: TextFormField(
               readOnly: viewModel.isNinVerified,
+              controller: viewModel.fullNameController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+                enabled: false,
+                // prefixIcon: const Icon(Icons.phone),
+                filled: true,
+                fillColor: const Color.fromRGBO(217, 217, 217, 0.42),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  borderSide:
+                      const BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1)),
+                ),
+                constraints: const BoxConstraints.expand(height: 50),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your phone number';
+                }
+                return null;
+              },
+            ),
+          ),
+          Visibility(
+            visible: viewModel.isNinVerified,
+            child: const SizedBox(
+              height: 30,
+            ),
+          ),
+
+          // Phone number
+          Visibility(
+            visible: viewModel.isNinVerified,
+            child: TextFormField(
+              readOnly: viewModel.isNinVerified,
               controller: viewModel.phoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
@@ -156,8 +196,11 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
             ),
           ),
           Visibility(
-              visible: viewModel.isNinVerified,
-              child: const SizedBox(height: 30)),
+            visible: viewModel.isNinVerified,
+            child: const SizedBox(
+              height: 30,
+            ),
+          ),
 
           // Date of birth
           Visibility(
