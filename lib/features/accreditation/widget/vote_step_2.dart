@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/features/accreditation/view/accreditation_viewmodel.dart';
@@ -37,7 +38,9 @@ class VoteStep2 extends ViewModelWidget<AccreditationViewModel> {
             height: MediaQuery.of(context).size.height * 0.1,
           ),
           InkWell(
-            onTap: () => viewModel.authenticate(),
+            onTap: () => (defaultTargetPlatform == TargetPlatform.iOS)
+                ? viewModel.faceAuthentication()
+                : viewModel.authenticate(),
             child: Assets.icFingerprint.svg(
               height: 148,
               width: 148,
