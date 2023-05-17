@@ -39,59 +39,72 @@ class CastVoteView extends StatelessWidget {
                   ],
                 ),
               )
-            : Column(
-                children: [
-                  OptionsAppBar(
-                    title: "${electionCategory.name.toUpperCase()} ELECTION",
-                    subtitle: (electionCategory ==
-                                ELECTIONCATEGORY.gubernatorial ||
-                            electionCategory ==
-                                ELECTIONCATEGORY.localGovernment)
-                        ? "${viewModel.user?.electionState} State, Nigeria ${(electionCategory == ELECTIONCATEGORY.localGovernment) ? "\n${viewModel.user?.electionLocalGovernment}" : ""}"
-                        : "NIGERIA",
-                  ),
-                  Assets.stepTwo.svg(
-                    width: 125,
-                    height: 12,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    'Step 4 of 4',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black.withOpacity(0.7)),
-                  ),
-                  viewModel.isBusy
-                      ? const Expanded(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 10,
-                              color: ColorList.lightGreen,
+            : Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Column(
+                  children: [
+                    OptionsAppBar(
+                      title: "${electionCategory.name.toUpperCase()} ELECTION",
+                      subtitle: (electionCategory ==
+                                  ELECTIONCATEGORY.gubernatorial ||
+                              electionCategory ==
+                                  ELECTIONCATEGORY.localGovernment)
+                          ? "${viewModel.user?.electionState} State, Nigeria ${(electionCategory == ELECTIONCATEGORY.localGovernment) ? "\n${viewModel.user?.electionLocalGovernment} Local Government Area" : ""}"
+                          : "NIGERIA",
+                    ),
+                    Assets.stepTwo.svg(
+                      width: 125,
+                      height: 12,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Step 4 of 4',
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      'Select your preferred candidate',
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black.withOpacity(0.7)),
+                    ),
+                    viewModel.isBusy
+                        ? const Expanded(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 10,
+                                color: ColorList.lightGreen,
+                              ),
+                            ),
+                          )
+                        : Expanded(
+                            child: ListView.builder(
+                              itemCount: viewModel.candidates.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return CastVoteCandidateTile(
+                                  candidateName: viewModel.candidates[index]
+                                      [Keys.candidate],
+                                  candidateParty: viewModel.candidates[index]
+                                      [Keys.party],
+                                  candidateImgUrl:
+                                      "https://source.unsplash.com/200x200/?portrait,John Doe",
+                                  partyAcronym: viewModel.candidates[index]
+                                      ["acronym"],
+                                  onVote: viewModel.vote,
+                                );
+                              },
                             ),
                           ),
-                        )
-                      : Expanded(
-                          child: ListView.builder(
-                            itemCount: viewModel.candidates.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return CastVoteCandidateTile(
-                                candidateName: viewModel.candidates[index]
-                                    [Keys.candidate],
-                                candidateParty: viewModel.candidates[index]
-                                    [Keys.party],
-                                candidateImgUrl:
-                                    "https://source.unsplash.com/200x200/?portrait,John Doe",
-                                partyAcronym: viewModel.candidates[index]
-                                    ["acronym"],
-                                onVote: viewModel.vote,
-                              );
-                            },
-                          ),
-                        ),
-                ],
+                  ],
+                ),
               ),
       ),
     );

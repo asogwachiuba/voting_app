@@ -24,70 +24,133 @@ class CastVoteCandidateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 30,
-          top: 8,
-          bottom: 8,
-        ),
-        decoration: const BoxDecoration(
-          color: Color(0XFFF5F5F5),
-          border: Border.symmetric(
-            horizontal: BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              width: 1,
-            ),
-          ),
-        ),
-        child: Row(
-          children: [
-            CachedNetworkImage(
-              height: 50,
-              width: 50,
-              imageUrl:
-                  PartyImageLogo.getPartyImageUrl(partyAcronym: partyAcronym),
-              fit: BoxFit.fill,
-              errorWidget: (context, url, error) => const Icon(
-                Icons.person,
-                color: Colors.black,
+    Future<void> _showVoteDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'You selected $candidateParty',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            const SizedBox(
-              width: 20,
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Vote for $candidateName in this Election',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Expanded(
-              child: Text(
-                candidateName,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
+            actions: <Widget>[
+              TextButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Yes, please'),
+                onPressed: () {
+                  onVote(
+                    candidateName,
+                    candidateImgUrl,
+                    partyAcronym,
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(
+              left: 15,
+              right: 30,
+              top: 8,
+              bottom: 8,
+            ),
+            decoration: const BoxDecoration(
+              color: Color(0XFFF5F5F5),
+              border: Border.symmetric(
+                horizontal: BorderSide(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  width: 1,
                 ),
               ),
             ),
-            const SizedBox(
-              width: 10,
+            child: Row(
+              children: [
+                CachedNetworkImage(
+                  height: 50,
+                  width: 50,
+                  imageUrl: PartyImageLogo.getPartyImageUrl(
+                      partyAcronym: partyAcronym),
+                  fit: BoxFit.fill,
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.person,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Text(
+                    candidateName,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    _showVoteDialog();
+                  },
+                  child: const Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 20,
+                  ),
+                )
+              ],
             ),
-            InkWell(
-              onTap: () {
-                onVote(
-                  candidateName,
-                  candidateImgUrl,
-                  partyAcronym,
-                );
-              },
-              child: const Icon(
-                Icons.keyboard_arrow_right,
-                size: 20,
-              ),
-            )
-          ],
-        ),
+          ),
+          Positioned(
+              top: -15,
+              right: 15,
+              child: Text(
+                candidateParty,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ))
+        ],
       ),
     );
   }
