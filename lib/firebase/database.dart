@@ -449,6 +449,16 @@ class Database {
     return userDatabaseInfo;
   }
 
+  /// Updates NIN profile once a user has registered with it
+  updateNINRegistrationStatus({required String nin}) {
+    final ninDatabaseRef = db.collection("Election Data").doc('NIN');
+    ninDatabaseRef.update(
+      {
+        'ninDatabase.$nin.isRegisteredVoter': true,
+      },
+    ).then((value) => logger.d("I am now a registered voter with $nin"));
+  }
+
   /// Local database ===========================================================
 
   Future initializeDb() async {

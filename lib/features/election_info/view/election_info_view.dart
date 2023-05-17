@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/features/election_info/view/election_info_viewmodel.dart';
 import 'package:voting_app/features/election_info/widgets/info_tile.dart';
+import 'package:voting_app/widgets/options_app_bar.dart';
 
 class ElectionInfoView extends StatelessWidget {
   const ElectionInfoView({super.key});
@@ -12,56 +13,29 @@ class ElectionInfoView extends StatelessWidget {
         viewModelBuilder: () => ElectionInfoViewmodel(),
         builder: (context, viewModel, child) => Scaffold(
               backgroundColor: Colors.white,
-              body: SizedBox.expand(
-                child: Padding(
-                  padding: const EdgeInsets.all(40.0),
+              body: SafeArea(
+                child: SizedBox.expand(
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        InkWell(
-                          onTap: () => viewModel.back(),
-                          child: const Icon(
-                            Icons.keyboard_backspace,
-                            color: Colors.black,
-                            size: 40,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const Text(
-                          "Voting App Guide",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Text(
-                          "Election Guide and Information",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 32,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
+                        const OptionsAppBar(
+                          title: 'Voting App Guide',
+                          subtitle: "Click on the buttons for more information",
                         ),
 
                         // Lists of infrmation tiles
-                        Column(
-                          children: viewModel.electionInfo
-                              .map(
-                                (info) => InfoTile(
-                                    content: info["content"] ?? "",
-                                    title: info["title"] ?? ""),
-                              )
-                              .toList(),
+                        Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: Column(
+                            children: viewModel.electionInfo
+                                .map(
+                                  (info) => InfoTile(
+                                      content: info["content"] ?? "",
+                                      title: info["title"] ?? ""),
+                                )
+                                .toList(),
+                          ),
                         ),
                       ],
                     ),

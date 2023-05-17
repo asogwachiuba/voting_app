@@ -12,6 +12,51 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _showLogoutDialog({required VoidCallback logout}) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Do you want to Logout',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text(
+                    'Click YES to logout, if you want to logout',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                onPressed: logout,
+                child: const Text('Yes'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return ViewModelBuilder<DashboardViewModel>.reactive(
       viewModelBuilder: (() => DashboardViewModel()),
       onViewModelReady: (viewModel) => viewModel.onReady(),
@@ -79,7 +124,8 @@ class DashboardView extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   InkWell(
-                                    onTap: () => viewModel.logOut(),
+                                    onTap: () => _showLogoutDialog(
+                                        logout: viewModel.logOut),
                                     child: const Card(
                                       color: Color.fromARGB(255, 212, 238, 221),
                                       child: Padding(

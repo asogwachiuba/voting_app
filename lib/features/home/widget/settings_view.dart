@@ -198,7 +198,7 @@ class SettingsView extends StatelessWidget {
                 ),
 
                 // NIN widget
-                Column(
+                /*  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
@@ -254,7 +254,7 @@ class SettingsView extends StatelessWidget {
                       color: Color(0xFFE2E5FF),
                     )
                   ],
-                ),
+                ), */
 
                 // Phone number Widget
                 Column(

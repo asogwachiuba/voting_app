@@ -144,6 +144,9 @@ class Authentication {
       gender: gender,
       profileImageUrl: profileImageUrl,
     );
+    if (userDatabaseCreated) {
+      await db.updateNINRegistrationStatus(nin: nin);
+    }
 
     if (!userDatabaseCreated) return false;
 
