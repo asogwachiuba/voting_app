@@ -15,20 +15,6 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: (() => HomeViewModel()),
       builder: (context, viewModel, child) => Scaffold(
-        /* appBar: AppBar(
-          title: const Text(
-            'Nigeria 2023 Election',
-            style: TextStyle(color: Colors.white),
-          ),
-          automaticallyImplyLeading: false,
-          backgroundColor: ColorList.primaryColor,
-          actions: const [
-            Icon(
-              Icons.power_settings_new,
-              color: Colors.white,
-            )
-          ],
-        ), */
         body: SizedBox.expand(
           child: homeScreens.elementAt(viewModel.selectedIndex),
         ),

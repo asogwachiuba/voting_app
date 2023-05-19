@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/features/voting/view/cast_vote_viewmodel.dart';
 import 'package:voting_app/features/voting/widget/cast_vote_backgroung_painter.dart';
@@ -62,7 +63,7 @@ class CastVoteView extends StatelessWidget {
                     const Text(
                       'Step 4 of 4',
                       style: TextStyle(
-                          fontSize: 10,
+                          fontSize: CustomFont.smallestFontSize,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
@@ -72,7 +73,7 @@ class CastVoteView extends StatelessWidget {
                     Text(
                       'Select your preferred candidate',
                       style: TextStyle(
-                          fontSize: 10,
+                          fontSize: CustomFont.smallestFontSize,
                           fontWeight: FontWeight.w400,
                           color: Colors.black.withOpacity(0.7)),
                     ),

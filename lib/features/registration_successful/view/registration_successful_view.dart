@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/features/registration_successful/view/registration_successful_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 
@@ -40,7 +41,7 @@ class _RegistrationSuccessfulViewState
                   style: TextStyle(
                     color: Colors.black,
                     height: 2.2,
-                    fontSize: 10,
+                    fontSize: CustomFont.smallestFontSize,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 
 class OptionsAppBar extends StatelessWidget {
@@ -50,7 +51,7 @@ class OptionsAppBar extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
-              fontSize: 10,
+              fontSize: CustomFont.smallestFontSize,
               height: 2,
               fontWeight: FontWeight.w500,
             ),

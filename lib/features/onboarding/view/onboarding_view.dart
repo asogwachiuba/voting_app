@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/features/onboarding/view/onboarding_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
@@ -106,7 +107,7 @@ class OnboardingView extends StatelessWidget {
                 Text(
                   viewModel.subtitles[viewModel.currentIndex],
                   style: TextStyle(
-                    fontSize: 10.0,
+                    fontSize: CustomFont.smallestFontSize,
                     color: ColorList.darkGreen.withOpacity(0.8),
                     fontWeight: FontWeight.w500,
                   ),
@@ -138,7 +139,7 @@ class OnboardingView extends StatelessWidget {
                         const TextSpan(
                           text: "Already have an account?",
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: CustomFont.smallestFontSize,
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
                           ),
@@ -146,7 +147,7 @@ class OnboardingView extends StatelessWidget {
                         TextSpan(
                           text: " Login here",
                           style: const TextStyle(
-                            fontSize: 10,
+                            fontSize: CustomFont.smallestFontSize,
                             fontWeight: FontWeight.w400,
                             color: Color(0xFF07A53D),
                           ),

@@ -60,7 +60,7 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
-  int _currentStep = 1;
+  int _currentStep = 0;
   int get currentStep => _currentStep;
   set currentStep(int newValue) {
     _currentStep = newValue;

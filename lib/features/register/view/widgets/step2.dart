@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/features/register/view/register_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
@@ -31,7 +32,7 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
               const Text(
                 "Please provide all details to start voting",
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
@@ -48,7 +49,7 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
                 "Step 2 of 2",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -90,7 +91,7 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
               const Text(
                 "Tap to upload a photo",
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(0, 0, 0, 0.7),
                 ),
@@ -111,7 +112,7 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
               const Text(
                 "Register your fingerprint",
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(0, 0, 0, 0.7),
                 ),
@@ -190,7 +191,7 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
                     const Text(
                       "Fingerprint scan complete ",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: CustomFont.smallestFontSize,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/widgets/app_button.dart';
 
 class DashboardTabs extends StatelessWidget {
@@ -62,7 +63,7 @@ class DashboardTabs extends StatelessWidget {
                       Text(
                         subtitle,
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: CustomFont.smallestFontSize,
                           fontWeight: FontWeight.w400,
                         ),
                       )

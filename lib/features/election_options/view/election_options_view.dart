@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/features/election_options/view/election_options_viewmodel.dart';
 import 'package:voting_app/features/home/widget/dashbboard_tabs.dart';
 import 'package:voting_app/gen/assets.gen.dart';
@@ -38,7 +39,7 @@ class ElectionOptionsView extends StatelessWidget {
                 Text(
                   'Step 3 of 4',
                   style: TextStyle(
-                      fontSize: 10,
+                      fontSize: CustomFont.smallestFontSize,
                       fontWeight: FontWeight.w400,
                       color: Colors.black.withOpacity(0.7)),
                 ),

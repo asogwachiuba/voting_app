@@ -5,6 +5,8 @@ import 'package:voting_app/features/register/view/register_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
 
+import '../../../../constants/font.dart';
+
 class Step1 extends ViewModelWidget<RegisterViwModel> {
   const Step1({super.key});
 
@@ -27,7 +29,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
           const Text(
             "Please provide all details to start voting",
             style: TextStyle(
-              fontSize: 10,
+              fontSize: CustomFont.smallestFontSize,
               fontWeight: FontWeight.w500,
               color: Colors.black,
             ),
@@ -43,7 +45,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
             "Step 1 of 2",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 10,
+              fontSize: CustomFont.smallestFontSize,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -59,7 +61,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
               labelText: 'Email',
               labelStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w500,
               ),
               // prefixIcon: const Icon(Icons.email),
@@ -97,7 +99,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
               labelText: 'NIN',
               labelStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w500,
               ),
               // prefixIcon: const Icon(Icons.pin),
@@ -133,7 +135,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
                 labelText: 'Phone Number',
                 labelStyle: const TextStyle(
                   color: Colors.black,
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                 ),
                 enabled: false,
@@ -173,7 +175,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
                 labelText: 'Phone Number',
                 labelStyle: const TextStyle(
                   color: Colors.black,
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                 ),
                 enabled: false,
@@ -213,7 +215,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
                 labelText: 'Date of Birth',
                 labelStyle: const TextStyle(
                   color: Colors.black,
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                 ),
                 // prefixIcon: const Icon(Icons.calendar_today),
@@ -250,7 +252,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
                 labelText: 'Select your gender',
                 labelStyle: const TextStyle(
                   color: Colors.black,
-                  fontSize: 10,
+                  fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                 ),
                 enabled: false,
@@ -286,7 +288,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
               labelText: 'Select State',
               labelStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w500,
               ),
               filled: true,
@@ -319,7 +321,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
               labelText: 'Select Local Government',
               labelStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w500,
               ),
               filled: true,
@@ -340,7 +342,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
                 child: Text(
                   localGovernment,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
               );
             }).toList(),
@@ -354,7 +356,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
               labelText: 'Select Your Voting Ward',
               labelStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w500,
               ),
               filled: true,
@@ -387,7 +389,7 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
               labelText: 'Select Polling Units',
               labelStyle: const TextStyle(
                 color: Colors.black,
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w500,
               ),
               filled: true,

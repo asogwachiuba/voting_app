@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/constants/color_list.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/features/login/view/login_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
@@ -58,7 +57,7 @@ class LoginView extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                             height: 2.2,
-                            fontSize: 10,
+                            fontSize: CustomFont.smallestFontSize,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -67,14 +66,14 @@ class LoginView extends StatelessWidget {
                           controller: viewModel.emailController,
                           keyboardType: TextInputType.emailAddress,
                           style: const TextStyle(
-                            fontSize: 10,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
-                          cursorHeight: 10,
+                          cursorHeight: 12,
                           decoration: InputDecoration(
                             labelText: 'Email',
                             labelStyle: const TextStyle(
-                              fontSize: 10,
+                              fontSize: CustomFont.smallestFontSize,
                               fontWeight: FontWeight.w500,
                             ),
                             prefixIcon: Padding(
@@ -108,10 +107,10 @@ class LoginView extends StatelessWidget {
                           controller: viewModel.passwordController,
                           obscureText: true,
                           style: const TextStyle(
-                            fontSize: 10,
+                            fontSize: CustomFont.smallestFontSize,
                             fontWeight: FontWeight.w500,
                           ),
-                          cursorHeight: 10,
+                          cursorHeight: 12,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             labelStyle: const TextStyle(

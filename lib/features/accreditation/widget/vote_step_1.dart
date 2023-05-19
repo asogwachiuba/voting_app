@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/features/accreditation/view/accreditation_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
@@ -33,7 +34,7 @@ class VoteStep1 extends ViewModelWidget<AccreditationViewModel> {
                 Text(
                   'Step 1 of 4',
                   style: TextStyle(
-                      fontSize: 10,
+                      fontSize: CustomFont.smallestFontSize,
                       fontWeight: FontWeight.w400,
                       color: Colors.black.withOpacity(0.7)),
                 ),
@@ -59,7 +60,7 @@ class VoteStep1 extends ViewModelWidget<AccreditationViewModel> {
                   cursorHeight: 10,
                   maxLength: 11,
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: CustomFont.smallestFontSize,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
@@ -110,7 +111,7 @@ class VoteStep1 extends ViewModelWidget<AccreditationViewModel> {
                       const Text(
                         "NIN has been confirmed ",
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: CustomFont.smallestFontSize,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ),

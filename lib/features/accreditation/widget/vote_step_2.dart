@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/features/accreditation/view/accreditation_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/widgets/app_button.dart';
@@ -30,7 +31,7 @@ class VoteStep2 extends ViewModelWidget<AccreditationViewModel> {
           Text(
             'Step 2 of 4',
             style: TextStyle(
-                fontSize: 10,
+                fontSize: CustomFont.smallestFontSize,
                 fontWeight: FontWeight.w400,
                 color: Colors.black.withOpacity(0.7)),
           ),
@@ -77,7 +78,7 @@ class VoteStep2 extends ViewModelWidget<AccreditationViewModel> {
                 const Text(
                   "Fingerprint scan complete ",
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: CustomFont.smallestFontSize,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                   ),

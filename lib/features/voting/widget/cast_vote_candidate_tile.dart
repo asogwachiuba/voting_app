@@ -155,35 +155,3 @@ class CastVoteCandidateTile extends StatelessWidget {
     );
   }
 }
-
-// ListTile(
-// leading: CachedNetworkImage(
-//   height: 90,
-//   width: 70,
-//   imageUrl: candidateImgUrl,
-//   fit: BoxFit.fill,
-//   errorWidget: (context, url, error) => const Icon(
-//     Icons.person,
-//     color: Colors.black,
-//   ),
-// ),
-//           title: Text(candidateName),
-//           subtitle: Text(candidateParty),
-//           trailing: Card(
-//             color: Colors.white,
-//             elevation: 15,
-//             child: IconButton(
-//               icon: const Icon(
-//                 Icons.how_to_vote,
-//                 color: ColorList.primaryColor,
-//                 size: 35,
-//               ),
-//               onPressed: () {
-//                 onVote(
-//                   candidateName,
-//                   candidateImgUrl,
-//                   partyAcronym,
-//                 );
-//               },
-//             ),
-//           ))
