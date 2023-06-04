@@ -121,7 +121,7 @@ class Database {
     );
     return localGovernmentCandidates;
   }
-/*
+
   /// For sending data required to the database. Developer use only
   _sendLocalData({required Map<String, dynamic> data}) async {
     bool isSuccessful = false;
@@ -147,11 +147,12 @@ class Database {
     //   });
     //   ++stateIndex;
     // });
-    ElectionData.pollingUnits[9]["Abia"].forEach((lga) async {
+    logger.d(ElectionData.pollingUnits[7].toString());
+    ElectionData.pollingUnits[7]["Delta"]?.forEach((lga) async {
       await db
-          .collection("Election Data")
-          .doc("Local Government Candidates")
-          .collection("Abia".toUpperCase())
+          .collection("Election Result")
+          .doc("LocalGovernment".toUpperCase())
+          .collection("Delta".toUpperCase())
           .doc(lga["local_government"].toString().toUpperCase())
           .set(data)
           .whenComplete(() => isSuccessful = true)
@@ -163,7 +164,6 @@ class Database {
 
     return isSuccessful;
   }
-  */
 
   Future<Map<String, dynamic>> getPresidentialResult(
       {required ELECTIONCATEGORY electioncategory}) async {
@@ -466,7 +466,7 @@ class Database {
     Hive.registerAdapter<VotingappUser>(VotingappUserAdapter());
 
     await Hive.openBox<VotingappUser>(Keys.currentUserBoxName);
-    // await _sendLocalData(data: ElectionData.stateCandidates);
+    await _sendLocalData(data: ElectionData.result);
     // await vote(
     //     electioncategory: ELECTIONCATEGORY.presidential, partyAcronym: Keys.lp);
     // await vote(
@@ -501,8 +501,6 @@ class Database {
 
   VotingappUser? getCurrentUser() {
     Box<VotingappUser> currentUserBox = Hive.box(Keys.currentUserBoxName);
-    logger.d(
-        '${currentUserBox.values.first.fullName} personal details was retrieved from local storage successfully');
     return currentUserBox.values.isNotEmpty
         ? currentUserBox.values.first
         : null;

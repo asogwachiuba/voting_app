@@ -49,7 +49,12 @@ class DashboardView extends StatelessWidget {
                 },
               ),
               TextButton(
-                onPressed: logout,
+                onPressed: (() {
+                  // removes the current pop up
+                  Navigator.of(context).pop();
+                  // then log out the user
+                  logout();
+                }),
                 child: const Text('Yes'),
               ),
             ],

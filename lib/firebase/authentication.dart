@@ -13,9 +13,11 @@ class Authentication {
   final firebaseAuth = FirebaseAuth.instance;
   final db = Database();
 
-  logout() {
-    firebaseAuth.signOut();
-    db.nukeDb();
+  logout() async {
+    logger.d("I am logging out");
+    await firebaseAuth.signOut();
+    logger.d("Database is being cleaned");
+    await db.nukeDb();
   }
 
   forgotPassword({required String email}) async {

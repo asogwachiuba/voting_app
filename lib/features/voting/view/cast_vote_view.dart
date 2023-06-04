@@ -4,7 +4,6 @@ import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/constants/font.dart';
 import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/features/voting/view/cast_vote_viewmodel.dart';
-import 'package:voting_app/features/voting/widget/cast_vote_backgroung_painter.dart';
 import 'package:voting_app/features/voting/widget/cast_vote_candidate_tile.dart';
 import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/models/enums/election_category.dart';
