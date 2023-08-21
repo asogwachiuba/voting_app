@@ -54,6 +54,7 @@ dependencies:
   firebase_storage: ^11.1.0
   flutter_spinkit: ^5.1.0
   intl: ^0.17.0
+  google_mlkit_face_detection: ^0.8.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
@@ -46,6 +49,13 @@ class AccreditationViewModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  File? _imageFile;
+  File? get imageFile => _imageFile;
+  set imageFile(File? newValue) {
+    _imageFile = newValue;
+    notifyListeners();
+  }
+
   /// Methods ==================================================================
 
   onReady() {
@@ -57,7 +67,7 @@ class AccreditationViewModel extends VotingAppViewmodel {
     if (isAuthenticated) {
       return; // User is already authenticated, so no need to authenticate again
     }
-    isFaceIdAvaiable();
+    isFaceIdAvailable();
 
     // Uses face ID if available
     if (hasFaceId) {
@@ -104,7 +114,7 @@ class AccreditationViewModel extends VotingAppViewmodel {
     }
   }
 
-  isFaceIdAvaiable() async {
+  isFaceIdAvailable() async {
     final List<BiometricType> availableBiometrics =
         await localAuthentication.getAvailableBiometrics();
 
@@ -116,7 +126,7 @@ class AccreditationViewModel extends VotingAppViewmodel {
       return;
     }
 
-    AppNotification.error(error: 'No Face ID setup');
+    // AppNotification.error(error: 'No Face ID setup');
   }
 
   validateNIN({required String nin}) async {
@@ -138,5 +148,16 @@ class AccreditationViewModel extends VotingAppViewmodel {
 
   toNextStep() {
     currentStep++;
+  }
+
+  takePicture() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
+    if (pickedFile != null) {
+      _imageFile = File(pickedFile.path);
+      notifyListeners();
+
+      // if(_imageFile != null) _processImage(_imageFile!);
+    }
   }
 }

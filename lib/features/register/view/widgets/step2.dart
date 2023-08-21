@@ -88,13 +88,35 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
               const SizedBox(
                 height: 15,
               ),
-              const Text(
-                "Tap to upload a photo",
-                style: TextStyle(
+              Text(
+                viewModel.imageFile != null
+                    ? "Tap to retake Photo"
+                    : "Tap to take a photo",
+                style: const TextStyle(
                   fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,
                   color: Color.fromRGBO(0, 0, 0, 0.7),
                 ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              viewModel.busy(viewModel.processingImage)
+                  ? const Center(
+                      child: SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2.0)))
+                  : Text(
+                      "Faces found: ${viewModel.faceCount}",
+                      style: const TextStyle(
+                        fontSize: CustomFont.smallestFontSize,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(0, 0, 0, 0.7),
+                      ),
+                    ),
+              const SizedBox(
+                height: 5,
               ),
             ],
           ),
@@ -107,10 +129,10 @@ class Step2 extends ViewModelWidget<RegisterViwModel> {
           child: Column(
             children: [
               const SizedBox(
-                height: 15,
+                height: 10,
               ),
               const Text(
-                "Register your fingerprint",
+                "Device Authentication",
                 style: TextStyle(
                   fontSize: CustomFont.smallestFontSize,
                   fontWeight: FontWeight.w500,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:voting_app/constants/election_data.dart';
@@ -33,71 +34,91 @@ class RegisterViwModel extends VotingAppViewmodel {
   bool isNinVerified = false;
 
   bool _isRegistering = false;
+
   bool get isRegistering => _isRegistering;
+
   set isRegistering(bool newValue) {
     _isRegistering = newValue;
     notifyListeners();
   }
 
   int? _selectedStateIndex;
+
   int? get selectedStateIndex => _selectedStateIndex;
+
   set selectedStateIndex(int? newValue) {
     _selectedStateIndex = newValue;
     notifyListeners();
   }
 
   String? _selectedState;
+
   String? get selectedState => _selectedState;
+
   set selectedState(String? newValue) {
     _selectedState = newValue;
     notifyListeners();
   }
 
   String? _selectedWard;
+
   String? get selectedWard => _selectedWard;
+
   set selectedWard(String? newValue) {
     _selectedWard = newValue;
     notifyListeners();
   }
 
   int _currentStep = 0;
+
   int get currentStep => _currentStep;
+
   set currentStep(int newValue) {
     _currentStep = newValue;
     notifyListeners();
   }
 
   String? _gender;
+
   String? get gender => _gender;
+
   set gender(String? newValue) {
     _gender = newValue;
     notifyListeners();
   }
 
   String? _selectedLocalGovernment;
+
   String? get selectedLocalGovernment => _selectedLocalGovernment;
+
   set selectedLocalGovernment(String? newValue) {
     _selectedLocalGovernment = newValue;
     notifyListeners();
   }
 
   String? _selectedPollingUnits;
+
   String? get selectedPollingUnits => _selectedPollingUnits;
+
   set selectedPollingUnits(String? newValue) {
     _selectedPollingUnits = newValue;
     notifyListeners();
   }
 
   Map<String, dynamic>? _selectedWardData;
+
   Map<String, dynamic>? get selectedWardData => _selectedWardData;
+
   set selectedWardData(Map<String, dynamic>? newValue) {
     _selectedWardData = newValue;
     notifyListeners();
   }
 
   Map<String, dynamic>? _selectedLocalGovernmentData;
+
   Map<String, dynamic>? get selectedLocalGovernmentData =>
       _selectedLocalGovernmentData;
+
   set selectedLocalGovernmentData(Map<String, dynamic>? newValue) {
     _selectedLocalGovernmentData = newValue;
     notifyListeners();
@@ -108,6 +129,7 @@ class RegisterViwModel extends VotingAppViewmodel {
   List<Map<String, dynamic>>? _selectedStateData = [];
 
   List<Map<String, dynamic>>? get selectedStateData => _selectedStateData;
+
   set selectedStateData(List<Map<String, dynamic>>? newValue) {
     _selectedStateData = newValue;
     notifyListeners();
@@ -116,53 +138,75 @@ class RegisterViwModel extends VotingAppViewmodel {
   final localAuthentication = LocalAuthentication();
 
   bool _isAuthenticated = false;
+
   bool get isAuthenticated => _isAuthenticated;
+
   set isAuthenticated(bool newValue) {
     _isAuthenticated = newValue;
     notifyListeners();
   }
 
   bool _isFaceAuthenticated = false;
+
   bool get isFaceAuthenticated => _isFaceAuthenticated;
+
   set isFaceAuthenticated(bool newValue) {
     _isFaceAuthenticated = newValue;
     notifyListeners();
   }
 
   bool _isAmputee = false;
+
   bool get isAmputee => _isAmputee;
+
   set isAmputee(bool newValue) {
     _isAmputee = newValue;
     notifyListeners();
   }
 
   File? _imageFile;
+
   File? get imageFile => _imageFile;
+
   set imageFile(File? newValue) {
     _imageFile = newValue;
     notifyListeners();
   }
 
   bool _hasFaceId = false;
+
   bool get hasFaceId => _hasFaceId;
+
   set hasFaceId(bool newValue) {
     _hasFaceId = newValue;
     notifyListeners();
   }
 
   Map<String, dynamic> _userNINDatabaseInfo = {};
+
   Map<String, dynamic> get userNINDatabaseInfo => _userNINDatabaseInfo;
+
   set userNINDatabaseInfo(Map<String, dynamic> newValue) {
     _userNINDatabaseInfo = newValue;
     notifyListeners();
   }
+
+  final FaceDetector _faceDetector = FaceDetector(
+    options: FaceDetectorOptions(
+      enableContours: true,
+      enableLandmarks: true,
+    ),
+  );
+
+  int _faceCount = 0;
+  int get faceCount => _faceCount;
 
   /// ==========================================================================
 
   /// Methods ==================================================================
 
   onReady() {
-    isFaceIdAvaiable();
+    isFaceIdAvailable();
   }
 
   nextStep() {
@@ -262,14 +306,37 @@ class RegisterViwModel extends VotingAppViewmodel {
 
   takePicture() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       _imageFile = File(pickedFile.path);
       notifyListeners();
+
+      if(_imageFile != null) _processImage(_imageFile!);
     }
   }
 
-  isFaceIdAvaiable() async {
+  final String processingImage = "ProcessingImage....";
+
+  Future<void> _processImage(File imageFile) async {
+    setBusyForObject(processingImage, true);
+
+    //Get inputImage for ML
+    final inputImage = InputImage.fromFilePath(imageFile.path);
+
+    final faces = await _faceDetector.processImage(inputImage);
+    _faceCount = faces.length;
+
+    // for (final face in faces) {
+    //   text += 'face: ${face.boundingBox}\n\n';
+    // }
+    // _text = text;
+    // // TODO: set _customPaint to draw boundingRect on top of image
+    // _customPaint = null;
+
+    setBusyForObject(processingImage, false);
+  }
+
+  isFaceIdAvailable() async {
     final List<BiometricType> availableBiometrics =
         await localAuthentication.getAvailableBiometrics();
 
@@ -281,7 +348,7 @@ class RegisterViwModel extends VotingAppViewmodel {
       return;
     }
 
-    AppNotification.error(error: 'No Face ID setup');
+    // AppNotification.error(error: 'No Face ID setup');
   }
 
   faceAuthentication() async {
@@ -310,6 +377,20 @@ class RegisterViwModel extends VotingAppViewmodel {
       AppNotification.notify(
           notificationMessage:
               "Provide your profile picture for identification");
+      return;
+    }
+
+    if(faceCount == 0) {
+      AppNotification.notify(
+          notificationMessage:
+              "Please provide a valid profile picture with your face visible");
+      return;
+    }
+
+    if(faceCount > 1) {
+      AppNotification.notify(
+          notificationMessage:
+          "Please provide a valid profile picture with only your face visible");
       return;
     }
 

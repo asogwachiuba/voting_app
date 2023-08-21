@@ -38,19 +38,56 @@ class VoteStep2 extends ViewModelWidget<AccreditationViewModel> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
           ),
+          Text(
+            'Face Verification',
+            style: TextStyle(
+                fontSize: CustomFont.mediumFontSize,
+                fontWeight: FontWeight.w500,
+                color: Colors.black.withOpacity(0.7)),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
           InkWell(
-            onTap: () => (defaultTargetPlatform == TargetPlatform.iOS)
-                ? viewModel.faceAuthentication()
-                : viewModel.authenticate(),
-            child: Assets.icFingerprint.svg(
-              height: 148,
-              width: 148,
-              fit: BoxFit.fill,
-              color: (viewModel.isAuthenticated)
-                  ? Colors.black
-                  : const Color.fromARGB(255, 175, 166, 166),
+            onTap: () => viewModel.takePicture(),
+            child: (viewModel.imageFile == null)
+                ? Container(
+              height: 250,
+              width: 250,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color.fromRGBO(217, 217, 217, 0.45),
+                border: Border.all(
+                  color: const Color.fromRGBO(0, 0, 0, 0.1),
+                ),
+              ),
+              child: Center(
+                child: Assets.icCamera.svg(height: 22.5, width: 25),
+              ),
+            )
+                : ClipRRect(
+              borderRadius: BorderRadius.circular(51),
+              child: Image.file(
+                viewModel.imageFile!,
+                width: 102,
+                height: 102,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
+          // InkWell(
+          //   onTap: () => (defaultTargetPlatform == TargetPlatform.iOS)
+          //       ? viewModel.faceAuthentication()
+          //       : viewModel.authenticate(),
+          //   child: Assets.icFingerprint.svg(
+          //     height: 148,
+          //     width: 148,
+          //     fit: BoxFit.fill,
+          //     color: (viewModel.isAuthenticated)
+          //         ? Colors.black
+          //         : const Color.fromARGB(255, 175, 166, 166),
+          //   ),
+          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
           ),
