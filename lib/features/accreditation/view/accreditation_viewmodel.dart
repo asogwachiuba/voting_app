@@ -4,8 +4,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
+import 'package:voting_app/features/accreditation/service/aws_service.dart';
 import 'package:voting_app/features/election_options/view/election_options_view.dart';
 import 'package:voting_app/util/notification.dart';
 import 'dart:typed_data';
@@ -14,6 +16,7 @@ import 'package:image/image.dart' as imglib;
 class AccreditationViewModel extends VotingAppViewmodel {
   /// States and variables =====================================================
 
+  final awsService = locator<AwsService>();
   final localAuthentication = LocalAuthentication();
 
   bool _isAuthenticated = false;
@@ -205,7 +208,7 @@ class AccreditationViewModel extends VotingAppViewmodel {
       notifyListeners();
 
       if (_imageFile != null) {
-        _processImage(imageFile!);
+        _compareFacesViaAWS();
       }
     }
   }
@@ -224,6 +227,25 @@ class AccreditationViewModel extends VotingAppViewmodel {
       isAuthenticated = true;
     } else {
       logger.d(faces.length);
+      AppNotification.notify(notificationMessage: "Verification failed");
+    }
+
+    setBusyForObject(processingImage, false);
+  }
+
+  Future<void> _compareFacesViaAWS() async {
+    setBusyForObject(processingImage, true);
+
+    final sourceFile = File(firebaseImage?.path ?? "");
+    final targetFile = _imageFile;
+
+    final result = await awsService.compareFaces(
+        sourceFile: sourceFile, targetFile: targetFile!);
+
+    if(result.matchResult) {
+      AppNotification.notify(notificationMessage: "Face Verified!");
+      isAuthenticated = true;
+    } else {
       AppNotification.notify(notificationMessage: "Verification failed");
     }
 

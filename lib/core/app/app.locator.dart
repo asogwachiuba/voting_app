@@ -10,6 +10,7 @@ import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 import 'package:voting_app/firebase/database.dart';
 
+import '../../features/accreditation/service/aws_service.dart';
 import '../../firebase/authentication.dart';
 
 final locator = StackedLocator.instance;
@@ -26,4 +27,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => Authentication());
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => Database());
+  locator.registerLazySingleton(() => AwsService());
 }
