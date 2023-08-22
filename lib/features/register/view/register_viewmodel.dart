@@ -261,7 +261,7 @@ class RegisterViwModel extends VotingAppViewmodel {
       return;
     }
     userNINDatabaseInfo =
-        await db.getUserNinDatabaseProfile(nin: ninController.text);
+        await db.getUserNinDatabaseProfile(nin: ninController.text) ?? {};
     // Checks if NIN is already registered
     if (userNINDatabaseInfo['isRegisteredVoter'] == true) {
       AppNotification.error(error: "NIN profile is already a registered voter");
@@ -325,13 +325,6 @@ class RegisterViwModel extends VotingAppViewmodel {
 
     final faces = await _faceDetector.processImage(inputImage);
     _faceCount = faces.length;
-
-    // for (final face in faces) {
-    //   text += 'face: ${face.boundingBox}\n\n';
-    // }
-    // _text = text;
-    // // TODO: set _customPaint to draw boundingRect on top of image
-    // _customPaint = null;
 
     setBusyForObject(processingImage, false);
   }

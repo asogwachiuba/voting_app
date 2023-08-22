@@ -438,15 +438,22 @@ class Database {
     return votedSuccessfully;
   }
 
-  Future<Map<String, dynamic>> getUserNinDatabaseProfile(
+  Future<Map<String, dynamic>?> getUserNinDatabaseProfile(
       {required String nin}) async {
-    Map<String, dynamic> userDatabaseInfo = {};
-    await db
-        .collection("Election Data")
-        .doc("NIN")
-        .get()
-        .then((value) => userDatabaseInfo = value.data()?['ninDatabase'][nin]);
-    return userDatabaseInfo;
+    try {
+      Map<String, dynamic> userDatabaseInfo = {};
+      await db
+          .collection("Election Data")
+          .doc("NIN")
+          .get()
+          .then((value) => userDatabaseInfo = value.data()?['ninDatabase'][nin]);
+      return userDatabaseInfo;
+    } catch(e) {
+      logger.e(e.toString());
+
+      return null;
+    }
+
   }
 
   /// Updates NIN profile once a user has registered with it
