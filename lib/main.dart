@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/core/app/app.locator.dart';
@@ -11,6 +12,7 @@ void main() async {
   await Firebase.initializeApp();
   await setupLocator();
   await locator<Database>().initializeDb();
+  await dotenv.load(fileName: "assets/.env");
   runApp(const MyApp());
 }
 
