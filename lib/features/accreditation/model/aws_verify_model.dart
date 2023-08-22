@@ -4,7 +4,7 @@ import 'package:voting_app/core/app_utils.dart';
 class AWSVerifyModel {
   bool matchResult = false;
   String? confidence;
-  int? totalFacesFoundInTargetImage;
+  int totalFacesFoundInTargetImage = 0;
   String? message;
 
   AWSVerifyModel({required CompareFacesResponse response}) {
