@@ -82,7 +82,7 @@ class AccreditationViewModel extends VotingAppViewmodel {
 
   XFile? cameraImage; // Image captured from the camera
   String? firebaseImageURL;
-  XFile? firebaseImage;
+  Uint8List? firebaseImage;
   double similarityThreshold = 0.7;
 
   /// Methods ==================================================================
@@ -108,7 +108,7 @@ class AccreditationViewModel extends VotingAppViewmodel {
       return;
     }
 
-    firebaseImage = XFile.fromData(byteData);
+    firebaseImage = byteData;
   }
 
   // authenticate() async {
@@ -236,13 +236,18 @@ class AccreditationViewModel extends VotingAppViewmodel {
   Future<void> _compareFacesViaAWS() async {
     setBusyForObject(processingImage, true);
 
-    final sourceFile = File(firebaseImage?.path ?? "");
+    // final sourceFile = File(firebaseImage?.path ?? "");
     final targetFile = _imageFile;
 
-    final result = await awsService.compareFaces(
-        sourceFile: sourceFile, targetFile: targetFile!);
+    logger.d("FirebaseImageBytes: $firebaseImage");
 
-    if(result.matchResult) {
+    final result = await awsService.compareFaces(
+        sourceFile: firebaseImage!, targetFile: targetFile!);
+
+    if (result != null && result.totalFacesFoundInTargetImage > 1) {
+      AppNotification.notify(
+          notificationMessage: "Multiple faces detected, try again");
+    } else if (result != null && result.matchResult) {
       AppNotification.notify(notificationMessage: "Face Verified!");
       isAuthenticated = true;
     } else {

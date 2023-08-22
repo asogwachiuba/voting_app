@@ -77,15 +77,21 @@ class VoteStep2 extends ViewModelWidget<AccreditationViewModel> {
               const SizedBox(
                 height: 15,
               ),
-              Text(
-                viewModel.imageFile != null
-                    ? "Tap to retake Photo"
-                    : "Tap to take a photo",
-                style: const TextStyle(
-                  fontSize: CustomFont.smallestFontSize,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(0, 0, 0, 0.7),
+              Visibility(
+                visible: !viewModel.busy(viewModel.processingImage),
+                child: Text(
+                  viewModel.imageFile != null
+                      ? "Tap to retake Photo"
+                      : "Tap to take a photo",
+                  style: const TextStyle(
+                    fontSize: CustomFont.smallestFontSize,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(0, 0, 0, 0.7),
+                  ),
                 ),
+              ),
+              const SizedBox(
+                height: 7,
               ),
               viewModel.busy(viewModel.processingImage)
                   ? const Center(
