@@ -76,7 +76,7 @@ class VoteStep1 extends ViewModelWidget<AccreditationViewModel> {
                       borderSide:
                           const BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1)),
                     ),
-                    constraints: const BoxConstraints.expand(height: 50),
+                    // constraints: const BoxConstraints.expand(height: 50),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {

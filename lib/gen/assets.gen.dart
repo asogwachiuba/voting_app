@@ -11,6 +11,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsModelGen {
+  const $AssetsModelGen();
+
+  /// File path: assets/model/mobilefacenet.tflite
+  String get mobilefacenet => 'assets/model/mobilefacenet.tflite';
+
+  /// List of all assets
+  List<String> get values => [mobilefacenet];
+}
+
 class Assets {
   Assets._();
 
@@ -42,6 +52,7 @@ class Assets {
   static const SvgGenImage icSteps = SvgGenImage('assets/ic_steps.svg');
   static const SvgGenImage icVotingPoll =
       SvgGenImage('assets/ic_voting_poll.svg');
+  static const $AssetsModelGen model = $AssetsModelGen();
   static const AssetGenImage onboarding1 =
       AssetGenImage('assets/onboarding1.png');
   static const AssetGenImage onboarding2 =
