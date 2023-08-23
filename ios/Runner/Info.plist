@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSFaceIDUsageDescription</key>
+    <string>voting app needs access to your faceID to authenticate you for elections</string>
 	<key>NSCameraUsageDescription</key>
 	<string>eVoter needs access to your camera to capture your picture for voting accreditation</string>
 	<key>NSPhotoLibraryUsageDescription</key>

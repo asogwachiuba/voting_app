@@ -31,10 +31,6 @@ class ViewResultView extends StatelessWidget {
         body: SizedBox.expand(
           child: Stack(
             children: [
-              // CustomPaint(
-              //   size: const Size(double.infinity, double.infinity),
-              //   painter: DashboardBackgroundPainter(),
-              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 50, horizontal: 20),

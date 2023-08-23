@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/candidate_options/view/candidate_options_viewmodel.dart';
-import 'package:voting_app/features/election_options/view/election_options_viewmodel.dart';
-import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
-import 'package:voting_app/features/home/widget/dashboard_button.dart';
 import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/widgets/option_tile.dart';
+import 'package:voting_app/widgets/options_app_bar.dart';
 
 class CandidateOptionsView extends StatelessWidget {
   const CandidateOptionsView({super.key});
@@ -15,83 +13,46 @@ class CandidateOptionsView extends StatelessWidget {
     return ViewModelBuilder<CandidateOptionsViewModel>.reactive(
       viewModelBuilder: (() => CandidateOptionsViewModel()),
       builder: (context, viewModel, child) => Scaffold(
-        body: SizedBox.expand(
-          child: Stack(
+        body: SafeArea(
+          child: SizedBox.expand(
+              child: Column(
             children: [
-              CustomPaint(
-                size: const Size(double.infinity, double.infinity),
-                painter: DashboardBackgroundPainter(),
+              const OptionsAppBar(
+                title: 'Candidates Category',
+                subtitle: "Select your election category of interest",
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-                child: ListView(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 45,
-                          width: 45,
-                          child: Card(
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: ColorList.darkGreen,
-                              ),
-                              onPressed: () => viewModel.back(),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        const Text(
-                          "Candidate Category",
-                          style: TextStyle(
-                            color: ColorList.lightGreen,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    DashboardButton(
-                      icon: Icons.people,
-                      title: 'PRESIDENTIAL',
-                      onPressed: () {
-                        viewModel.toViewCandidates(
-                            electionCategory: ELECTIONCATEGORY.presidential);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    DashboardButton(
-                      icon: Icons.people,
-                      title: 'GUBERNATORIAL',
-                      onPressed: () {
-                        viewModel.toSelectState(
-                            electioncategory: ELECTIONCATEGORY.gubernatorial);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    DashboardButton(
-                      icon: Icons.people,
-                      title: 'LOCAL GOVERNMENT CHAIRMAN',
-                      onPressed: () {
-                        viewModel.toSelectState(
-                            electioncategory: ELECTIONCATEGORY.localGovernment);
-                      },
-                    ),
-                  ],
-                ),
-              )
+              OptionTile(
+                title: 'PRESIDENTIAL',
+                onPressed: () {
+                  viewModel.toViewCandidates(
+                      electionCategory: ELECTIONCATEGORY.presidential);
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              OptionTile(
+                title: 'GUBERNATORIAL',
+                onPressed: () {
+                  viewModel.toSelectState(
+                      electioncategory: ELECTIONCATEGORY.gubernatorial);
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              OptionTile(
+                title: 'LOCAL GOVERNMENT CHAIRMAN',
+                onPressed: () {
+                  viewModel.toSelectState(
+                      electioncategory: ELECTIONCATEGORY.localGovernment);
+                },
+              ),
+              const SizedBox(
+                height: 15,
+              ),
             ],
-          ),
+          )),
         ),
       ),
     );

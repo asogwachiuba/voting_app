@@ -4,6 +4,8 @@ import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
 import 'package:voting_app/features/select_local_government/view/select_local_government_viewmodel.dart';
 import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/widgets/option_tile.dart';
+import 'package:voting_app/widgets/options_app_bar.dart';
 
 class SelectLocalGovernmentView extends StatelessWidget {
   const SelectLocalGovernmentView({
@@ -23,65 +25,33 @@ class SelectLocalGovernmentView extends StatelessWidget {
         selectedState_: selectedState,
       ),
       builder: (context, viewModel, child) => Scaffold(
-        body: SizedBox.expand(
-          child: Stack(children: [
-            CustomPaint(
-              size: const Size(double.infinity, double.infinity),
-              painter: DashboardBackgroundPainter(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 45,
-                        width: 45,
-                        child: Card(
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: ColorList.darkGreen,
-                            ),
-                            onPressed: () => viewModel.back(),
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      const Text(
-                        "Select Local Government",
-                        style: TextStyle(
-                          color: ColorList.lightGreen,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
+        body: SafeArea(
+          child: SizedBox.expand(
+            child: Column(
+              children: [
+                const OptionsAppBar(
+                  title: 'Select Local Government',
+                  subtitle: "Select your local government of interest",
+                ),
 
-                  // List of states
-                  ListView.builder(
-                    itemCount: viewModel.localGovenments.length,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: ((context, index) => InkWell(
-                          onTap: () => viewModel.toViewCandidates(
+                // List of states
+                ListView.builder(
+                  itemCount: viewModel.localGovenments.length,
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: ((context, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: OptionTile(
+                          title: viewModel.localGovenments[index],
+                          onPressed: () => viewModel.toViewCandidates(
                               selectedLocalGovernment:
                                   viewModel.localGovenments[index]),
-                          child: Card(
-                            elevation: 10,
-                            child: ListTile(
-                              title: Text(viewModel.localGovenments[index]),
-                            ),
-                          ),
-                        )),
-                  )
-                ],
-              ),
-            )
-          ]),
+                        ),
+                      )),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

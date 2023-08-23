@@ -5,11 +5,11 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i20;
+import 'package:flutter/material.dart' as _i21;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' as _i21;
+import 'package:flutter/rendering.dart' as _i22;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i24;
+import 'package:stacked_services/stacked_services.dart' as _i25;
 import 'package:voting_app/features/candidate_options/view/candidate_options_view.dart'
     as _i10;
 import 'package:voting_app/features/election_info/view/election_info_view.dart'
@@ -23,6 +23,8 @@ import 'package:voting_app/features/login/view/login_view.dart' as _i3;
 import 'package:voting_app/features/onboarding/view/onboarding_view.dart'
     as _i2;
 import 'package:voting_app/features/register/view/register_view.dart' as _i5;
+import 'package:voting_app/features/registration_successful/view/registration_successful_view.dart'
+    as _i20;
 import 'package:voting_app/features/reset_password/view/reset_password_view.dart'
     as _i4;
 import 'package:voting_app/features/result_options/view/result_options_view.dart'
@@ -42,8 +44,8 @@ import 'package:voting_app/features/view_result/view/view_result_view.dart'
 import 'package:voting_app/features/voting/view/cast_vote_view.dart' as _i9;
 import 'package:voting_app/features/voting_success/view/voting_success_view.dart'
     as _i12;
-import 'package:voting_app/models/enums/election_category.dart' as _i22;
-import 'package:voting_app/models/user/votingapp_user.dart' as _i23;
+import 'package:voting_app/models/enums/election_category.dart' as _i23;
+import 'package:voting_app/models/user/votingapp_user.dart' as _i24;
 
 class Routes {
   static const onboardingView = '/';
@@ -83,6 +85,8 @@ class Routes {
 
   static const electionInfoView = '/election-info-view';
 
+  static const registrationSuccessfulView = '/registration-successful-view';
+
   static const all = <String>{
     onboardingView,
     loginView,
@@ -102,6 +106,7 @@ class Routes {
     resultSelectLocalGovernmentView,
     viewResultView,
     electionInfoView,
+    registrationSuccessfulView,
   };
 }
 
@@ -179,68 +184,75 @@ class StackedRouter extends _i1.RouterBase {
       Routes.electionInfoView,
       page: _i19.ElectionInfoView,
     ),
+    _i1.RouteDef(
+      Routes.registrationSuccessfulView,
+      page: _i20.RegistrationSuccessfulView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.OnboardingView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.OnboardingView(),
         settings: data,
       );
     },
     _i3.LoginView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.LoginView(),
         settings: data,
       );
     },
     _i4.ResetPasswordView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.ResetPasswordView(),
         settings: data,
       );
     },
     _i5.RegisterView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.RegisterView(),
         settings: data,
       );
     },
     _i6.HomeView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i6.HomeView(),
+      final args = data.getArgs<HomeViewArguments>(
+        orElse: () => const HomeViewArguments(),
+      );
+      return _i21.MaterialPageRoute<dynamic>(
+        builder: (context) => _i6.HomeView(key: args.key),
         settings: data,
       );
     },
     _i7.ForgotPasswordView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ForgotPasswordView(),
         settings: data,
       );
     },
     _i8.ElectionOptionsView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.ElectionOptionsView(),
         settings: data,
       );
     },
     _i9.CastVoteView: (data) {
       final args = data.getArgs<CastVoteViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i9.CastVoteView(
             key: args.key, electionCategory: args.electionCategory),
         settings: data,
       );
     },
     _i10.CandidateOptionsView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.CandidateOptionsView(),
         settings: data,
       );
     },
     _i11.ViewCandidatesView: (data) {
       final args = data.getArgs<ViewCandidatesViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i11.ViewCandidatesView(
             key: args.key,
             electionCategory: args.electionCategory,
@@ -251,7 +263,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i12.VotingSuccessView: (data) {
       final args = data.getArgs<VotingSuccessViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i12.VotingSuccessView(
             key: args.key,
             selectedCandidateImgUrl: args.selectedCandidateImgUrl,
@@ -263,7 +275,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i13.SelectStateView: (data) {
       final args = data.getArgs<SelectStateViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i13.SelectStateView(
             key: args.key, electioncategory: args.electioncategory),
         settings: data,
@@ -272,7 +284,7 @@ class StackedRouter extends _i1.RouterBase {
     _i14.SelectLocalGovernmentView: (data) {
       final args =
           data.getArgs<SelectLocalGovernmentViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i14.SelectLocalGovernmentView(
             key: args.key,
             electioncategory: args.electioncategory,
@@ -281,14 +293,14 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i15.ResultOptionsView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i15.ResultOptionsView(),
         settings: data,
       );
     },
     _i16.ResultSelectStateView: (data) {
       final args = data.getArgs<ResultSelectStateViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i16.ResultSelectStateView(
             key: args.key, electioncategory: args.electioncategory),
         settings: data,
@@ -297,7 +309,7 @@ class StackedRouter extends _i1.RouterBase {
     _i17.ResultSelectLocalGovernmentView: (data) {
       final args =
           data.getArgs<ResultSelectLocalGovernmentViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i17.ResultSelectLocalGovernmentView(
             key: args.key,
             electioncategory: args.electioncategory,
@@ -307,7 +319,7 @@ class StackedRouter extends _i1.RouterBase {
     },
     _i18.ViewResultView: (data) {
       final args = data.getArgs<ViewResultViewArguments>(nullOk: false);
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => _i18.ViewResultView(
             key: args.key,
             electionCategory: args.electionCategory,
@@ -317,8 +329,14 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i19.ElectionInfoView: (data) {
-      return _i20.MaterialPageRoute<dynamic>(
+      return _i21.MaterialPageRoute<dynamic>(
         builder: (context) => const _i19.ElectionInfoView(),
+        settings: data,
+      );
+    },
+    _i20.RegistrationSuccessfulView: (data) {
+      return _i21.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i20.RegistrationSuccessfulView(),
         settings: data,
       );
     },
@@ -330,15 +348,37 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
+class HomeViewArguments {
+  const HomeViewArguments({this.key});
+
+  final _i22.Key? key;
+
+  @override
+  String toString() {
+    return '{"key": "$key"}';
+  }
+
+  @override
+  bool operator ==(covariant HomeViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode;
+  }
+}
+
 class CastVoteViewArguments {
   const CastVoteViewArguments({
     this.key,
     required this.electionCategory,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electionCategory;
+  final _i23.ELECTIONCATEGORY electionCategory;
 
   @override
   String toString() {
@@ -365,9 +405,9 @@ class ViewCandidatesViewArguments {
     this.selectedState,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electionCategory;
+  final _i23.ELECTIONCATEGORY electionCategory;
 
   final String? selectedLocalGovernment;
 
@@ -405,7 +445,7 @@ class VotingSuccessViewArguments {
     required this.user,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
   final String selectedCandidateImgUrl;
 
@@ -413,7 +453,7 @@ class VotingSuccessViewArguments {
 
   final String selectedCandidateParty;
 
-  final _i23.VotingappUser user;
+  final _i24.VotingappUser user;
 
   @override
   String toString() {
@@ -446,9 +486,9 @@ class SelectStateViewArguments {
     required this.electioncategory,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electioncategory;
+  final _i23.ELECTIONCATEGORY electioncategory;
 
   @override
   String toString() {
@@ -474,9 +514,9 @@ class SelectLocalGovernmentViewArguments {
     required this.selectedState,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electioncategory;
+  final _i23.ELECTIONCATEGORY electioncategory;
 
   final String selectedState;
 
@@ -505,9 +545,9 @@ class ResultSelectStateViewArguments {
     required this.electioncategory,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electioncategory;
+  final _i23.ELECTIONCATEGORY electioncategory;
 
   @override
   String toString() {
@@ -533,9 +573,9 @@ class ResultSelectLocalGovernmentViewArguments {
     required this.selectedState,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electioncategory;
+  final _i23.ELECTIONCATEGORY electioncategory;
 
   final String selectedState;
 
@@ -566,9 +606,9 @@ class ViewResultViewArguments {
     this.selectedState,
   });
 
-  final _i21.Key? key;
+  final _i22.Key? key;
 
-  final _i22.ELECTIONCATEGORY electionCategory;
+  final _i23.ELECTIONCATEGORY electionCategory;
 
   final String? selectedLocalGovernment;
 
@@ -597,7 +637,7 @@ class ViewResultViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i24.NavigationService {
+extension NavigatorStateExtension on _i25.NavigationService {
   Future<dynamic> navigateToOnboardingView([
     int? routerId,
     bool preventDuplicates = true,
@@ -654,14 +694,16 @@ extension NavigatorStateExtension on _i24.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToHomeView([
+  Future<dynamic> navigateToHomeView({
+    _i22.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.homeView,
+        arguments: HomeViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -697,8 +739,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToCastVoteView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electionCategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electionCategory,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -729,8 +771,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToViewCandidatesView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electionCategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electionCategory,
     String? selectedLocalGovernment,
     String? selectedState,
     int? routerId,
@@ -752,11 +794,11 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToVotingSuccessView({
-    _i21.Key? key,
+    _i22.Key? key,
     required String selectedCandidateImgUrl,
     required String selectedCandidateName,
     required String selectedCandidateParty,
-    required _i23.VotingappUser user,
+    required _i24.VotingappUser user,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -777,8 +819,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToSelectStateView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -795,8 +837,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToSelectLocalGovernmentView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     required String selectedState,
     int? routerId,
     bool preventDuplicates = true,
@@ -830,8 +872,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToResultSelectStateView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -848,8 +890,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToResultSelectLocalGovernmentView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     required String selectedState,
     int? routerId,
     bool preventDuplicates = true,
@@ -869,8 +911,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> navigateToViewResultView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electionCategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electionCategory,
     String? selectedLocalGovernment,
     String? selectedState,
     int? routerId,
@@ -899,6 +941,20 @@ extension NavigatorStateExtension on _i24.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.electionInfoView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToRegistrationSuccessfulView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.registrationSuccessfulView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -961,14 +1017,16 @@ extension NavigatorStateExtension on _i24.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithHomeView([
+  Future<dynamic> replaceWithHomeView({
+    _i22.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.homeView,
+        arguments: HomeViewArguments(key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -1004,8 +1062,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithCastVoteView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electionCategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electionCategory,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1036,8 +1094,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithViewCandidatesView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electionCategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electionCategory,
     String? selectedLocalGovernment,
     String? selectedState,
     int? routerId,
@@ -1059,11 +1117,11 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithVotingSuccessView({
-    _i21.Key? key,
+    _i22.Key? key,
     required String selectedCandidateImgUrl,
     required String selectedCandidateName,
     required String selectedCandidateParty,
-    required _i23.VotingappUser user,
+    required _i24.VotingappUser user,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1084,8 +1142,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithSelectStateView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1102,8 +1160,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithSelectLocalGovernmentView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     required String selectedState,
     int? routerId,
     bool preventDuplicates = true,
@@ -1137,8 +1195,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithResultSelectStateView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -1155,8 +1213,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithResultSelectLocalGovernmentView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electioncategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electioncategory,
     required String selectedState,
     int? routerId,
     bool preventDuplicates = true,
@@ -1176,8 +1234,8 @@ extension NavigatorStateExtension on _i24.NavigationService {
   }
 
   Future<dynamic> replaceWithViewResultView({
-    _i21.Key? key,
-    required _i22.ELECTIONCATEGORY electionCategory,
+    _i22.Key? key,
+    required _i23.ELECTIONCATEGORY electionCategory,
     String? selectedLocalGovernment,
     String? selectedState,
     int? routerId,
@@ -1206,6 +1264,20 @@ extension NavigatorStateExtension on _i24.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.electionInfoView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithRegistrationSuccessfulView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.registrationSuccessfulView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

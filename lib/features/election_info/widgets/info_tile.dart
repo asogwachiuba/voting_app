@@ -34,8 +34,8 @@ class _InfoTileState extends State<InfoTile> {
                   widget.title,
                   style: TextStyle(
                     color: isExpanded ? ColorList.primaryColor : Colors.black,
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
@@ -43,7 +43,7 @@ class _InfoTileState extends State<InfoTile> {
                 (isExpanded)
                     ? Icons.remove_circle_outline
                     : Icons.add_circle_outline,
-                size: 35,
+                size: 20,
                 color: isExpanded ? ColorList.primaryColor : Colors.black,
               )
             ],
@@ -62,7 +62,7 @@ class _InfoTileState extends State<InfoTile> {
                   widget.content,
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -75,8 +75,8 @@ class _InfoTileState extends State<InfoTile> {
                     "Learn More: ",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -89,7 +89,7 @@ class _InfoTileState extends State<InfoTile> {
                     "https://main.inecnigeria.org/?page_id=1167",
                     style: TextStyle(
                         color: ColorList.primaryColor,
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600),
                   ),
                 ),

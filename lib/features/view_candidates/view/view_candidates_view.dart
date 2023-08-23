@@ -5,6 +5,7 @@ import 'package:voting_app/constants/keys.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
 import 'package:voting_app/features/view_candidates/view/view_candidates_viewmodel.dart';
 import 'package:voting_app/features/view_candidates/widget/view_candidates_tile.dart';
+import 'package:voting_app/gen/assets.gen.dart';
 import 'package:voting_app/models/enums/election_category.dart';
 
 class ViewCandidatesView extends StatelessWidget {
@@ -31,44 +32,36 @@ class ViewCandidatesView extends StatelessWidget {
         body: SizedBox.expand(
           child: Stack(
             children: [
-              // CustomPaint(
-              //   size: const Size(double.infinity, double.infinity),
-              //   painter: DashboardBackgroundPainter(),
-              // ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 50,
+                ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 45,
-                          width: 45,
-                          child: Card(
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: ColorList.darkGreen,
-                              ),
-                              onPressed: () => viewModel.back(),
+                    // Back button and title
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Assets.icBack.svg(
+                                  height: 15, width: 17, fit: BoxFit.fill)),
+                          const Spacer(),
+                          Text(
+                            "${electionCategory.name.toString().toUpperCase()} \nCANDIDATES",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          "${electionCategory.name.toString().toUpperCase()} \nCANDIDATES",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
+                          const Spacer(),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 20,

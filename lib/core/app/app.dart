@@ -9,6 +9,7 @@ import 'package:voting_app/features/home/view/home_view.dart';
 import 'package:voting_app/features/login/view/login_view.dart';
 import 'package:voting_app/features/onboarding/view/onboarding_view.dart';
 import 'package:voting_app/features/register/view/register_view.dart';
+import 'package:voting_app/features/registration_successful/view/registration_successful_view.dart';
 import 'package:voting_app/features/reset_password/view/reset_password_view.dart';
 import 'package:voting_app/features/result_options/view/result_options_view.dart';
 import 'package:voting_app/features/result_select_local_government/view/result_select_local_government_view.dart';
@@ -41,6 +42,7 @@ import 'package:voting_app/firebase/database.dart';
   MaterialRoute(page: ResultSelectLocalGovernmentView),
   MaterialRoute(page: ViewResultView),
   MaterialRoute(page: ElectionInfoView),
+  MaterialRoute(page: RegistrationSuccessfulView),
 ], dependencies: [
   LazySingleton(classType: Authentication),
   LazySingleton(classType: NavigationService),

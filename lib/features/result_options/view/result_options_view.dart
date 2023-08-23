@@ -5,6 +5,8 @@ import 'package:voting_app/features/home/widget/dashboard_background_painter.dar
 import 'package:voting_app/features/home/widget/dashboard_button.dart';
 import 'package:voting_app/features/result_options/view/result_options_viewmodel.dart';
 import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/widgets/option_tile.dart';
+import 'package:voting_app/widgets/options_app_bar.dart';
 
 class ResultOptionsView extends StatelessWidget {
   const ResultOptionsView({super.key});
@@ -14,82 +16,46 @@ class ResultOptionsView extends StatelessWidget {
     return ViewModelBuilder<ResultOptionsViewModel>.reactive(
       viewModelBuilder: (() => ResultOptionsViewModel()),
       builder: (context, viewModel, child) => Scaffold(
-        body: SizedBox.expand(
-          child: Stack(
-            children: [
-              CustomPaint(
-                size: const Size(double.infinity, double.infinity),
-                painter: DashboardBackgroundPainter(),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-                child: ListView(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 45,
-                          width: 45,
-                          child: Card(
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: ColorList.darkGreen,
-                              ),
-                              onPressed: () => viewModel.back(),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                        const Text(
-                          "Result Category",
-                          style: TextStyle(
-                            color: ColorList.lightGreen,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    DashboardButton(
-                      icon: Icons.assignment_turned_in,
-                      title: 'PRESIDENTIAL',
-                      onPressed: () {
-                        viewModel.toViewResult(
-                            electionCategory: ELECTIONCATEGORY.presidential);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    DashboardButton(
-                      icon: Icons.assignment_turned_in,
-                      title: 'GUBERNATORIAL',
-                      onPressed: () {
-                        viewModel.toSelectState(
-                            electioncategory: ELECTIONCATEGORY.gubernatorial);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    DashboardButton(
-                      icon: Icons.assignment_turned_in,
-                      title: 'LOCAL GOVERNMENT',
-                      onPressed: () {
-                        viewModel.toSelectState(
-                            electioncategory: ELECTIONCATEGORY.localGovernment);
-                      },
-                    ),
-                  ],
+        body: SafeArea(
+          child: SizedBox.expand(
+            child: ListView(
+              children: [
+                const OptionsAppBar(
+                  title: 'Result Category',
+                  subtitle: "Select your election category of interest",
                 ),
-              )
-            ],
+                OptionTile(
+                  title: 'PRESIDENTIAL',
+                  onPressed: () {
+                    viewModel.toViewResult(
+                        electionCategory: ELECTIONCATEGORY.presidential);
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                OptionTile(
+                  title: 'GUBERNATORIAL',
+                  onPressed: () {
+                    viewModel.toSelectState(
+                        electioncategory: ELECTIONCATEGORY.gubernatorial);
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                OptionTile(
+                  title: 'LOCAL GOVERNMENT CHAIRMAN',
+                  onPressed: () {
+                    viewModel.toSelectState(
+                        electioncategory: ELECTIONCATEGORY.localGovernment);
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
         ),
       ),

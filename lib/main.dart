@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:voting_app/chatGptTest.dart';
 import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app/app.router.dart';

@@ -7,29 +7,39 @@ class AppButton extends StatelessWidget {
     required this.onPressed_,
     required this.buttonName,
     this.buttonColor,
+    this.borderRadius = 16,
+    this.height,
+    this.width,
+    this.textStyle,
   });
   final VoidCallback onPressed_;
   final String buttonName;
   final Color? buttonColor;
+  final double borderRadius;
+  final double? width;
+  final double? height;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed_,
       style: ElevatedButton.styleFrom(
-        primary: buttonColor ?? ColorList.darkGreen.withOpacity(0.8),
+        primary: buttonColor ?? const Color(0xFF07A53D),
+        fixedSize: Size(width ?? double.infinity, height ?? double.infinity),
+        minimumSize: Size(width ?? double.maxFinite, height ?? 45),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       child: Text(
         buttonName,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+        style: textStyle ??
+            const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
       ),
     );
   }

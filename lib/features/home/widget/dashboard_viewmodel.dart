@@ -1,4 +1,5 @@
 import 'package:voting_app/core/app/app.locator.dart';
+import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
 import 'package:voting_app/features/accreditation/view/accreditation_view.dart';
 import 'package:voting_app/features/candidate_options/view/candidate_options_view.dart';
@@ -16,8 +17,9 @@ class DashboardViewModel extends VotingAppViewmodel {
   VotingappUser? user;
 
   /// Methods ==================================================================
-  logOut() {
-    authentication.logout();
+  logOut() async {
+    await authentication.logout();
+    logger.d("I am navigating back");
     navigationService.back();
   }
 

@@ -16,6 +16,7 @@ class Database {
 
   /// Firestore database =======================================================
 
+  /// Get's a user's profile with email
   Future<Voter?> getUserProfile({required String email}) async {
     Voter? voter;
     final docRef =
@@ -34,6 +35,7 @@ class Database {
     return voter;
   }
 
+  /// Get's candidates for presidential election
   Future<Map<String, dynamic>> getPresidentialCandidates() async {
     Map<String, dynamic> presidentialCandidates = {};
     await db
@@ -53,6 +55,7 @@ class Database {
     return presidentialCandidates;
   }
 
+  /// Get's candidates for governatorial election for state selected by user
   Future<Map<String, dynamic>> getGubernatorialCandidates(
       {required String state}) async {
     Map<String, dynamic> gubernatorialCandidates = {};
@@ -75,6 +78,7 @@ class Database {
     return gubernatorialCandidates;
   }
 
+  /// Checks a user voting status
   Future<bool> checkIfUserHasVoted(
       {required ELECTIONCATEGORY electioncategory}) async {
     bool hasUserVoted = false;
@@ -95,6 +99,7 @@ class Database {
     return hasUserVoted;
   }
 
+  /// Get's candidates for local government election for state selected by user
   Future<Map<String, dynamic>> getLocalGovernmentCandidates(
       {required String state, required String localGovernment}) async {
     Map<String, dynamic> localGovernmentCandidates = {};
@@ -117,7 +122,8 @@ class Database {
     return localGovernmentCandidates;
   }
 
-  sendLocalData({required Map<String, dynamic> data}) async {
+  /// For sending data required to the database. Developer use only
+  _sendLocalData({required Map<String, dynamic> data}) async {
     bool isSuccessful = false;
     // int stateIndex = 7;
     // ElectionData.pollingUnits.forEach((state) {
@@ -141,11 +147,12 @@ class Database {
     //   });
     //   ++stateIndex;
     // });
-    ElectionData.pollingUnits[9]["Abia"].forEach((lga) async {
+    logger.d(ElectionData.pollingUnits[7].toString());
+    ElectionData.pollingUnits[7]["Delta"]?.forEach((lga) async {
       await db
-          .collection("Election Data")
-          .doc("Local Government Candidates")
-          .collection("Abia".toUpperCase())
+          .collection("Election Result")
+          .doc("LocalGovernment".toUpperCase())
+          .collection("Delta".toUpperCase())
           .doc(lga["local_government"].toString().toUpperCase())
           .set(data)
           .whenComplete(() => isSuccessful = true)
@@ -431,6 +438,27 @@ class Database {
     return votedSuccessfully;
   }
 
+  Future<Map<String, dynamic>> getUserNinDatabaseProfile(
+      {required String nin}) async {
+    Map<String, dynamic> userDatabaseInfo = {};
+    await db
+        .collection("Election Data")
+        .doc("NIN")
+        .get()
+        .then((value) => userDatabaseInfo = value.data()?['ninDatabase'][nin]);
+    return userDatabaseInfo;
+  }
+
+  /// Updates NIN profile once a user has registered with it
+  updateNINRegistrationStatus({required String nin}) {
+    final ninDatabaseRef = db.collection("Election Data").doc('NIN');
+    ninDatabaseRef.update(
+      {
+        'ninDatabase.$nin.isRegisteredVoter': true,
+      },
+    ).then((value) => logger.d("I am now a registered voter with $nin"));
+  }
+
   /// Local database ===========================================================
 
   Future initializeDb() async {
@@ -438,7 +466,7 @@ class Database {
     Hive.registerAdapter<VotingappUser>(VotingappUserAdapter());
 
     await Hive.openBox<VotingappUser>(Keys.currentUserBoxName);
-    await sendLocalData(data: ElectionData.stateCandidates);
+    await _sendLocalData(data: ElectionData.result);
     // await vote(
     //     electioncategory: ELECTIONCATEGORY.presidential, partyAcronym: Keys.lp);
     // await vote(
@@ -473,8 +501,6 @@ class Database {
 
   VotingappUser? getCurrentUser() {
     Box<VotingappUser> currentUserBox = Hive.box(Keys.currentUserBoxName);
-    logger.d(
-        '${currentUserBox.values.first.fullName} personal details was retrieved from local storage successfully');
     return currentUserBox.values.isNotEmpty
         ? currentUserBox.values.first
         : null;

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,10 +9,11 @@ import 'package:voting_app/constants/election_data.dart';
 import 'package:voting_app/core/app/app.locator.dart';
 import 'package:voting_app/core/app_utils.dart';
 import 'package:voting_app/core/voting_app_viewmodel.dart';
-import 'package:voting_app/features/login/view/login_view.dart';
+import 'package:voting_app/features/registration_successful/view/registration_successful_view.dart';
 import 'package:voting_app/firebase/authentication.dart';
 import 'package:voting_app/util/notification.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
+import 'package:intl/intl.dart';
 
 class RegisterViwModel extends VotingAppViewmodel {
   /// Dependency Injection =====================================================
@@ -55,6 +57,13 @@ class RegisterViwModel extends VotingAppViewmodel {
   String? get selectedWard => _selectedWard;
   set selectedWard(String? newValue) {
     _selectedWard = newValue;
+    notifyListeners();
+  }
+
+  int _currentStep = 0;
+  int get currentStep => _currentStep;
+  set currentStep(int newValue) {
+    _currentStep = newValue;
     notifyListeners();
   }
 
@@ -141,12 +150,60 @@ class RegisterViwModel extends VotingAppViewmodel {
     notifyListeners();
   }
 
+  Map<String, dynamic> _userNINDatabaseInfo = {};
+  Map<String, dynamic> get userNINDatabaseInfo => _userNINDatabaseInfo;
+  set userNINDatabaseInfo(Map<String, dynamic> newValue) {
+    _userNINDatabaseInfo = newValue;
+    notifyListeners();
+  }
+
   /// ==========================================================================
 
   /// Methods ==================================================================
 
   onReady() {
     isFaceIdAvaiable();
+  }
+
+  nextStep() {
+    if (fullNameController.text.isEmpty ||
+        ninController.text.isEmpty ||
+        dobController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        phoneController.text.isEmpty) {
+      AppNotification.error(error: "Fill in all the text fields");
+      return;
+    }
+
+    if (!isNinVerified) {
+      AppNotification.error(error: "Verify your NIN");
+      return;
+    }
+
+    if (ninController.text != userNINDatabaseInfo['nin']) {
+      AppNotification.error(
+          error: "NIN has been updated after validation. Re-validate your NIN");
+      // Enables user to re-validate NIN
+      isNinVerified = false;
+
+      return;
+    }
+
+    if (gender == null || gender!.isEmpty) {
+      AppNotification.error(error: "Select your gender");
+      return;
+    }
+
+    if (selectedState == null ||
+        selectedLocalGovernment == null ||
+        selectedWard == null ||
+        selectedPollingUnits == null) {
+      AppNotification.error(error: "Provide your election location details");
+      return;
+    }
+
+    // Goes to next step
+    currentStep = 1;
   }
 
   validateNIN() async {
@@ -159,8 +216,48 @@ class RegisterViwModel extends VotingAppViewmodel {
       AppNotification.notify(notificationMessage: "NIN is already verified");
       return;
     }
-    isNinVerified = await db.ninVerification(nin: ninController.text);
-    return;
+    userNINDatabaseInfo =
+        await db.getUserNinDatabaseProfile(nin: ninController.text);
+    // Checks if NIN is already registered
+    if (userNINDatabaseInfo['isRegisteredVoter'] == true) {
+      AppNotification.error(error: "NIN profile is already a registered voter");
+      userNINDatabaseInfo.clear();
+      return;
+    }
+    if (userNINDatabaseInfo.isEmpty) {
+      isNinVerified = false;
+      logger.d({
+        "The nin is: ${ninController.text} and the response is $userNINDatabaseInfo"
+      });
+      AppNotification.error(error: "NIN not valid. Enter your NIN correctly");
+    } else {
+      isNinVerified = true;
+      final nin = <String, String>{'nin': ninController.text};
+      userNINDatabaseInfo.addEntries(nin.entries);
+      logger.d({
+        "The nin is: ${ninController.text} and the response is $userNINDatabaseInfo"
+      });
+      AppNotification.notify(notificationMessage: "NIN validation successful.");
+      updateUserInfoWithNIN();
+    }
+  }
+
+  updateUserInfoWithNIN() {
+    fullNameController.text =
+        "${userNINDatabaseInfo['lastName']} ${userNINDatabaseInfo['firstName']}";
+    phoneController.text = "${userNINDatabaseInfo['phoneNumber']}";
+    final f = DateFormat('yyyy-MM-dd');
+
+    // Date of birth validation
+    final dob = DateTime.parse(userNINDatabaseInfo['dateOfBirth']);
+    if (DateTime.now().year - dob.year < 18) {
+      isNinVerified = false;
+      AppNotification.error(
+          error: "Your not up to 18 years. You are not qualified to vote");
+      return;
+    }
+    dobController.text = f.format(dob);
+    gender = userNINDatabaseInfo['gender'];
   }
 
   takePicture() async {
@@ -188,6 +285,7 @@ class RegisterViwModel extends VotingAppViewmodel {
   }
 
   faceAuthentication() async {
+    if (isFaceAuthenticated) return;
     try {
       isFaceAuthenticated = await localAuthentication.authenticate(
           localizedReason: 'Please validate with your face',
@@ -208,33 +306,6 @@ class RegisterViwModel extends VotingAppViewmodel {
   }
 
   register() async {
-    if (fullNameController.text.isEmpty ||
-        ninController.text.isEmpty ||
-        dobController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        phoneController.text.isEmpty) {
-      AppNotification.error(error: "Fill in all the text fields");
-      return;
-    }
-
-    if (!isNinVerified) {
-      AppNotification.error(error: "Verify your NIN");
-      return;
-    }
-
-    if (gender == null || gender!.isEmpty) {
-      AppNotification.error(error: "Select your gender");
-      return;
-    }
-
-    if (selectedState == null ||
-        selectedLocalGovernment == null ||
-        selectedWard == null ||
-        selectedPollingUnits == null) {
-      AppNotification.error(error: "Provide your election location details");
-      return;
-    }
-
     if (imageFile == null) {
       AppNotification.notify(
           notificationMessage:
@@ -242,8 +313,13 @@ class RegisterViwModel extends VotingAppViewmodel {
       return;
     }
 
-    if (!isAuthenticated) {
+    if (defaultTargetPlatform != TargetPlatform.iOS && !isAuthenticated) {
       AppNotification.error(error: "Provide your fingerprint for registration");
+      return;
+    }
+
+    if (defaultTargetPlatform == TargetPlatform.iOS && !isFaceAuthenticated) {
+      AppNotification.error(error: "Face ID registration required");
       return;
     }
     isRegistering = true;
@@ -265,12 +341,12 @@ class RegisterViwModel extends VotingAppViewmodel {
     );
     isRegistering = false;
     if (isUserRegistered) {
-      toLogin();
+      toRegistrationSuccessful();
     }
   }
 
-  toLogin() {
-    navigationService.navigateToView(const LoginView());
+  toRegistrationSuccessful() {
+    navigationService.navigateToView(const RegistrationSuccessfulView());
   }
 
   authenticate() async {

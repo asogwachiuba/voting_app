@@ -4,6 +4,8 @@ import 'package:voting_app/constants/color_list.dart';
 import 'package:voting_app/features/home/widget/dashboard_background_painter.dart';
 import 'package:voting_app/features/result_select_state/view/result_select_state_viewmodel.dart';
 import 'package:voting_app/models/enums/election_category.dart';
+import 'package:voting_app/widgets/option_tile.dart';
+import 'package:voting_app/widgets/options_app_bar.dart';
 
 class ResultSelectStateView extends StatelessWidget {
   const ResultSelectStateView({
@@ -20,63 +22,29 @@ class ResultSelectStateView extends StatelessWidget {
           viewModel.onReady(electioncategory: electioncategory),
       builder: (context, viewModel, child) => Scaffold(
         body: SizedBox.expand(
-          child: Stack(children: [
-            CustomPaint(
-              size: const Size(double.infinity, double.infinity),
-              painter: DashboardBackgroundPainter(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 45,
-                        width: 45,
-                        child: Card(
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: ColorList.darkGreen,
-                            ),
-                            onPressed: () => viewModel.back(),
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      const Text(
-                        "Select State",
-                        style: TextStyle(
-                          color: ColorList.lightGreen,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
-
-                  // List of states
-                  ListView.builder(
-                    itemCount: viewModel.states.length,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: ((context, index) => InkWell(
-                          onTap: () => viewModel.stateIsSelected(
-                              selectedState: viewModel.states[index]),
-                          child: Card(
-                            elevation: 10,
-                            child: ListTile(
-                              title: Text(viewModel.states[index]),
-                            ),
-                          ),
-                        )),
-                  )
-                ],
+          child: ListView(
+            children: [
+              const OptionsAppBar(
+                title: 'Select State',
+                subtitle: 'Select your state of interest',
               ),
-            )
-          ]),
+
+              // List of states
+              ListView.builder(
+                itemCount: viewModel.states.length,
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                itemBuilder: ((context, index) => Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: OptionTile(
+                        title: viewModel.states[index],
+                        onPressed: () => viewModel.stateIsSelected(
+                            selectedState: viewModel.states[index]),
+                      ),
+                    )),
+              )
+            ],
+          ),
         ),
       ),
     );
