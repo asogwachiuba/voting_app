@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:stacked/stacked.dart';
 import 'package:voting_app/features/register/view/register_viewmodel.dart';
 import 'package:voting_app/gen/assets.gen.dart';
-import 'package:voting_app/widgets/app_button.dart';
 
 import '../../../../constants/font.dart';
 
@@ -243,10 +241,9 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
             ),
           ),
 
-          // Gender
           Visibility(
             visible: viewModel.isNinVerified,
-            child: DropdownButtonFormField(
+            child: DropdownButtonFormField<String>(
               isExpanded: true,
               decoration: InputDecoration(
                 labelText: 'Select your gender',
@@ -263,15 +260,16 @@ class Step1 extends ViewModelWidget<RegisterViwModel> {
                   borderSide:
                       const BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1)),
                 ),
-                // constraints: const BoxConstraints.expand(height: 43),
               ),
-              value: viewModel.gender,
-              onChanged: ((value) => viewModel.selectGender(gender_: value)),
-              items: ["Male", "Female"].map((state) {
-                return DropdownMenuItem(
-                  value: state,
+              value: viewModel.gender == null || viewModel.gender == ''
+                  ? 'Male' // Default value if viewModel.gender is null or empty
+                  : viewModel.gender,
+              onChanged: (value) => viewModel.selectGender(gender_: value),
+              items: ["Male", "Female"].map((gender) {
+                return DropdownMenuItem<String>(
+                  value: gender,
                   child: Text(
-                    state,
+                    gender,
                     overflow: TextOverflow.ellipsis,
                   ),
                 );
